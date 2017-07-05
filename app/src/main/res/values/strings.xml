@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MedicineSystem</string>
+    <string name="account_name">帳號</string>
+    <string name="password">密碼</string>
+    <string name="log_in">登入</string>
+    <string name="new_pickup_requierement">新增檢藥需求</string>
+    <string name="execute_shelves_operations">上架作業</string>
+    <string name="check_pickup_requierements">查看檢藥需求</string>
+    <string name="code_scanner">Code scanner</string>
+    <string name="med_info">Medicine information</string>
+    <string name="serial_number">需上架藥品代號</string>
+    <string name="med_name">藥品名稱</string>
+    <string name="exp_date">藥品效期</string>
+    <string name="quantity">上架數量</string>
+    <string name="location">櫃/層/區</string>
+    <string name="shelf_location">上架位置(櫃)</string>
+    <string name="layer_location">上架位置(層)</string>
+    <string name="pile_location">上架位置(區)</string>
+    <string name="add_location">上架其他藥品</string>
+    <string name="submit">執行上架</string>
+</resources>

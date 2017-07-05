@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+
+        <TextView
+            android:id="@+id/check_pic_num"
+            android:layout_width="150dp"
+            android:layout_height="fill_parent"
+            android:text="test1"/>
+
+        <TextView
+            android:id="@+id/check_pic_sta"
+            android:layout_width="150dp"
+            android:layout_height="fill_parent"
+            android:text="test2" />
+
+        <ScrollView
+            android:layout_width="150dp"
+            android:layout_height="100dp">
+            <TextView
+                android:id="@+id/check_pic_medname"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:text="test3" />
+        </ScrollView>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:text="查看細項" />
+
+        <Button
+            android:id="@+id/buttonExecute"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:text="執行檢藥" />
+    </TableRow>
+</TableLayout>

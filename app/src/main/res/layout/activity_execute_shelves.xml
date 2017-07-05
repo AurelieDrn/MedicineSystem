@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_on_the_shelves"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context="com.example.lab708.tcmsystem.ExecuteShelvesActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/code_scanner"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/title"
+            android:layout_marginTop="@dimen/margin_title"
+            android:layout_marginBottom="20dp"
+            android:text="@string/med_info"
+            />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
+
+            <!-- Serial number -->
+            <TableRow>
+                <TextView
+                    android:text="@string/serial_number"
+                    android:id="@+id/MDnumber"
+                    android:textAlignment="center"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:textSize="@dimen/text" />
+                <TextView
+                    android:id="@+id/v_MDnumber"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text" />
+            </TableRow>
+
+            <TableRow>
+                <!-- Medicine name -->
+                <TextView
+                    android:text="@string/med_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/MDname"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:textSize="@dimen/text" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textAlignment="center"
+                    android:id="@+id/v_MDname"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:textSize="@dimen/text" />
+            </TableRow>
+
+            <TableRow
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:text="@string/exp_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/textView2"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:textSize="@dimen/text"/>
+                <FrameLayout
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    >
+                    <DatePicker
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:calendarViewShown="false"
+                        android:datePickerMode="spinner"
+                        android:id="@+id/v_MDdate"
+
+                        android:headerBackground="?attr/colorButtonNormal" />
+                </FrameLayout>
+
+            </TableRow>
+
+            <TableRow>
+                <!-- Quantity -->
+                <TextView
+                    android:text="@string/quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView5"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:textSize="@dimen/text" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:inputType="numberDecimal"
+                    android:ems="11"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:id="@+id/quantity" />
+
+            </TableRow>
+
+            <TableRow>
+                <!-- Shelf location -->
+                <TextView
+                    android:text="@string/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/textView6"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:textSize="@dimen/text" />
+                <!--<Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:id="@+id/locationone" />-->
+                <RelativeLayout
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp">
+                    <NumberPicker
+                        android:id="@+id/locationone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
+                        >
+                    </NumberPicker>
+                    <NumberPicker
+                        android:id="@+id/locationtwo"
+                        android:layout_toRightOf="@id/locationone"
+                        android:layout_toEndOf="@id/locationone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
+                        >
+                    </NumberPicker>
+                    <NumberPicker
+                        android:id="@+id/locationthree"
+                        android:layout_toRightOf="@id/locationtwo"
+                        android:layout_toEndOf="@id/locationtwo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginEnd="15dp"
+                        >
+                    </NumberPicker>
+                </RelativeLayout>
+
+            </TableRow>
+            <TableRow>
+                <FrameLayout
+                    android:layout_height="wrap_content"
+                    android:layout_span="2"
+                    >
+                    <Button
+                        android:text="@string/add_location"
+                        android:layout_width="@dimen/btn_width"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="@dimen/text"
+                        android:id="@+id/endbutton"/>
+                </FrameLayout>
+
+            </TableRow>
+
+            <TableRow>
+                <FrameLayout
+                    android:layout_height="wrap_content"
+                    android:layout_span="2"
+                    >
+                    <Button
+                        android:text="@string/submit"
+                        android:layout_width="@dimen/btn_width"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:layout_gravity="center"
+                        android:textSize="@dimen/text"
+                        android:id="@+id/newbutton" />
+                </FrameLayout>
+
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+</ScrollView>
