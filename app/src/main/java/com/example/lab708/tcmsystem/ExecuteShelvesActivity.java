@@ -55,7 +55,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     private String selectedText;
     String worktime;
 
-    List<NumberPicker> spinnerList;
+    List<MyNumberPicker> myNumberPickerList;
     List<EditText> editTextList;
 
     @Override
@@ -63,12 +63,12 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_shelves);
 
-                if (android.os.Build.VERSION.SDK_INT > 9) {
+        if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
 
-        spinnerList = new ArrayList<>();
+        myNumberPickerList = new ArrayList<>();
         editTextList = new ArrayList<>();
 
         med_num = (TextView) findViewById(R.id.v_MDnumber) ;
@@ -97,64 +97,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         editlocationthree.setMinValue(1);
         editlocationthree.setMaxValue(10);
 
-        //spinner
-        /*ArrayAdapter adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item,new String[]{"A", "B", "C", "D", "E", "F", "G", "H"});
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        editlocationone.setAdapter(adapter);
-        editlocationone.setOnItemSelectedListener(new Spinner.OnItemSelectedListener(){
-            public void onItemSelected(AdapterView adapterView, View view, int position, long id){
-                // Toast.makeText(MainActivity.this, "您選擇(You choose)"+adapterView.getSelectedItem().toString(), Toast.LENGTH_LONG).show();
-                selectedText = adapterView.getItemAtPosition(position).toString();
-            }
-            public void onNothingSelected(AdapterView arg0) {
-                Toast.makeText(ExecuteShelvesActivity.this, "您沒有選擇任何項目(You have not selected any items)", Toast.LENGTH_LONG).show();
-            }
-        });*/
         SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         worktime = sDateFormat.format(new java.util.Date());
-        /*
-        try {
-            Class.forName("org.mariadb.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection("jdbc:mariadb://120.105.161.89/TCMSystem", "TCMSystem", "TCMSystem");
-            // Toast connected
-            //Toast.makeText(ExecuteShelvesActivity.this, "已連線!", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        */
-        /*
-        try {
-            String qry = "SELECT * FROM Medicine WHERE med_num = \'"+code+"\'";
-            System.out.println("---------sql--------"+qry);
-            stmt = con.createStatement();
-            int re = 0;
-            rs = stmt.executeQuery(qry);
-            while(rs.next()){
-                re++;
-            }
-            String ree = String.valueOf(re);
-            if(ree.equals("0")){//If the database does not have this information
-                Toast.makeText(ExecuteShelvesActivity.this, "查無此藥品，請至資料庫新增!", Toast.LENGTH_SHORT).show();//Toast If you do not have this medicine, please go to the database
-                Intent intent = new Intent() ;//back to scan
-                intent.setClass(ExecuteShelvesActivity.this, ScanActivity.class) ;
-                Bundle bacc = new Bundle();
-                bacc.putString("toFunction", "ExecuteShelvesActivity");
-                bacc.putString("staffacc", staffacc);
-                intent.putExtras(bacc);
-                startActivity(intent);
-            } else {//else get  information
-                String qry1 = "SELECT * FROM Medicine WHERE med_num = '"+code+"'";
-                stmt = con.createStatement();
-                rs = stmt.executeQuery(qry1);
-                while (rs.next()) {
-                    med_num.setText(rs.getString("med_num"));
-                    med_name.setText(rs.getString("med_name"));
-                }
-            }
-        }catch (SQLException e) {
-            e.printStackTrace();
-        }
-        */
 
         showInformation();
 
@@ -162,18 +106,17 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         newnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //datepicker
-                int year = editdate.getYear();
-                int month = editdate.getMonth()+1;
-                int day = editdate.getDayOfMonth();
-                final String wdate = year + "-" + month + "-" + day;
-
                 try {
                     if(missingFields()) {
                         // Some fields are empty
                         Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT).show();
                     }
                     else {
+                        int year = editdate.getYear();
+                        int month = editdate.getMonth()+1;
+                        int day = editdate.getDayOfMonth();
+                        final String wdate = year + "-" + month + "-" + day;
+
                         String quantity = String.valueOf(editquantity.getText());
                         int intquantity = Integer.valueOf(quantity);
 
@@ -185,22 +128,23 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                         Pile p = new Pile(location, code, intquantity, wdate);
                         DAO<Pile> pileDAO = DAOFactory.getPileDAO();
                         pileDAO.create(p);
-                        /*
-                        String qry1 = "INSERT INTO Pile VALUES (NULL,'"+code+"',"+intquantity+",'"+location+"','"+wdate+"','"+staffacc+"')";
-                        stmt.executeUpdate(qry1);
-                        */
 
-                        Toast toastsucess = Toast.makeText(ExecuteShelvesActivity.this, "上架成功!", Toast.LENGTH_SHORT);
-                        toastsucess.show();
-                        //The shelves are successful and empty edittext and then you can re-execute the medicine shelves to different locations
+                        // Execute requests for additional locations
+                        for(int i = 0; i < editTextList.size(); i++) {
+                            MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
+                            String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
+                            String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
+                            String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());
+                            String location_tmp = location1_tmp+location2_tmp+location3_tmp;
 
+                            int quantity_tmp = Integer.valueOf(editTextList.get(i).getText().toString());
+                            Pile pile_tmp = new Pile(location_tmp, code, quantity_tmp, wdate);
 
-                        editquantity.setText("");
+                            pileDAO.create(pile_tmp);
+                        }
 
-                        //editlocationtwo.setText("");
-                        editlocationtwo.setValue(1);
-                        //editlocationthree.setText("");
-                        editlocationthree.setValue(1);
+                        // Toast success
+                        Toast.makeText(ExecuteShelvesActivity.this, "上架成功!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 catch(Exception e){
@@ -253,9 +197,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         table.addView(row, index);
 
         // Get the number pickers from the view
-        NumberPicker location1 = (NumberPicker) findViewById(R.id.location1);
-        NumberPicker location2 = (NumberPicker) findViewById(R.id.location2);
-        NumberPicker location3 = (NumberPicker) findViewById(R.id.location3);
+        final NumberPicker location1 = (NumberPicker) findViewById(R.id.location1);
+        final NumberPicker location2 = (NumberPicker) findViewById(R.id.location2);
+        final NumberPicker location3 = (NumberPicker) findViewById(R.id.location3);
 
         final EditText additionalQuant = (EditText) findViewById(R.id.additional_quantity);
 
@@ -268,11 +212,12 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         location3.setMaxValue(10);
 
         // Add them to the list
-        spinnerList.add(location1);
-        spinnerList.add(location2);
-        spinnerList.add(location3);
-
+        final MyNumberPicker myNumberPicker = new MyNumberPicker(location1, location2, location3);
+        myNumberPickerList.add(myNumberPicker);
         editTextList.add(additionalQuant);
+
+        Toast.makeText(ExecuteShelvesActivity.this,"nb"+myNumberPickerList.size(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(ExecuteShelvesActivity.this,"txt"+editTextList.size(), Toast.LENGTH_SHORT).show();
 
         // Delete the row
         Button deleteBtn = (Button) findViewById(R.id.delete_row);
@@ -281,6 +226,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             public void onClick(View v) {
                 table.removeView(row);
                 editTextList.remove(additionalQuant);
+                myNumberPickerList.remove(myNumberPicker);
             }
         });
     }
