@@ -257,7 +257,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         NumberPicker location2 = (NumberPicker) findViewById(R.id.location2);
         NumberPicker location3 = (NumberPicker) findViewById(R.id.location3);
 
-        EditText additionalQuant = (EditText) findViewById(R.id.additional_quantity);
+        final EditText additionalQuant = (EditText) findViewById(R.id.additional_quantity);
 
         // Initialize the min and max value of the number pickers
         location1.setMinValue(1);
@@ -280,6 +280,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 table.removeView(row);
+                editTextList.remove(additionalQuant);
             }
         });
     }
