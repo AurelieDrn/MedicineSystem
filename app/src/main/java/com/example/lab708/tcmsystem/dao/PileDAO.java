@@ -14,13 +14,8 @@ public class PileDAO extends DAO<Pile> {
     }
 
     @Override
-    public void create(Pile p) {
-        ResultSet result = null;
-        try {
-            result = this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,'"+p.getMedicineNumber()+"',"+p.getQuantity()+",'"+p.getLocation()+"','"+p.getDate()+"','"+"staff"+"')");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void create(Pile p) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,'"+p.getMedicineNumber()+"',"+p.getQuantity()+",'"+p.getLocation()+"','"+p.getDate()+"','"+"staff"+"')");
     }
 
     @Override

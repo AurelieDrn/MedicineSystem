@@ -18,4 +18,6 @@
     <string name="pile_location">上架位置(區)</string>
     <string name="add_location">上架其他藥品</string>
     <string name="submit">執行上架</string>
+    <string name="back_home">Back to home screen</string>
+    <string name="keep_scanning">Keep scanning</string>
 </resources>

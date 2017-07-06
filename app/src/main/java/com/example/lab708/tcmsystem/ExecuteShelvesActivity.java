@@ -1,24 +1,17 @@
 package com.example.lab708.tcmsystem;
 
-import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.NumberPicker;
-import android.widget.ScrollView;
-import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -28,9 +21,7 @@ import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
 import com.example.lab708.tcmsystem.dao.Pile;
-import com.example.lab708.tcmsystem.dao.PileDAO;
 
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -106,50 +97,27 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         newnew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    if(missingFields()) {
-                        // Some fields are empty
-                        Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        int year = editdate.getYear();
-                        int month = editdate.getMonth()+1;
-                        int day = editdate.getDayOfMonth();
-                        final String wdate = year + "-" + month + "-" + day;
-
-                        String quantity = String.valueOf(editquantity.getText());
-                        int intquantity = Integer.valueOf(quantity);
-
-                        String locationone = String.valueOf(editlocationone.getValue());
-                        String locationtwo = String.valueOf(editlocationtwo.getValue());
-                        String locationthree = String.valueOf(editlocationthree.getValue());
-                        String location = locationone+locationtwo+locationthree;
-
-                        Pile p = new Pile(location, code, intquantity, wdate);
-                        DAO<Pile> pileDAO = DAOFactory.getPileDAO();
-                        pileDAO.create(p);
-
-                        // Execute requests for additional locations
-                        for(int i = 0; i < editTextList.size(); i++) {
-                            MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
-                            String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
-                            String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
-                            String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());
-                            String location_tmp = location1_tmp+location2_tmp+location3_tmp;
-
-                            int quantity_tmp = Integer.valueOf(editTextList.get(i).getText().toString());
-                            Pile pile_tmp = new Pile(location_tmp, code, quantity_tmp, wdate);
-
-                            pileDAO.create(pile_tmp);
-                        }
-
-                        // Toast success
-                        Toast.makeText(ExecuteShelvesActivity.this, "上架成功!", Toast.LENGTH_SHORT).show();
-                    }
+                if(missingFields()) {
+                    // Some fields are empty
+                    Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT).show();
                 }
-                catch(Exception e){
-                    e.printStackTrace();
+                else {
+                    int year = editdate.getYear();
+                    int month = editdate.getMonth()+1;
+                    int day = editdate.getDayOfMonth();
+                    String wdate = year + "-" + month + "-" + day;
+
+                    String quantity = String.valueOf(editquantity.getText());
+                    int intquantity = Integer.valueOf(quantity);
+
+                    String locationone = String.valueOf(editlocationone.getValue());
+                    String locationtwo = String.valueOf(editlocationtwo.getValue());
+                    String locationthree = String.valueOf(editlocationthree.getValue());
+                    String location = locationone+locationtwo+locationthree;
+
+                    insertInDatabase(location, intquantity, wdate);
                 }
+
             }
         });
 
@@ -171,14 +139,34 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             med_name.setText(m.getName());
         }
         else {
-            Toast.makeText(ExecuteShelvesActivity.this, "查無此藥品，請至資料庫新增!", Toast.LENGTH_SHORT).show();//Toast If you do not have this medicine, please go to the database
+            //Toast If you do not have this medicine, please go to the database
+            /*Toast.makeText(ExecuteShelvesActivity.this, "查無此藥品，請至資料庫新增!", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent() ;//back to scan
             intent.setClass(ExecuteShelvesActivity.this, ScanActivity.class) ;
             Bundle bacc = new Bundle();
             bacc.putString("toFunction", "ExecuteShelvesActivity");
             bacc.putString("staffacc", staffacc);
             intent.putExtras(bacc);
-            startActivity(intent);
+            startActivity(intent);*/
+            // Alert dialog success
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
+            }
+            builder.setTitle("上架作業")
+                    .setMessage("查無此藥品，請至資料庫新增!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
+                            intent.putExtra("toFunction", "ExecuteShelvesActivity");
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
         }
     }
 
@@ -216,9 +204,6 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         myNumberPickerList.add(myNumberPicker);
         editTextList.add(additionalQuant);
 
-        Toast.makeText(ExecuteShelvesActivity.this,"nb"+myNumberPickerList.size(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(ExecuteShelvesActivity.this,"txt"+editTextList.size(), Toast.LENGTH_SHORT).show();
-
         // Delete the row
         Button deleteBtn = (Button) findViewById(R.id.delete_row);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -252,5 +237,90 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             }
         }
         return false;
+    }
+
+    // Execute requests to insert in database
+    private void insertInDatabase(String location, int quantity, String date) {
+        Pile p = new Pile(location, code, quantity, date);
+        DAO<Pile> pileDAO = DAOFactory.getPileDAO();
+        try {
+            pileDAO.create(p);
+        } catch (SQLException e) {
+            showErrorDialog();
+            e.printStackTrace();
+        }
+
+        // Execute requests for additional locations
+        for(int i = 0; i < editTextList.size(); i++) {
+            MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
+            String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
+            String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
+            String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());
+            String location_tmp = location1_tmp+location2_tmp+location3_tmp;
+
+            int quantity_tmp = Integer.valueOf(editTextList.get(i).getText().toString());
+            Pile pile_tmp = new Pile(location_tmp, code, quantity_tmp, date);
+
+            try {
+                pileDAO.create(pile_tmp);
+            } catch (SQLException e) {
+                showErrorDialog();
+                e.printStackTrace();
+            }
+        }
+
+        // Alert dialog success
+        showSuccessDialog();
+
+    }
+
+    private void showErrorDialog() {
+        // Alert dialog success
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
+        }
+        builder.setTitle("上架作業")
+                .setMessage("Error inserting in database")
+                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void showSuccessDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
+        }
+        builder.setTitle("上架作業")
+                .setMessage("上架成功!")
+                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton(R.string.keep_scanning, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
+                        intent.putExtra("toFunction", "ExecuteShelvesActivity");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
     }
 }

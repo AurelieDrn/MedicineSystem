@@ -13,7 +13,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        final String account = getIntent().getExtras().getString("account");
+        //final String account = getIntent().getExtras().getString("account");
         Button shelves = (Button) findViewById(R.id.shelves_btn);
         Button checkPickup = (Button) findViewById(R.id.check_pickup_btn);
 
