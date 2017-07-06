@@ -2,6 +2,8 @@ package com.example.lab708.tcmsystem;
 
 import android.content.Context;
 import android.hardware.Camera;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -53,6 +55,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder) {
         // The Surface has been created, now tell the camera where to draw the preview.
         try {
+            //newOpenCamera();
             mCamera.setPreviewDisplay(holder);
         } catch (IOException e) {
             Log.d("DBG", "Error setting camera preview: " + e.getMessage());
@@ -61,6 +64,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
     public void surfaceDestroyed(SurfaceHolder holder) {
         // Camera preview released in activity
+        mCamera.release();
     }
 
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
@@ -92,4 +96,14 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             Log.d("DBG", "Error starting camera preview: " + e.getMessage());
         }
     }
+
+    private void oldOpenCamera() {
+        try {
+            mCamera = Camera.open();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

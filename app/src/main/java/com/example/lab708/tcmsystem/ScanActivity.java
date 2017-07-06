@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.hardware.Camera;
 import android.os.Handler;
 import android.os.Bundle;
+import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -48,7 +49,8 @@ public class ScanActivity extends AppCompatActivity {
 
         //取得相機 Get the camera
         autoFocusHandler = new Handler();
-        mCamera = getCameraInstance();
+        //mCamera = getCameraInstance();
+        newOpenCamera();
 
         //這三行就是library幫你坐的東西 These three lines is the library to help you do things
         scanner = new ImageScanner();
@@ -108,6 +110,15 @@ public class ScanActivity extends AppCompatActivity {
         } catch (Exception e) {
         }
         return c;
+    }
+
+    private void oldOpenCamera() {
+        try {
+            mCamera = Camera.open();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
     }
 
     Camera.PreviewCallback previewCb = new Camera.PreviewCallback() { //掃到條碼的callback//scan the barcode to the callback
@@ -180,5 +191,44 @@ public class ScanActivity extends AppCompatActivity {
         }
     };
 
+    private void newOpenCamera() {
+        if (mThread == null) {
+            mThread = new CameraHandlerThread();
+        }
+
+        synchronized (mThread) {
+            mThread.openCamera();
+        }
+    }
+    private CameraHandlerThread mThread = null;
+    private class CameraHandlerThread extends HandlerThread {
+        Handler mHandler = null;
+
+        CameraHandlerThread() {
+            super("CameraHandlerThread");
+            start();
+            mHandler = new Handler(getLooper());
+        }
+
+        synchronized void notifyCameraOpened() {
+            notify();
+        }
+
+        void openCamera() {
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    oldOpenCamera();
+                    notifyCameraOpened();
+                }
+            });
+            try {
+                wait();
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
 

@@ -30,4 +30,8 @@ public class DAOFactory {
     public static DAO getStaffDAO() {
         return new StaffDAO(conn);
     }
+
+    public static DAO getMedicineDAO() {
+        return new MedicineDAO(conn);
+    }
 }

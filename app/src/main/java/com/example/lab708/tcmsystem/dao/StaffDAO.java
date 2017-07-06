@@ -16,15 +16,6 @@ public class StaffDAO extends DAO<Staff>{
     }
 
     @Override
-    public void connect() {
-        try {
-            this.connect = DriverManager.getConnection("jdbc:mariadb://120.105.161.89/TCMSystem", "TCMSystem", "TCMSystem");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public boolean create(Staff obj) {
         return false;
     }
@@ -40,7 +31,16 @@ public class StaffDAO extends DAO<Staff>{
     }
 
     @Override
-    public boolean find(Staff staff) {
+    public boolean find(String code) {
+        return false;
+    }
+
+    @Override
+    public Staff select(String code) {
+        return null;
+    }
+
+    public boolean check(Staff staff) {
         ResultSet result = null;
         try {
             result = this.connect.createStatement().executeQuery("SELECT * FROM Staff WHERE sta_acc = '"+staff.getAccount()+"' AND sta_pas = '"+staff.getPassword()+"'");
