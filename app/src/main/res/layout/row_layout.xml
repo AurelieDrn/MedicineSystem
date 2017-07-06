@@ -8,7 +8,8 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:layout_gravity="center_vertical"
-        android:ems="10" />
+        android:ems="10"
+        android:id="@+id/additional_quantity"/>
 
     <LinearLayout>
         <RelativeLayout

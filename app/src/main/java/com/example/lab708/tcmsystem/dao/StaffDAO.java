@@ -16,8 +16,7 @@ public class StaffDAO extends DAO<Staff>{
     }
 
     @Override
-    public boolean create(Staff obj) {
-        return false;
+    public void create(Staff obj) {
     }
 
     @Override

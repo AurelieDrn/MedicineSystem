@@ -15,8 +15,7 @@ public class MedicineDAO extends DAO<Medicine>{
     }
 
     @Override
-    public boolean create(Medicine obj) {
-        return false;
+    public void create(Medicine obj) {
     }
 
     @Override

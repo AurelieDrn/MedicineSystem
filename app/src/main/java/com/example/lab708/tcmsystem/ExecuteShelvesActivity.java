@@ -27,6 +27,8 @@ import android.widget.Toast;
 import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
+import com.example.lab708.tcmsystem.dao.Pile;
+import com.example.lab708.tcmsystem.dao.PileDAO;
 
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -54,7 +56,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     String worktime;
 
     List<NumberPicker> spinnerList;
-
+    List<EditText> editTextList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         }
 
         spinnerList = new ArrayList<>();
+        editTextList = new ArrayList<>();
 
         med_num = (TextView) findViewById(R.id.v_MDnumber) ;
         med_name = (TextView) findViewById(R.id.v_MDname) ;
@@ -166,34 +169,38 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 final String wdate = year + "-" + month + "-" + day;
 
                 try {
-                    if(editquantity.getText().toString().matches("")|| String.valueOf(editlocationtwo.getValue()).matches("")|| String.valueOf(editlocationthree.getValue()).toString().matches("")){
-                        Toast toast = Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT);
-                        // Toast edittext can not be empty
-                        toast.show();
-                }
-                else {
-                    String quantity = String.valueOf(editquantity.getText());
-                    String locationtwo = String.valueOf(editlocationtwo.getValue());
-                    String locationthree = String.valueOf(editlocationthree.getValue());
-                    //String locationone = selectedText;
-                    String locationone = String.valueOf(editlocationone.getValue());
-                    int intquantity = Integer.valueOf(quantity);
-                    String location = locationone+locationtwo+locationthree;
+                    if(missingFields()) {
+                        // Some fields are empty
+                        Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        String quantity = String.valueOf(editquantity.getText());
+                        int intquantity = Integer.valueOf(quantity);
 
-                    String qry1 = "INSERT INTO Pile VALUES (NULL,'"+code+"',"+intquantity+",'"+location+"','"+wdate+"','"+staffacc+"')";
-                    stmt.executeUpdate(qry1);
+                        String locationone = String.valueOf(editlocationone.getValue());
+                        String locationtwo = String.valueOf(editlocationtwo.getValue());
+                        String locationthree = String.valueOf(editlocationthree.getValue());
+                        String location = locationone+locationtwo+locationthree;
 
-                    Toast toastsucess = Toast.makeText(ExecuteShelvesActivity.this, "上架成功!", Toast.LENGTH_SHORT);
-                    toastsucess.show();
-                    //The shelves are successful and empty edittext and then you can re-execute the medicine shelves to different locations
+                        Pile p = new Pile(location, code, intquantity, wdate);
+                        DAO<Pile> pileDAO = DAOFactory.getPileDAO();
+                        pileDAO.create(p);
+                        /*
+                        String qry1 = "INSERT INTO Pile VALUES (NULL,'"+code+"',"+intquantity+",'"+location+"','"+wdate+"','"+staffacc+"')";
+                        stmt.executeUpdate(qry1);
+                        */
+
+                        Toast toastsucess = Toast.makeText(ExecuteShelvesActivity.this, "上架成功!", Toast.LENGTH_SHORT);
+                        toastsucess.show();
+                        //The shelves are successful and empty edittext and then you can re-execute the medicine shelves to different locations
 
 
-                    editquantity.setText("");
+                        editquantity.setText("");
 
-                    //editlocationtwo.setText("");
-                    editlocationtwo.setValue(1);
-                    //editlocationthree.setText("");
-                    editlocationthree.setValue(1);
+                        //editlocationtwo.setText("");
+                        editlocationtwo.setValue(1);
+                        //editlocationthree.setText("");
+                        editlocationthree.setValue(1);
                     }
                 }
                 catch(Exception e){
@@ -213,6 +220,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     // Display the medicine information
     private void showInformation() {
         DAO<Medicine> medicineDAO = DAOFactory.getMedicineDAO();
+        // OK
         if(medicineDAO.find(this.code)) {
             Medicine m = medicineDAO.select(this.code);
             med_num.setText(m.getSerialNumber());
@@ -249,6 +257,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         NumberPicker location2 = (NumberPicker) findViewById(R.id.location2);
         NumberPicker location3 = (NumberPicker) findViewById(R.id.location3);
 
+        EditText additionalQuant = (EditText) findViewById(R.id.additional_quantity);
+
         // Initialize the min and max value of the number pickers
         location1.setMinValue(1);
         location1.setMaxValue(10);
@@ -262,6 +272,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         spinnerList.add(location2);
         spinnerList.add(location3);
 
+        editTextList.add(additionalQuant);
+
         // Delete the row
         Button deleteBtn = (Button) findViewById(R.id.delete_row);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
@@ -272,15 +284,26 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         });
     }
 
-    // Check if the user forgot to fill all the fields
+    // Check if the user did not fill in all the fields
     private boolean missingFields() {
         if(editquantity.getText().toString().matches("")) {
             return true;
         }
-        return false;
+        else if(missingAdditionalQuantities()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
+    // Check if the user did not fill in the additional quantities fields
     private boolean missingAdditionalQuantities() {
+        for(EditText et : editTextList) {
+            if(et.getText().toString().matches("")) {
+                return true;
+            }
+        }
         return false;
     }
 }
