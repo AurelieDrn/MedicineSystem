@@ -8,6 +8,8 @@ import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
 
+import java.sql.SQLException;
+
 public class CheckPickupActivity extends AppCompatActivity {
 
     @Override
@@ -16,5 +18,10 @@ public class CheckPickupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check_pickup);
 
         RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+        try {
+            requirementDAO.getRequirements();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

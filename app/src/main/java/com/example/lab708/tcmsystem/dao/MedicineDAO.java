@@ -14,30 +14,20 @@ public class MedicineDAO extends DAO<Medicine>{
         super(conn);
     }
 
-    public boolean find(String code) {
-        ResultSet result = null;
-        try {
-            result = this.connect.createStatement().executeQuery("SELECT * FROM Medicine WHERE med_num = \'"+code+"\'");
-            if(result.first()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+    public boolean find(String code) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Medicine WHERE med_num = \'"+code+"\'");
+        if(result.first()) {
+            return true;
         }
         return false;
     }
 
-    public Medicine select(String code) {
+    public Medicine select(String code) throws SQLException {
         Medicine med = new Medicine();
-        ResultSet result = null;
-        try {
-            result = this.connect.createStatement().executeQuery("SELECT * FROM Medicine WHERE med_num = '"+code+"'");
-            while(result.next()) {
-                med.setName(result.getString("med_name"));
-                med.setSerialNumber(result.getString("med_num"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM Medicine WHERE med_num = '"+code+"'");
+        while(result.next()) {
+            med.setName(result.getString("med_name"));
+            med.setSerialNumber(result.getString("med_num"));
         }
         return med;
     }

@@ -15,16 +15,14 @@ public class StaffDAO extends DAO<Staff>{
         super(conn);
     }
 
-    public boolean check(Staff staff) {
+    public boolean check(Staff staff) throws SQLException {
         ResultSet result = null;
-        try {
-            result = this.connect.createStatement().executeQuery("SELECT * FROM Staff WHERE sta_acc = '"+staff.getAccount()+"' AND sta_pas = '"+staff.getPassword()+"'");
-            if(result.first()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+
+        result = this.connect.createStatement().executeQuery("SELECT * FROM Staff WHERE sta_acc = '"+staff.getAccount()+"' AND sta_pas = '"+staff.getPassword()+"'");
+        if(result.first()) {
+            return true;
         }
+
         return false;
     }
 

@@ -139,31 +139,35 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     private void showInformation() {
         MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
         // OK
-        if(medicineDAO.find(this.code)) {
-            Medicine m = medicineDAO.select(this.code);
-            med_num.setText(m.getSerialNumber());
-            med_name.setText(m.getName());
-        }
-        else {
-            // Alert dialog success
-            AlertDialog.Builder builder;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-            } else {
-                builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
+        try {
+            if(medicineDAO.find(this.code)) {
+                Medicine m = medicineDAO.select(this.code);
+                med_num.setText(m.getSerialNumber());
+                med_name.setText(m.getName());
             }
-            builder.setTitle("上架作業")
-                    .setMessage("查無此藥品，請至資料庫新增! "+code+" not in database")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
-                            intent.putExtra("toFunction", "ExecuteShelvesActivity");
-                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                        }
-                    })
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .show();
+            else {
+                // Alert dialog success
+                AlertDialog.Builder builder;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                } else {
+                    builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
+                }
+                builder.setTitle("上架作業")
+                        .setMessage("查無此藥品，請至資料庫新增! "+code+" not in database")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
+                                intent.putExtra("toFunction", "ExecuteShelvesActivity");
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            }
+                        })
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
@@ -314,6 +318,23 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                     }
                 })
                 .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
+    }
+
+    private void showDatabaseErrorDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
+        }
+        builder.setTitle("Error")
+                .setMessage("Error connecting to database")
+                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
     }
 

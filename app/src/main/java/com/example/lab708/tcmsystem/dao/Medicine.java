@@ -78,4 +78,16 @@ public class Medicine {
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "brand='" + brand + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", name='" + name + '\'' +
+                ", ingredients='" + ingredients + '\'' +
+                ", firmNumber='" + firmNumber + '\'' +
+                ", experienceQuantity='" + experienceQuantity + '\'' +
+                '}';
+    }
 }

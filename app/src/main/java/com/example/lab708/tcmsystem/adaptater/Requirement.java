@@ -1,5 +1,8 @@
 package com.example.lab708.tcmsystem.adaptater;
 
+import com.example.lab708.tcmsystem.dao.Medicine;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,18 +11,26 @@ import java.util.List;
 
 public class Requirement {
 
-    private int number;
+    private String number;
     private int emergency;
     private int progress;
-    private List<Integer> medicineNumbers;
-    private List<String> medicineNames;
+    private List<String> medicineNumbers;
+    private List<Medicine> medicines;
 
-    public Requirement(int emergency, List<String> medicineNames, List<Integer> medicineNumbers, int number, int progress) {
+    public Requirement(int emergency, List<String> medicineNumbers, List<Medicine> medicines, String number, int progress) {
         this.emergency = emergency;
-        this.medicineNames = medicineNames;
         this.medicineNumbers = medicineNumbers;
+        this.medicines = medicines;
         this.number = number;
         this.progress = progress;
+    }
+
+    public Requirement() {
+        this.number = new String();
+        this.emergency = 0;
+        this.progress = 0;
+        this.medicineNumbers = new ArrayList<>();
+        this.medicines = new ArrayList<>();
     }
 
     public int getEmergency() {
@@ -30,27 +41,27 @@ public class Requirement {
         this.emergency = emergency;
     }
 
-    public List<String> getMedicineNames() {
-        return medicineNames;
-    }
-
-    public void setMedicineNames(List<String> medicineNames) {
-        this.medicineNames = medicineNames;
-    }
-
-    public List<Integer> getMedicineNumbers() {
+    public List<String> getMedicineNumbers() {
         return medicineNumbers;
     }
 
-    public void setMedicineNumbers(List<Integer> medicineNumbers) {
+    public void setMedicineNumbers(List<String> medicineNumbers) {
         this.medicineNumbers = medicineNumbers;
     }
 
-    public int getNumber() {
+    public List<Medicine> getMedicines() {
+        return medicines;
+    }
+
+    public void setMedicines(List<Medicine> medicines) {
+        this.medicines = medicines;
+    }
+
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(int number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 
@@ -60,5 +71,20 @@ public class Requirement {
 
     public void setProgress(int progress) {
         this.progress = progress;
+    }
+
+    public void addMedicine(Medicine m) {
+        this.medicines.add(m);
+    }
+
+    @Override
+    public String toString() {
+        return "Requirement{" +
+                "emergency=" + emergency +
+                ", number='" + number + '\'' +
+                ", progress=" + progress +
+                ", medicineNumbers=" + medicineNumbers +
+                ", medicines=" + medicines +
+                '}';
     }
 }

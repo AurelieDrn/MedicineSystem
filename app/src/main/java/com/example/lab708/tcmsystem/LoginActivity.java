@@ -1,8 +1,11 @@
 package com.example.lab708.tcmsystem;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -113,10 +116,32 @@ public class LoginActivity extends AppCompatActivity {
     // function to check if the account name and password are correct
     private boolean checkLogin(String account, String password) {
         StaffDAO staffDAO = DAOFactory.getStaffDAO();
-        if(staffDAO.check(new Staff(account, password))) {
-            return true;
+        try {
+            if(staffDAO.check(new Staff(account, password))) {
+                return true;
+            }
+        } catch (SQLException e) {
+            showErrorDialog();
+            e.printStackTrace();
         }
         return false;
+    }
+
+    private void showErrorDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(LoginActivity.this);
+        }
+        builder.setTitle("Error")
+                .setMessage("Error connecting to database")
+                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 
 }
