@@ -2,13 +2,17 @@ package com.example.lab708.tcmsystem;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ListView;
 
 import com.example.lab708.tcmsystem.adaptater.Requirement;
+import com.example.lab708.tcmsystem.adaptater.RequirementsAdaptater;
 import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CheckPickupActivity extends AppCompatActivity {
 
@@ -17,11 +21,19 @@ public class CheckPickupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_pickup);
 
+        // Construct the data source
+        ArrayList<Requirement> requirementList = new ArrayList<Requirement>();
         RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
         try {
-            requirementDAO.getRequirements();
+            requirementList = requirementDAO.getRequirements();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        // Create the adapter to convert the array to views
+        RequirementsAdaptater adapter = new RequirementsAdaptater(this, requirementList);
+        // Attach the adapter to a ListView
+        ListView listView = (ListView) findViewById(R.id.check_pickup_lv);
+        listView.setAdapter(adapter);
     }
 }

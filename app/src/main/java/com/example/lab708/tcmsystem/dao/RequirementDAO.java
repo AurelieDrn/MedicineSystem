@@ -20,23 +20,22 @@ public class RequirementDAO extends DAO<Requirement>{
         super(conn);
     }
 
-    public List<Requirement> getRequirements() throws SQLException {
+    public ArrayList<Requirement> getRequirements() throws SQLException {
+        ArrayList<Requirement> requirementList = new ArrayList<>();
         List<String> pickupNumList = new ArrayList<>();
 
         // Get pickup numbers
         ResultSet result = this.connect.createStatement().executeQuery("SELECT `pic_num` FROM `Pickup`");
         while(result.next()) {
             pickupNumList.add(result.getString("pic_num"));
-            Log.d("MONTAG", result.getString("pic_num"));
         }
 
-        Log.d("pickupNumList size", String.valueOf(pickupNumList.size()));
-        Requirement requirement = new Requirement();
         for(String pic_num : pickupNumList) {
+            Requirement requirement = new Requirement();
             requirement.setNumber(pic_num);
 
             // Get pickup status and progress
-            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT `pic_sta`, `pic_pro` FROM `Pickup` WHERE `pic_num` = "+pic_num);
+            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT `pic_sta`, `pic_pro` FROM `Pickup` WHERE `pic_num` = \'"+pic_num+"\'");
 
             while(result2.next()) {
                 requirement.setEmergency(Integer.valueOf(result2.getString("pic_sta")));
@@ -45,11 +44,10 @@ public class RequirementDAO extends DAO<Requirement>{
 
             List<String> medNumList = new ArrayList<>();
             // Get pickup med numbers
-            ResultSet result3 = this.connect.createStatement().executeQuery("SELECT `pickup_mednum` FROM `PickupMed` WHERE `pic_num` = "+pic_num);
+            ResultSet result3 = this.connect.createStatement().executeQuery("SELECT `pickup_mednum` FROM `PickupMed` WHERE `pic_num` = \'"+pic_num+"\'");
             while(result3.next()) {
                 medNumList.add(result3.getString("pickup_mednum"));
             }
-            Log.d("MONTAG2", medNumList.toString());
 
             // Set medicine numbers
             requirement.setMedicineNumbers(medNumList);
@@ -68,9 +66,8 @@ public class RequirementDAO extends DAO<Requirement>{
                     requirement.addMedicine(medicine);
                 }
             }
-            Log.d("MONTAG3", requirement.toString());
+            requirementList.add(requirement);
         }
-
-        return null;
+        return requirementList;
     }
 }
