@@ -31,23 +31,21 @@ import java.util.List;
 
 public class ExecuteShelvesActivity extends AppCompatActivity{
 
-
-    TextView med_num,med_name;
-    EditText editquantity;
-    NumberPicker editlocationone, editlocationtwo, editlocationthree;
-    Button newnew,endend;
-    String code;
-    String staffacc;
+    private TextView med_num,med_name;
+    private EditText editquantity;
+    private NumberPicker editlocationone, editlocationtwo, editlocationthree;
+    private Button newnew, endend;
     private DatePicker editdate;
+    private TableLayout table;
 
-    java.sql.Connection con;
-    Statement stmt;
-    ResultSet rs;
-    private String selectedText;
-    String worktime;
+    private String code;
+    private String staffacc;
+    private String worktime;
 
-    List<MyNumberPicker> myNumberPickerList;
-    List<EditText> editTextList;
+    private int index;
+
+    private List<MyNumberPicker> myNumberPickerList;
+    private List<EditText> editTextList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +56,12 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        this.table = (TableLayout) findViewById(R.id.table);
+
+        // Index of the row I want to insert after
+        this.index = table.indexOfChild(findViewById(R.id.lastRow));
+        this.index++;
 
         myNumberPickerList = new ArrayList<>();
         editTextList = new ArrayList<>();
@@ -139,15 +143,6 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             med_name.setText(m.getName());
         }
         else {
-            //Toast If you do not have this medicine, please go to the database
-            /*Toast.makeText(ExecuteShelvesActivity.this, "查無此藥品，請至資料庫新增!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent() ;//back to scan
-            intent.setClass(ExecuteShelvesActivity.this, ScanActivity.class) ;
-            Bundle bacc = new Bundle();
-            bacc.putString("toFunction", "ExecuteShelvesActivity");
-            bacc.putString("staffacc", staffacc);
-            intent.putExtras(bacc);
-            startActivity(intent);*/
             // Alert dialog success
             AlertDialog.Builder builder;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -172,17 +167,13 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
     // Add new components to layout for Add new location fucntion
     private void addNewLocation() {
-        final TableLayout table = (TableLayout) findViewById(R.id.table);
-
-        // Index of the row I want to insert after
-        int index = table.indexOfChild((TableRow) findViewById(R.id.lastRow));
-        index++;
-
         // The row I created in an XML file that I want to insert
         final TableRow row = (TableRow) View.inflate(ExecuteShelvesActivity.this, R.layout.row_layout, null);
 
         // Add the row to the layout
         table.addView(row, index);
+
+        this.index++;
 
         // Get the number pickers from the view
         final NumberPicker location1 = (NumberPicker) findViewById(R.id.location1);
