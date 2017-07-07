@@ -151,7 +151,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
             }
             builder.setTitle("上架作業")
-                    .setMessage("查無此藥品，請至資料庫新增!")
+                    .setMessage("查無此藥品，請至資料庫新增! "+code+" not in database")
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
@@ -313,5 +313,13 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 })
                 .setIcon(android.R.drawable.ic_dialog_info)
                 .show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
+        intent.putExtra("toFunction", "ExecuteShelvesActivity");
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }

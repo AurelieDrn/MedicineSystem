@@ -33,10 +33,10 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
               // TODO Auto-generated method stub
               Intent checkReq = new Intent() ;//go CheckPickup
-              checkReq.setClass(HomeActivity.this,CheckPickup.class);
-              Bundle bacc = new Bundle();
+              checkReq.setClass(HomeActivity.this, CheckPickup.class);
+              //Bundle bacc = new Bundle();
               // bacc.putString("staffacc", acc);
-              checkReq.putExtras(bacc);
+              //checkReq.putExtras(bacc);
               startActivity(checkReq);
             }
         });
