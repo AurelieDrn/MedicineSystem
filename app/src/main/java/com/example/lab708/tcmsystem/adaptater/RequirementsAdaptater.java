@@ -37,7 +37,13 @@ public class RequirementsAdaptater extends ArrayAdapter<Requirement>
 
         // Populate the data into the template view using the data object
         tvNum.setText(requirement.getNumber());
-        tvSta.setText(String.valueOf(requirement.getEmergency()));
+        if(requirement.getEmergency() == 1) {
+            tvSta.setText("緊急");
+        }
+        else {
+            tvSta.setText("不緊急");
+        }
+
         String medNames = new String();
         for(Medicine med : requirement.getMedicines()) {
             medNames += med.getName()+"\n";

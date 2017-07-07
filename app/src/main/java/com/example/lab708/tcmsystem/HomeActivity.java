@@ -32,7 +32,7 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
               // TODO Auto-generated method stub
-              Intent checkReq = new Intent() ;//go CheckPickup
+              Intent checkReq = new Intent() ;
               checkReq.setClass(HomeActivity.this, CheckPickupActivity.class);
               //Bundle bacc = new Bundle();
               // bacc.putString("staffacc", acc);
