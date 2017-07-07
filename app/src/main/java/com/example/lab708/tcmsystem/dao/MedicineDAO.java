@@ -14,21 +14,6 @@ public class MedicineDAO extends DAO<Medicine>{
         super(conn);
     }
 
-    @Override
-    public void create(Medicine obj) {
-    }
-
-    @Override
-    public boolean delete(Medicine obj) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Medicine obj) {
-        return false;
-    }
-
-    @Override
     public boolean find(String code) {
         ResultSet result = null;
         try {
@@ -42,7 +27,6 @@ public class MedicineDAO extends DAO<Medicine>{
         return false;
     }
 
-    @Override
     public Medicine select(String code) {
         Medicine med = new Medicine();
         ResultSet result = null;
@@ -56,11 +40,6 @@ public class MedicineDAO extends DAO<Medicine>{
             e.printStackTrace();
         }
         return med;
-    }
-
-    @Override
-    public boolean check(Medicine obj) {
-        return false;
     }
 
 }

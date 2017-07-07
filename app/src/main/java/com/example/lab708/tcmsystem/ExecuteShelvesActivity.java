@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
+import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.dao.Pile;
+import com.example.lab708.tcmsystem.dao.PileDAO;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -135,7 +137,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     }
     // Display the medicine information
     private void showInformation() {
-        DAO<Medicine> medicineDAO = DAOFactory.getMedicineDAO();
+        MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
         // OK
         if(medicineDAO.find(this.code)) {
             Medicine m = medicineDAO.select(this.code);
@@ -233,7 +235,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     // Execute requests to insert in database
     private void insertInDatabase(String location, int quantity, String date) {
         Pile p = new Pile(location, code, quantity, date);
-        DAO<Pile> pileDAO = DAOFactory.getPileDAO();
+        PileDAO pileDAO = DAOFactory.getPileDAO();
         try {
             pileDAO.create(p);
         } catch (SQLException e) {

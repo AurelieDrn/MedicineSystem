@@ -15,30 +15,6 @@ public class StaffDAO extends DAO<Staff>{
         super(conn);
     }
 
-    @Override
-    public void create(Staff obj) {
-    }
-
-    @Override
-    public boolean delete(Staff obj) {
-        return false;
-    }
-
-    @Override
-    public boolean update(Staff obj) {
-        return false;
-    }
-
-    @Override
-    public boolean find(String code) {
-        return false;
-    }
-
-    @Override
-    public Staff select(String code) {
-        return null;
-    }
-
     public boolean check(Staff staff) {
         ResultSet result = null;
         try {

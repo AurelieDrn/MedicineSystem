@@ -3,12 +3,14 @@ package com.example.lab708.tcmsystem;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,7 +21,7 @@ import java.util.List;
 
 public class requireList extends ArrayAdapter<String>{
     private final Activity context;
-    int ord=1;
+    int ord;
     ArrayList<Integer> order = new ArrayList<>();
     ArrayList<Integer> reqNum;
     ArrayList<String> reqSta;
@@ -40,6 +42,7 @@ public class requireList extends ArrayAdapter<String>{
         acc=ac;
         conn=c;
         System.out.println("pos.size()"+reqSta.size());
+        this.ord = 1;
 
     }
     void setAdapter(Activity context,
@@ -61,6 +64,7 @@ public class requireList extends ArrayAdapter<String>{
             TextView medname = (TextView) rowView.findViewById(R.id.check_pic_medname);
 
             num.setText(Integer.toString(ord));
+            ord++;
             if (reqSta.get(position).equals("1")) {//to show whether or not the requirement is emergent
                 sta.setText("緊急");//is emergent
             } else {
@@ -93,8 +97,8 @@ public class requireList extends ArrayAdapter<String>{
                     }
                     System.out.println("press---------------------"+re);
                     System.out.println("press---------------------"+position);
-                    reqMedName.add(position, rMedName);
-                    reqMedEx.add(position, rMedEx);
+                    reqMedName.add(rMedName);
+                    reqMedEx.add(rMedEx);
                 }
 
 
@@ -143,7 +147,7 @@ public class requireList extends ArrayAdapter<String>{
                     a.startActivity(intent);*/
                 }
             });
-            ord++;
+
         }
 
         return rowView;

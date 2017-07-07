@@ -15,10 +15,4 @@ public abstract class DAO<T> {
         this.connect = conn;
     }
 
-    public abstract void create(T obj) throws SQLException;
-    public abstract boolean delete(T obj);
-    public abstract boolean update(T obj);
-    public abstract boolean find(String code);
-    public abstract T select(String code);
-    public abstract boolean check(T obj);
 }

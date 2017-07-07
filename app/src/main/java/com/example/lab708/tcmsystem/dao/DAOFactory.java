@@ -27,15 +27,19 @@ public class DAOFactory {
         }
     }
 
-    public static DAO getStaffDAO() {
+    public static StaffDAO getStaffDAO() {
         return new StaffDAO(conn);
     }
 
-    public static DAO getMedicineDAO() {
+    public static MedicineDAO getMedicineDAO() {
         return new MedicineDAO(conn);
     }
 
-    public static DAO getPileDAO() {
+    public static PileDAO getPileDAO() {
         return new PileDAO(conn);
+    }
+
+    public static RequirementDAO getRequirementDAO() {
+        return new RequirementDAO(conn);
     }
 }

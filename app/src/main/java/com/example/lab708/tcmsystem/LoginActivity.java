@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // function to check if the account name and password are correct
     private boolean checkLogin(String account, String password) {
-        DAO<Staff> staffDAO = DAOFactory.getStaffDAO();
+        StaffDAO staffDAO = DAOFactory.getStaffDAO();
         if(staffDAO.check(new Staff(account, password))) {
             return true;
         }
