@@ -15,18 +15,22 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity">
+        <activity android:name=".LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".HomeActivity"
+                  android:screenOrientation="portrait"/>
         <activity android:name=".ExecuteShelvesActivity"
-                  android:windowSoftInputMode="adjustPan" />
+                android:screenOrientation="portrait"
+                android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ScanActivity" />
-        <activity android:name=".CheckPickup" />
+        <activity android:name=".CheckPickup"
+                android:screenOrientation="portrait"/>
         <activity android:name=".NewExtraPickup" />
         <activity android:name=".NewRequire" />
         <activity android:name=".NewRequireList"/>

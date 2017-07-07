@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 public class requireList extends ArrayAdapter<String>{
     private final Activity context;
@@ -24,7 +25,7 @@ public class requireList extends ArrayAdapter<String>{
     ArrayList<String> reqSta;
     ArrayList<String> reqPro;
     ArrayList<String> reqMedNum = new ArrayList<>();//the serial numbers of each pickup requirements
-    ArrayList<ArrayList> reqMedName = new ArrayList<>();//the names of each pickup requirements. One requirement maybe contains many names of medicines, so here use the arraylist contain arralist.
+    List<ArrayList> reqMedName = new ArrayList<>();//the names of each pickup requirements. One requirement maybe contains many names of medicines, so here use the arraylist contain arralist.
     ArrayList<ArrayList> reqMedEx = new ArrayList<>();//the experience quantity of each pickup requirements. As above, one requirement maybe contains many experience quantity of medicines, so here use the arraylist contain arralist.
     private static Connection conn;
     private static Statement stmt;

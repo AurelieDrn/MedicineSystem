@@ -36,8 +36,9 @@ public class CheckPickup extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkpickup);
 
-        Bundle getacc = this.getIntent().getExtras();
-        final String acc = getacc.getString("staffacc");
+        //Bundle getacc = this.getIntent().getExtras();
+        //final String acc = getacc.getString("staffacc");
+        final String acc = "staff";
 
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -60,9 +61,9 @@ public class CheckPickup extends Activity {
                             Toast.makeText(CheckPickup.this, "查無檢藥需求", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent() ;
                             intent.setClass(CheckPickup.this, HomeActivity.class) ;
-                            Bundle bacc = new Bundle();
-                            bacc.putString("accin", acc);
-                            intent.putExtras(bacc);
+                            //Bundle bacc = new Bundle();
+                            //bacc.putString("accin", acc);
+                            //intent.putExtras(bacc);
                             startActivity(intent);
                         }else {// if there are some requirements, show it on list. The program needs to call an adapter(the requireList.java) to show the list of data.
                             adapter = new requireList(CheckPickup.this, reqNum, reqSta,reqPro,acc,conn);
