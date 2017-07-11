@@ -1,6 +1,8 @@
 package com.example.lab708.tcmsystem.adaptater;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +12,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lab708.tcmsystem.CheckPickupActivity;
+import com.example.lab708.tcmsystem.CheckPickupDetailsActivity;
+import com.example.lab708.tcmsystem.HomeActivity;
 import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.ScanActivity;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
 import com.example.lab708.tcmsystem.dao.PileDAO;
@@ -81,7 +87,10 @@ public class RequirementsAdaptater extends ArrayAdapter<Requirement>
                     }
                     reqDetailList.add(reqDetail);
                 }
-                Log.d("AAAAAAAAAAa", reqDetailList.toString());
+                Intent checkPickupDetailsActivity = new Intent();
+                checkPickupDetailsActivity.setClass(view.getContext(), CheckPickupDetailsActivity.class);
+                checkPickupDetailsActivity.putParcelableArrayListExtra("reqDetailList", (ArrayList<? extends Parcelable>) reqDetailList);
+                view.getContext().startActivity(checkPickupDetailsActivity);
             }
        });
         // Return the completed view to render on screen

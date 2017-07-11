@@ -45,7 +45,8 @@
         <activity android:name=".NewExtraPickup" />
         <activity android:name=".NewRequire" />
         <activity android:name=".NewRequireList" />
-        <activity android:name=".CheckPickupActivity"></activity>
+        <activity android:name=".CheckPickupActivity" />
+        <activity android:name=".CheckPickupDetailsActivity"></activity>
     </application>
 
 </manifest>

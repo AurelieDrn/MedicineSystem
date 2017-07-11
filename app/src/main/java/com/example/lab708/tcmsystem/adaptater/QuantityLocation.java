@@ -1,10 +1,13 @@
 package com.example.lab708.tcmsystem.adaptater;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Aurelie on 11/07/2017.
  */
 
-public class QuantityLocation {
+public class QuantityLocation implements Parcelable {
 
     private int quantity;
     private String location;
@@ -42,4 +45,32 @@ public class QuantityLocation {
                 ", quantity=" + quantity +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.quantity);
+        dest.writeString(this.location);
+    }
+
+    protected QuantityLocation(Parcel in) {
+        this.quantity = in.readInt();
+        this.location = in.readString();
+    }
+
+    public static final Parcelable.Creator<QuantityLocation> CREATOR = new Parcelable.Creator<QuantityLocation>() {
+        @Override
+        public QuantityLocation createFromParcel(Parcel source) {
+            return new QuantityLocation(source);
+        }
+
+        @Override
+        public QuantityLocation[] newArray(int size) {
+            return new QuantityLocation[size];
+        }
+    };
 }

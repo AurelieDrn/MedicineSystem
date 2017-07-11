@@ -1,5 +1,8 @@
 package com.example.lab708.tcmsystem.adaptater;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,7 +12,7 @@ import java.util.Map;
  * Created by Aurelie on 11/07/2017.
  */
 
-public class RequirementDetail {
+public class RequirementDetail implements Parcelable {
 
     private String name;
     private List<QuantityLocation> quantityLocationList;
@@ -51,4 +54,33 @@ public class RequirementDetail {
                 ", quantityLocationList=" + quantityLocationList +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.name);
+        dest.writeList(this.quantityLocationList);
+    }
+
+    protected RequirementDetail(Parcel in) {
+        this.name = in.readString();
+        this.quantityLocationList = new ArrayList<QuantityLocation>();
+        in.readList(this.quantityLocationList, QuantityLocation.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<RequirementDetail> CREATOR = new Parcelable.Creator<RequirementDetail>() {
+        @Override
+        public RequirementDetail createFromParcel(Parcel source) {
+            return new RequirementDetail(source);
+        }
+
+        @Override
+        public RequirementDetail[] newArray(int size) {
+            return new RequirementDetail[size];
+        }
+    };
 }
