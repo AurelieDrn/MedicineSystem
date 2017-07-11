@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.camera.autofocu*s" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -45,8 +45,10 @@
         <activity android:name=".NewExtraPickup" />
         <activity android:name=".NewRequire" />
         <activity android:name=".NewRequireList" />
-        <activity android:name=".CheckPickupActivity" />
-        <activity android:name=".CheckPickupDetailsActivity"></activity>
+        <activity android:name=".CheckPickupActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".CheckPickupDetailsActivity"
+                  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

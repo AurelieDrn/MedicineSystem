@@ -1,55 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:stretchColumns="*">
 
-    <TableRow
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1">
-
+    <TableRow>
         <TextView
             android:id="@+id/check_pic_num"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:textSize="@dimen/text"
-            android:layout_weight="1"
-            android:text="test1"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size" />
 
         <TextView
             android:id="@+id/check_pic_sta"
-            android:layout_height="match_parent"
-            android:layout_width="wrap_content"
-            android:textSize="@dimen/text"
-            android:layout_weight="1"
-            android:text="test2" />
-
-        <ScrollView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
-            <TextView
-                android:id="@+id/check_pic_medname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/text"
-                android:text="test3" />
-        </ScrollView>
+            android:textSize="@dimen/textview_middle_size" />
+
+
+        <TextView
+            android:id="@+id/check_pic_medname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size" />
+
 
         <Button
             android:id="@+id/more_details_btn"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="@dimen/text"
+            android:textSize="@dimen/textview_middle_size"
             android:text="\?" />
 
         <Button
             android:id="@+id/buttonExecute"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="@dimen/text"
+            android:textSize="@dimen/textview_middle_size"
             android:text="+" />
     </TableRow>
 </TableLayout>
