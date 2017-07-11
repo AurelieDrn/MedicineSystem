@@ -9,27 +9,29 @@
             android:id="@+id/check_pic_num"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:textSize="@dimen/textview_middle_size" />
 
         <TextView
             android:id="@+id/check_pic_sta"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:textSize="@dimen/textview_middle_size" />
-
 
         <TextView
             android:id="@+id/check_pic_medname"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:textSize="@dimen/textview_middle_size" />
-
 
         <Button
             android:id="@+id/more_details_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
+            android:layout_gravity="center_vertical"
             android:text="\?" />
 
         <Button
@@ -37,6 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
+            android:layout_gravity="center_vertical"
             android:text="+" />
     </TableRow>
 </TableLayout>
