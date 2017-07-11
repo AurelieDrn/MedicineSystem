@@ -1,12 +1,10 @@
-package com.example.lab708.tcmsystem.adaptater;
+package com.example.lab708.tcmsystem.adapter;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Aurelie on 11/07/2017.

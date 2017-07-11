@@ -3,17 +3,13 @@ package com.example.lab708.tcmsystem.dao;
 /**
  * Created by Aurelie on 06/07/2017.
  */
-import android.util.Log;
 
-import com.example.lab708.tcmsystem.adaptater.QuantityLocation;
+import com.example.lab708.tcmsystem.adapter.QuantityLocation;
 
-import java.sql.Array;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PileDAO extends DAO<Pile> {
 

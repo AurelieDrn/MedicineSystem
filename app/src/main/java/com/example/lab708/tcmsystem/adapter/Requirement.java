@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.adaptater;
+package com.example.lab708.tcmsystem.adapter;
 
 import com.example.lab708.tcmsystem.dao.Medicine;
 

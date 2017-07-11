@@ -1,38 +1,32 @@
-package com.example.lab708.tcmsystem.adaptater;
+package com.example.lab708.tcmsystem.adapter;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.lab708.tcmsystem.CheckPickupActivity;
 import com.example.lab708.tcmsystem.CheckPickupDetailsActivity;
-import com.example.lab708.tcmsystem.HomeActivity;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.ScanActivity;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Aurelie on 07/07/2017.
  */
 
-public class RequirementsAdaptater extends ArrayAdapter<Requirement>
+public class RequirementsAdapter extends ArrayAdapter<Requirement>
 {
-    public RequirementsAdaptater(Context context, ArrayList<Requirement> requirements) {
+    public RequirementsAdapter(Context context, ArrayList<Requirement> requirements) {
         super(context, 0, requirements);
     }
 

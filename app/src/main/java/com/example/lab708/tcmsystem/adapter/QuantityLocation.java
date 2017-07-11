@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.adaptater;
+package com.example.lab708.tcmsystem.adapter;
 
 import android.os.Parcel;
 import android.os.Parcelable;
