@@ -1,16 +1,24 @@
 package com.example.lab708.tcmsystem.adaptater;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
+import com.example.lab708.tcmsystem.dao.PileDAO;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Aurelie on 07/07/2017.
@@ -49,6 +57,33 @@ public class RequirementsAdaptater extends ArrayAdapter<Requirement>
             medNames += med.getName()+"\n";
         }
         tvName.setText(medNames);
+
+        // Attach event listeners
+        Button btnMDetails = (Button) convertView.findViewById(R.id.more_details_btn);
+        // Cache row position inside the button using `setTag`
+        btnMDetails.setTag(position);
+        btnMDetails.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = (Integer) view.getTag();
+                // Access the row position here to get the correct data item
+                List<RequirementDetail> reqDetailList = new ArrayList<RequirementDetail>();
+                Requirement req = getItem(position);
+
+                for(Medicine med : req.getMedicines()) {
+                    RequirementDetail reqDetail = new RequirementDetail();
+                    reqDetail.setName(med.getName());
+                    PileDAO pileDAO = DAOFactory.getPileDAO();
+                    try {
+                        reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(Integer.valueOf(med.getExperienceQuantity()), med.getSerialNumber()));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                    reqDetailList.add(reqDetail);
+                }
+                Log.d("AAAAAAAAAAa", reqDetailList.toString());
+            }
+       });
         // Return the completed view to render on screen
         return convertView;
     }

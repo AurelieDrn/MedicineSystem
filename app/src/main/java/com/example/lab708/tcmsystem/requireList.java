@@ -107,7 +107,7 @@ public class requireList extends ArrayAdapter<String>{
                 e.printStackTrace();}
 
             medname.setText(mname);//reqMedName.get(position));
-
+            /*
             Button b = (Button) rowView.findViewById(R.id.button);
             b.setOnClickListener(new View.OnClickListener() {//press to call CheckPickup_Detail.java to show the detail of requirement
                 @Override
@@ -126,7 +126,7 @@ public class requireList extends ArrayAdapter<String>{
                     System.out.println(Integer.toString(ord));
                     context.startActivity(intent);
                 }
-            });
+            });*/
 
             Button be = (Button) rowView.findViewById(R.id.buttonExecute);
             be.setOnClickListener(new View.OnClickListener() {
