@@ -10,59 +10,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linear"
-        android:layout_marginRight="50dp"
-        android:layout_marginEnd="50dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/linear">
 
         <TextView
             android:id="@+id/code_scanner"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/title"
+            android:textSize="@dimen/textview_big_1_size"
             android:layout_marginTop="@dimen/margin_title"
             android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
             android:text="@string/med_info"
             />
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:stretchColumns="*"
-            android:id="@+id/table"
-            android:layout_marginLeft="50dp"
-            android:layout_marginStart="50dp">
+            android:id="@+id/table">
 
             <!-- Serial number -->
-            <TableRow
-                android:textAlignment="center">
+            <TableRow>
                 <TextView
                     android:text="@string/serial_number"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:id="@+id/MDnumber"
-                    android:textSize="@dimen/text" />
+                    android:textSize="@dimen/textview_middle_size" />
                 <TextView
                     android:id="@+id/v_MDnumber"
-                    android:layout_gravity="center"
-                    android:textSize="@dimen/text" />
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/textview_middle_size" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
             </TableRow>
 
-            <TableRow
-                android:textAlignment="center">
+            <TableRow>
                 <!-- Medicine name -->
                 <TextView
                     android:text="@string/med_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:id="@+id/MDname"
-                    android:textSize="@dimen/text" />
+                    android:textSize="@dimen/textview_middle_size" />
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:id="@+id/v_MDname"
-                    android:textSize="@dimen/text" />
+                    android:textSize="@dimen/textview_middle_size" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
             </TableRow>
 
             <!-- Expiration date -->
@@ -70,13 +72,14 @@
                 android:layout_gravity="center_vertical">
                 <TextView
                     android:text="@string/exp_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:id="@+id/textView2"
-                    android:textSize="@dimen/text"/>
+                    android:layout_gravity="center_vertical"
+                    android:textSize="@dimen/textview_middle_size"/>
                 <FrameLayout
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:layout_gravity="center"
                     >
                     <DatePicker
@@ -85,28 +88,31 @@
                         android:calendarViewShown="false"
                         android:datePickerMode="spinner"
                         android:id="@+id/v_MDdate"
-
                         android:headerBackground="?attr/colorButtonNormal" />
                 </FrameLayout>
-
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
             </TableRow>
 
             <TableRow>
                 <!-- Quantity -->
                 <TextView
                     android:text="@string/quantity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:id="@+id/textView5"
-                    android:textSize="@dimen/text" />
+                    android:textSize="@dimen/textview_middle_size" />
                 <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
                     android:inputType="numberDecimal"
-                    android:ems="11"
+                    android:ems="7"
                     android:id="@+id/quantity" />
-
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
             </TableRow>
 
             <TableRow
@@ -116,21 +122,14 @@
                 <!-- Shelf location -->
                 <TextView
                     android:text="@string/location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
                     android:id="@+id/textView6"
+                    android:textSize="@dimen/textview_middle_size" />
 
-                    android:textSize="@dimen/text" />
-                <!--<Spinner
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:id="@+id/locationone" />-->
                 <RelativeLayout
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_gravity="center">
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp">
                     <NumberPicker
                         android:id="@+id/locationone"
                         android:layout_width="wrap_content"
@@ -160,6 +159,9 @@
                         >
                     </NumberPicker>
                 </RelativeLayout>
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
             </TableRow>
             <TableRow>
                 <FrameLayout

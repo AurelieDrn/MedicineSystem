@@ -2,56 +2,52 @@
 <TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
-        android:layout_gravity="center_vertical"
         android:ems="10"
         android:id="@+id/additional_quantity"/>
 
-    <LinearLayout>
-        <RelativeLayout
-            android:layout_height="wrap_content"
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <NumberPicker
+            android:id="@+id/location1"
             android:layout_width="wrap_content"
-            android:layout_gravity="center">
-            <NumberPicker
-                android:id="@+id/location1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginEnd="15dp"
-                >
-            </NumberPicker>
-            <NumberPicker
-                android:id="@+id/location2"
-                android:layout_toRightOf="@id/location1"
-                android:layout_toEndOf="@id/location1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginEnd="15dp"
-                >
-            </NumberPicker>
-            <NumberPicker
-                android:id="@+id/location3"
-                android:layout_toRightOf="@id/location2"
-                android:layout_toEndOf="@id/location2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:layout_marginEnd="15dp"
-                >
-            </NumberPicker>
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            >
+        </NumberPicker>
+        <NumberPicker
+            android:id="@+id/location2"
+            android:layout_toRightOf="@id/location1"
+            android:layout_toEndOf="@id/location1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            >
+        </NumberPicker>
+        <NumberPicker
+            android:id="@+id/location3"
+            android:layout_toRightOf="@id/location2"
+            android:layout_toEndOf="@id/location2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp"
+            >
+        </NumberPicker>
+    </RelativeLayout>
 
-        </RelativeLayout>
+    <FrameLayout>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="x"
-            android:layout_gravity="center_vertical"
             android:id="@+id/delete_row"/>
-    </LinearLayout>
+    </FrameLayout>
 
 </TableRow>
