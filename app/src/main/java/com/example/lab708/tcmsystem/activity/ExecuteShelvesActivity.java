@@ -20,18 +20,13 @@ import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.MyNumberPicker;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.activity.HomeActivity;
-import com.example.lab708.tcmsystem.activity.ScanActivity;
-import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.dao.Pile;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -161,6 +156,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 } else {
                     builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
                 }
+                builder.setCancelable(false);
                 builder.setTitle("上架作業")
                         .setMessage("查無此藥品，請至資料庫新增! "+code+" not in database")
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -319,6 +315,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         } else {
             builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
         }
+        builder.setCancelable(false);
         builder.setTitle("上架作業")
                 .setMessage("Error inserting in database")
                 .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
@@ -339,6 +336,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         } else {
             builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
         }
+        builder.setCancelable(false);
         builder.setTitle("上架作業")
                 .setMessage("上架成功!")
                 .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
@@ -368,6 +366,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         } else {
             builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
         }
+        builder.setCancelable(false);
         builder.setTitle("Error")
                 .setMessage("Error connecting to database")
                 .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
