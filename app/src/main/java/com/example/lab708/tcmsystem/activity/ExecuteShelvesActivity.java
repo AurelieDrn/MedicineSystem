@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -111,6 +112,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                     // Some fields are empty
                     Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT).show();
                 }
+                else if(wrongLocations()) {
+                    Toast.makeText(ExecuteShelvesActivity.this, "All the locations have to be different", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     int year = editdate.getYear();
                     int month = editdate.getMonth()+1;
@@ -186,9 +190,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         this.index++;
 
         // Get the number pickers from the view
-        final NumberPicker location1 = (NumberPicker) findViewById(R.id.location1);
-        final NumberPicker location2 = (NumberPicker) findViewById(R.id.location2);
-        final NumberPicker location3 = (NumberPicker) findViewById(R.id.location3);
+        final NumberPicker location1 = (NumberPicker) row.findViewById(R.id.location1);
+        final NumberPicker location2 = (NumberPicker) row.findViewById(R.id.location2);
+        final NumberPicker location3 = (NumberPicker) row.findViewById(R.id.location3);
 
         final EditText additionalQuant = (EditText) findViewById(R.id.additional_quantity);
 
@@ -235,6 +239,37 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     private boolean missingAdditionalQuantities() {
         for(EditText et : editTextList) {
             if(et.getText().toString().matches("")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean wrongLocations() {
+        List<String> locations = new ArrayList<>();
+        boolean same = false;
+
+        for(int i = 0; i < myNumberPickerList.size(); i++) {
+            MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
+            String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
+            String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
+            String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());
+            String location_tmp = location1_tmp + location2_tmp + location3_tmp;
+            locations.add(location_tmp);
+            Log.d("TAG", location_tmp);
+        }
+
+        NumberPicker nbPicker1 = (NumberPicker) findViewById(R.id.locationone);
+        NumberPicker nbPicker2 = (NumberPicker) findViewById(R.id.locationtwo);
+        NumberPicker nbPicker3 = (NumberPicker) findViewById(R.id.locationthree);
+        String location01 = String.valueOf(nbPicker1.getValue());
+        String location02 = String.valueOf(nbPicker2.getValue());
+        String location03 = String.valueOf(nbPicker3.getValue());
+
+        String first = location01+location02+location03;
+
+        for(String l : locations) {
+            if(first.equals(l)) {
                 return true;
             }
         }

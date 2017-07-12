@@ -24,7 +24,6 @@ public class PileDAO extends DAO<Pile> {
         if(result.first()) {
             int id = result.getInt("pil_ser");
             int quant = result.getInt("pil_quan")+p.getQuantity();
-            Log.d("TAG", String.valueOf(id)+"  "+String.valueOf(quant));
             this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_mednum` = \'"+p.getMedicineNumber()+"\',`pil_quan` = "+quant+",`pil_loc`= '"+p.getLocation()+"',`pil_exp`='"+p.getDate()+"' WHERE `pil_ser`= "+id);
         }
         else {
