@@ -4,6 +4,8 @@ package com.example.lab708.tcmsystem.dao;
  * Created by Aurelie on 06/07/2017.
  */
 
+import android.util.Log;
+
 import com.example.lab708.tcmsystem.adapter.QuantityLocation;
 
 import java.sql.Connection;
@@ -18,7 +20,16 @@ public class PileDAO extends DAO<Pile> {
     }
 
     public void create(Pile p) throws SQLException {
-        ResultSet result = this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,'"+p.getMedicineNumber()+"',"+p.getQuantity()+",'"+p.getLocation()+"','"+p.getDate()+"','"+"staff"+"')");
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pil_ser`, `pil_quan` FROM `Pile` WHERE `pile_mednum` = \'"+p.getMedicineNumber()+"\' AND `pil_exp` = \'"+p.getDate()+"\' AND `pil_loc`= "+p.getLocation());
+        if(result.first()) {
+            int id = result.getInt("pil_ser");
+            int quant = result.getInt("pil_quan")+p.getQuantity();
+            Log.d("TAG", String.valueOf(id)+"  "+String.valueOf(quant));
+            this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_mednum` = \'"+p.getMedicineNumber()+"\',`pil_quan` = "+quant+",`pil_loc`= '"+p.getLocation()+"',`pil_exp`='"+p.getDate()+"' WHERE `pil_ser`= "+id);
+        }
+        else {
+            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,'"+p.getMedicineNumber()+"',"+p.getQuantity()+",'"+p.getLocation()+"','"+p.getDate()+"','"+"staff"+"')");
+        }
     }
 
     public ArrayList<QuantityLocation> getQuantLocations(int quantity, String medNumber) throws SQLException {
