@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.dao;
+package com.example.lab708.tcmsystem.classe;
 
 /**
  * Created by Aurelie on 06/07/2017.

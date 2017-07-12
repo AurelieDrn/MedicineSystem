@@ -1,6 +1,6 @@
-package com.example.lab708.tcmsystem.adapter;
+package com.example.lab708.tcmsystem.classe;
 
-import com.example.lab708.tcmsystem.dao.Medicine;
+import com.example.lab708.tcmsystem.classe.Medicine;
 
 import java.util.ArrayList;
 import java.util.List;

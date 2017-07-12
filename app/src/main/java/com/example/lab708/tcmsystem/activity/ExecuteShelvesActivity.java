@@ -18,9 +18,9 @@ import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.MyNumberPicker;
 import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
-import com.example.lab708.tcmsystem.dao.Medicine;
+import com.example.lab708.tcmsystem.classe.Medicine;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
-import com.example.lab708.tcmsystem.dao.Pile;
+import com.example.lab708.tcmsystem.classe.Pile;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 
 import java.sql.SQLException;

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="*">
+
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"
+            android:text="Serial number"/>
+        <TextView
+            android:id="@+id/exe_pu_serial_number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"
+            android:text="Medicine name"/>
+        <TextView
+            android:id="@+id/exe_pu_med_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"
+            android:text="Medicine location"/>
+        <TextView
+            android:id="@+id/exe_pu_med_location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"
+            android:text="Quantity in stock"/>
+        <TextView
+            android:id="@+id/exe_pu_quantity_stock"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"/>
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/textview_middle_size"
+            android:text="Quantity to pick up"/>
+        <EditText
+            android:id="@+id/exe_pu_quant_pick"
+            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="7" />
+    </TableRow>
+</TableLayout>

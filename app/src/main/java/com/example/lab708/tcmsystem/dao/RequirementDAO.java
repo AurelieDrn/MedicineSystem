@@ -1,6 +1,7 @@
 package com.example.lab708.tcmsystem.dao;
 
-import com.example.lab708.tcmsystem.adapter.Requirement;
+import com.example.lab708.tcmsystem.classe.Requirement;
+import com.example.lab708.tcmsystem.classe.Medicine;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

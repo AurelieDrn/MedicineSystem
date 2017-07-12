@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.adapter;
+package com.example.lab708.tcmsystem.classe;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -13,16 +13,22 @@ import java.util.List;
 public class RequirementDetail implements Parcelable {
 
     private String name;
+    private String serialNumber;
+    private int quantityInStock;
     private List<QuantityLocation> quantityLocationList;
 
-    public RequirementDetail(String name, List<QuantityLocation> quantityLocationList) {
+    public RequirementDetail(String name, List<QuantityLocation> quantityLocationList, String sn, int qs) {
         this.name = name;
         this.quantityLocationList = quantityLocationList;
+        this.serialNumber = sn;
+        this.quantityInStock = qs;
     }
 
     public RequirementDetail() {
         this.name = "";
         this.quantityLocationList = new ArrayList<>();
+        this.serialNumber = "";
+        this.quantityInStock = 0;
     }
 
     public String getName() {
@@ -45,10 +51,32 @@ public class RequirementDetail implements Parcelable {
         return this.quantityLocationList.add(ql);
     }
 
+    public static Creator<RequirementDetail> getCREATOR() {
+        return CREATOR;
+    }
+
+    public int getQuantityInStock() {
+        return quantityInStock;
+    }
+
+    public void setQuantityInStock(int quantityInStock) {
+        this.quantityInStock = quantityInStock;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
     @Override
     public String toString() {
         return "RequirementDetail{" +
                 "name='" + name + '\'' +
+                ", serialNumber='" + serialNumber + '\'' +
+                ", quantityInStock=" + quantityInStock +
                 ", quantityLocationList=" + quantityLocationList +
                 '}';
     }
@@ -81,4 +109,5 @@ public class RequirementDetail implements Parcelable {
             return new RequirementDetail[size];
         }
     };
+
 }

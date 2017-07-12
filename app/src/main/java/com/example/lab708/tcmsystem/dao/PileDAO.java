@@ -4,9 +4,8 @@ package com.example.lab708.tcmsystem.dao;
  * Created by Aurelie on 06/07/2017.
  */
 
-import android.util.Log;
-
-import com.example.lab708.tcmsystem.adapter.QuantityLocation;
+import com.example.lab708.tcmsystem.classe.QuantityLocation;
+import com.example.lab708.tcmsystem.classe.Pile;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -52,6 +51,14 @@ public class PileDAO extends DAO<Pile> {
             }
         }
         return quantLocationList;
+    }
+
+    public int getTotalQuantity(String medNumber) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT COUNT(`pil_quan`) FROM `Pile` WHERE `pile_mednum` = "+medNumber);
+        if(result.next()) {
+            return result.getInt(1);
+        }
+        return -1;
     }
 
 }

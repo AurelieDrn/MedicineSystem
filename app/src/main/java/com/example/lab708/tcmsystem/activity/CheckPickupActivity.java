@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.adapter.Requirement;
+import com.example.lab708.tcmsystem.classe.Requirement;
 import com.example.lab708.tcmsystem.adapter.RequirementsAdapter;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;

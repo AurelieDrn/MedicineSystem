@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.adapter;
+package com.example.lab708.tcmsystem.classe;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -73,4 +73,5 @@ public class QuantityLocation implements Parcelable {
             return new QuantityLocation[size];
         }
     };
+
 }

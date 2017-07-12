@@ -1,5 +1,7 @@
 package com.example.lab708.tcmsystem.dao;
 
+import com.example.lab708.tcmsystem.classe.Medicine;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -1,16 +1,12 @@
 package com.example.lab708.tcmsystem;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -34,7 +30,7 @@ public class requireList extends ArrayAdapter<String>{
     private static ResultSet rs;
     String acc;
     public requireList(Activity context, ArrayList<Integer> rNum, ArrayList<String> rSta, ArrayList<String> rPro,String ac,Connection c) {
-        super(context, R.layout.list_require, rSta);
+        super(context, R.layout.adapter_check_pickup, rSta);
         this.context = context;
         this.reqNum = rNum;
         this.reqSta = rSta;
@@ -54,7 +50,7 @@ public class requireList extends ArrayAdapter<String>{
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView= inflater.inflate(R.layout.list_require, null, true);
+        View rowView= inflater.inflate(R.layout.adapter_check_pickup, null, true);
 
         if(reqPro.get(position).equals("0")) {
             order.add(position,ord);

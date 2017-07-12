@@ -45,10 +45,13 @@
         <activity android:name=".NewExtraPickup" />
         <activity android:name=".NewRequire" />
         <activity android:name=".NewRequireList" />
-        <activity android:name=".activity.CheckPickupActivity"
-                  android:screenOrientation="portrait"/>
-        <activity android:name=".activity.CheckPickupDetailsActivity"
-                  android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activity.CheckPickupActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.CheckPickupDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.ExecutePickupActivity"></activity>
     </application>
 
 </manifest>

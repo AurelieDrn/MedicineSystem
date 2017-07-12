@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.classe.QuantityLocation;
+import com.example.lab708.tcmsystem.classe.RequirementDetail;
 
 import java.util.ArrayList;
 

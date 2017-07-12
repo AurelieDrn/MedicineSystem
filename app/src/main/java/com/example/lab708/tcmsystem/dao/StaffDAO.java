@@ -1,7 +1,8 @@
 package com.example.lab708.tcmsystem.dao;
 
+import com.example.lab708.tcmsystem.classe.Staff;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
