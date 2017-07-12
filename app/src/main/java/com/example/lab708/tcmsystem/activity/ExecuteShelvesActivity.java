@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem;
+package com.example.lab708.tcmsystem.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,6 +17,10 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lab708.tcmsystem.MyNumberPicker;
+import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.activity.HomeActivity;
+import com.example.lab708.tcmsystem.activity.ScanActivity;
 import com.example.lab708.tcmsystem.dao.DAO;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
@@ -202,13 +206,14 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         editTextList.add(additionalQuant);
 
         // Delete the row
-        Button deleteBtn = (Button) findViewById(R.id.delete_row);
+        Button deleteBtn = (Button) row.findViewById(R.id.delete_row);
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 table.removeView(row);
                 editTextList.remove(additionalQuant);
                 myNumberPickerList.remove(myNumberPicker);
+                index--;
             }
         });
     }

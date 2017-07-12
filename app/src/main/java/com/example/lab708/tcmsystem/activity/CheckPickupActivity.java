@@ -1,9 +1,10 @@
-package com.example.lab708.tcmsystem;
+package com.example.lab708.tcmsystem.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.adapter.Requirement;
 import com.example.lab708.tcmsystem.adapter.RequirementsAdapter;
 import com.example.lab708.tcmsystem.dao.DAOFactory;

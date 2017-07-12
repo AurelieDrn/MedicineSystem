@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem;
+package com.example.lab708.tcmsystem.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,15 +14,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.lab708.tcmsystem.dao.DAO;
+import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Staff;
 import com.example.lab708.tcmsystem.dao.StaffDAO;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class LoginActivity extends AppCompatActivity {
 

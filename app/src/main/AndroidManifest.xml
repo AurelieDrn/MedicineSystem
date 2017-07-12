@@ -23,7 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -32,22 +32,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".HomeActivity"
+            android:name=".activity.HomeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ExecuteShelvesActivity"
+            android:name=".activity.ExecuteShelvesActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ScanActivity" />
+        <activity android:name=".activity.ScanActivity" />
         <activity
             android:name=".CheckPickup"
             android:screenOrientation="portrait" />
         <activity android:name=".NewExtraPickup" />
         <activity android:name=".NewRequire" />
         <activity android:name=".NewRequireList" />
-        <activity android:name=".CheckPickupActivity"
+        <activity android:name=".activity.CheckPickupActivity"
                   android:screenOrientation="portrait"/>
-        <activity android:name=".CheckPickupDetailsActivity"
+        <activity android:name=".activity.CheckPickupDetailsActivity"
                   android:screenOrientation="portrait"></activity>
     </application>
 

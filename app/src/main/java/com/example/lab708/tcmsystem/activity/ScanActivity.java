@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem;
+package com.example.lab708.tcmsystem.activity;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -9,6 +9,11 @@ import android.os.HandlerThread;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import com.example.lab708.tcmsystem.CameraPreview;
+import com.example.lab708.tcmsystem.NewExtraPickup;
+import com.example.lab708.tcmsystem.NewRequire;
+import com.example.lab708.tcmsystem.R;
 
 import net.sourceforge.zbar.Config;
 import net.sourceforge.zbar.Image;
@@ -237,5 +242,6 @@ public class ScanActivity extends AppCompatActivity {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
+
 }
 

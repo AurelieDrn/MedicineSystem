@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.lab708.tcmsystem.CheckPickupDetailsActivity;
+import com.example.lab708.tcmsystem.activity.CheckPickupDetailsActivity;
 import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.Medicine;
