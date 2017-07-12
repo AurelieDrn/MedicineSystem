@@ -1,13 +1,9 @@
 package com.example.lab708.tcmsystem.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -18,6 +14,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.MyNumberPicker;
 import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
@@ -149,26 +146,10 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 med_name.setText(m.getName());
             }
             else {
-                // Alert dialog success
-                AlertDialog.Builder builder;
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-                } else {
-                    builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
-                }
-                builder.setCancelable(false);
-                builder.setTitle("上架作業")
-                        .setMessage("查無此藥品，請至資料庫新增! "+code+" not in database")
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
-                                intent.putExtra("toFunction", "ExecuteShelvesActivity");
-                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .show();
+                // Alert dialog error database
+                Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
+                intent.putExtra("toFunction", "ExecuteShelvesActivity");
+                CustomDialog.showErrorMessage(ExecuteShelvesActivity.this, "上架作業", "查無此藥品，請至資料庫新增! "+code+" not in database", intent);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -241,9 +222,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         return false;
     }
 
+    // Check if the user entered the same location multiple times
     private boolean wrongLocations() {
         List<String> locations = new ArrayList<>();
-        boolean same = false;
 
         for(int i = 0; i < myNumberPickerList.size(); i++) {
             MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
@@ -252,9 +233,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());
             String location_tmp = location1_tmp + location2_tmp + location3_tmp;
             locations.add(location_tmp);
-            Log.d("TAG", location_tmp);
         }
 
+        // Get the first number pickers values
         NumberPicker nbPicker1 = (NumberPicker) findViewById(R.id.locationone);
         NumberPicker nbPicker2 = (NumberPicker) findViewById(R.id.locationtwo);
         NumberPicker nbPicker3 = (NumberPicker) findViewById(R.id.locationthree);
@@ -264,6 +245,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
         String first = location01+location02+location03;
 
+        // Compare the first location value with the additional ones
         for(String l : locations) {
             if(first.equals(l)) {
                 return true;
@@ -304,77 +286,20 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
         // Alert dialog success
         showSuccessDialog();
-
     }
 
+    // Alert dialog error inserting in database
     private void showErrorDialog() {
-        // Alert dialog success
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
-        }
-        builder.setCancelable(false);
-        builder.setTitle("上架作業")
-                .setMessage("Error inserting in database")
-                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        Intent intent = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
+        CustomDialog.showSuccessMessage(ExecuteShelvesActivity.this, "上架作業", "Error inserting in database", intent);
     }
 
+    // Alert dialog success back to home or keep scanning
     private void showSuccessDialog() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
-        }
-        builder.setCancelable(false);
-        builder.setTitle("上架作業")
-                .setMessage("上架成功!")
-                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                })
-                .setNegativeButton(R.string.keep_scanning, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
-                        intent.putExtra("toFunction", "ExecuteShelvesActivity");
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_info)
-                .show();
-    }
-
-    private void showDatabaseErrorDialog() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(ExecuteShelvesActivity.this);
-        }
-        builder.setCancelable(false);
-        builder.setTitle("Error")
-                .setMessage("Error connecting to database")
-                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+        Intent intent1 = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
+        Intent intent2 = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
+        intent2.putExtra("toFunction", "ExecuteShelvesActivity");
+        CustomDialog.executeShelvesSuccessDialog(ExecuteShelvesActivity.this, "上架作業", "上架成功!", intent1, intent2);
     }
 
     @Override
