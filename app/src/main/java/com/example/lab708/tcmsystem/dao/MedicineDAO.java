@@ -1,5 +1,7 @@
 package com.example.lab708.tcmsystem.dao;
 
+import android.util.Log;
+
 import com.example.lab708.tcmsystem.classe.Medicine;
 
 import java.sql.Connection;

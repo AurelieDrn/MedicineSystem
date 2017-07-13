@@ -16,6 +16,7 @@ import com.example.lab708.tcmsystem.NewExtraPickup;
 import com.example.lab708.tcmsystem.NewRequire;
 import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.classe.Medicine;
+import com.example.lab708.tcmsystem.classe.NewRequirement;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
 
@@ -39,7 +40,7 @@ public class ScanActivity extends AppCompatActivity {
     private boolean barcodeScanned = false;
     private boolean previewing = true;
 
-    private ArrayList<String> newReqMedNum;
+    private ArrayList<NewRequirement> newReqMedNum;
 
     // String staffacc;
     private String nextFunction;
@@ -76,8 +77,8 @@ public class ScanActivity extends AppCompatActivity {
         Bundle bcode = this.getIntent().getExtras();
         nextFunction = bcode.getString("toFunction");
         // staffacc = bcode.getString("staffacc");
-        if(nextFunction.equals("NewRequire")) {
-            newReqMedNum = ((ArrayList<String>) bcode.getSerializable("arrayListNewReq"));
+        if(nextFunction.equals("NewRequirementActivity")) {
+            newReqMedNum = ((ArrayList<NewRequirement>) bcode.getSerializable("newRequirementList"));
         }
 
         FrameLayout preview = (FrameLayout) findViewById(R.id.cameraPreview);
@@ -175,6 +176,7 @@ public class ScanActivity extends AppCompatActivity {
                         }
                         else if(nextFunction.equals("NewRequirementActivity")) {
                             intent.setClass(ScanActivity.this, NewRequirementActivity.class);
+                            bcode.putSerializable("newRequirementList", newReqMedNum);
                         }
                         else if(nextFunction.equals("NewExtraPickup")){
                             intent.setClass(ScanActivity.this, NewExtraPickup.class);
