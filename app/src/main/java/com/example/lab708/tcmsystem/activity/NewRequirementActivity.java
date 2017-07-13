@@ -1,6 +1,9 @@
 package com.example.lab708.tcmsystem.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +40,7 @@ public class NewRequirementActivity extends AppCompatActivity {
     Spinner medicineQuantity_tv;
     Button delete_btn;
     Button add_btn;
+    Button submit_btn;
 
     TableRow row;
     TableLayout table;
@@ -58,7 +62,6 @@ public class NewRequirementActivity extends AppCompatActivity {
             newRequirementList = new ArrayList<>();
         }
 
-
         MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
         try {
             if(medicineDAO.find(this.code)) {
@@ -72,6 +75,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                 newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
                 // Add all the new requirements
                 addRows();
+
                 // Go back to scan to add a new requirement
                 add_btn = (Button) findViewById(R.id.new_requirement_add);
                 add_btn.setOnClickListener(new View.OnClickListener() {
@@ -83,6 +87,36 @@ public class NewRequirementActivity extends AppCompatActivity {
                         myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
                         intent.putExtras(myBundle);
                         startActivity(intent);
+                    }
+                });
+
+                // Submit
+                submit_btn = (Button) findViewById(R.id.new_requirement_submit);
+                submit_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder builder;
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+                        } else {
+                            builder = new AlertDialog.Builder(NewRequirementActivity.this);
+                        }
+                        builder.setCancelable(false);
+                        builder.setTitle("Emergency option")
+                                .setMessage("Is it an emergency requirement?")
+                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // continue with delete
+                                    }
+                                })
+                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+
                     }
                 });
             }

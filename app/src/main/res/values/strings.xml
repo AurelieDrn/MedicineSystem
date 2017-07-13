@@ -20,4 +20,6 @@
     <string name="submit">執行上架</string>
     <string name="back_home">Back to home screen</string>
     <string name="keep_scanning">Keep scanning</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.lab708.tcmsystem.dao;
 
+import com.example.lab708.tcmsystem.classe.NewRequirement;
 import com.example.lab708.tcmsystem.classe.Requirement;
 import com.example.lab708.tcmsystem.classe.Medicine;
 
@@ -68,5 +69,9 @@ public class RequirementDAO extends DAO<Requirement>{
             requirementList.add(requirement);
         }
         return requirementList;
+    }
+
+    public void createNewRequirements(ArrayList<NewRequirement> requirements) {
+
     }
 }
