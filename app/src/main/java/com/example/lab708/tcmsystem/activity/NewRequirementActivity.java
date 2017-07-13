@@ -51,56 +51,21 @@ public class NewRequirementActivity extends AppCompatActivity {
         bundle = this.getIntent().getExtras();
         code = bundle.getString("Code_Num");
         newRequirementList = ((ArrayList<NewRequirement>) bundle.getSerializable("newRequirementList"));
+        if(newRequirementList == null) {
+            newRequirementList = new ArrayList<>();
+        }
 
-        Log.d("Code", this.code);
-        showInformation();
-    }
-
-    private void showInformation() {
         MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
         try {
             if(medicineDAO.find(this.code)) {
-                table = (TableLayout) findViewById(R.id.new_requirement_tl);
-                this.index = table.indexOfChild(findViewById(R.id.new_requirement_row));
-                this.index++;
-
-                row = (TableRow) View.inflate(NewRequirementActivity.this, R.layout.row_layout_new_pickup_requirement, null);
-                table.addView(row, index);
-                this.index++;
-
-                medicineName_tv = (TextView) row.findViewById(R.id.row_layout_name);
-                medicineNumber_tv = (TextView) row.findViewById(R.id.row_layout_number);
-                medicineQuantity_tv = (Spinner) row.findViewById(R.id.row_layout_quantity);
-                delete_btn = (Button) row.findViewById(R.id.row_layout_button);
-
-                medicineDAO = DAOFactory.getMedicineDAO();
                 Medicine medicine = new Medicine();
                 try {
                     medicine = medicineDAO.select(code);
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
-                medicineNumber_tv.setText(medicine.getSerialNumber());
-                medicineName_tv.setText(medicine.getName());
-                List<String> spinnerArray =  new ArrayList<String>();
-                int quant = Integer.valueOf(medicine.getExperienceQuantity());
-
-                spinnerArray.add(medicine.getExperienceQuantity());
-                for(int i = 0; i < 4; i++) {
-                    quant += 10;
-                    spinnerArray.add(quant+"");
-                }
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerArray);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                medicineQuantity_tv.setAdapter(adapter);
-
-                delete_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        table.removeView(row);
-                    }
-                });
+                newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
+                addRows();
             }
             else {
                 // Alert dialog error database
@@ -111,5 +76,45 @@ public class NewRequirementActivity extends AppCompatActivity {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void addRows() {
+        table = (TableLayout) findViewById(R.id.new_requirement_tl);
+        this.index = table.indexOfChild(findViewById(R.id.new_requirement_row));
+        this.index++;
+
+        for(NewRequirement nr : newRequirementList) {
+            row = (TableRow) View.inflate(NewRequirementActivity.this, R.layout.row_layout_new_pickup_requirement, null);
+            table.addView(row, index);
+            this.index++;
+
+            medicineName_tv = (TextView) row.findViewById(R.id.row_layout_name);
+            medicineNumber_tv = (TextView) row.findViewById(R.id.row_layout_number);
+            medicineQuantity_tv = (Spinner) row.findViewById(R.id.row_layout_quantity);
+            delete_btn = (Button) row.findViewById(R.id.row_layout_button);
+
+            medicineNumber_tv.setText(nr.getMedicineNumber());
+            medicineName_tv.setText(nr.getMedicineName());
+
+            List<String> spinnerArray =  new ArrayList<String>();
+            int quant = Integer.valueOf(nr.getQuantity());
+            spinnerArray.add(String.valueOf(nr.getQuantity()));
+            for(int i = 0; i < 4; i++) {
+                quant += 10;
+                spinnerArray.add(quant+"");
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerArray);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            medicineQuantity_tv.setAdapter(adapter);
+
+            delete_btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    table.removeView(row);
+                }
+            });
+        }
+
     }
 }
