@@ -21,7 +21,9 @@ public class MedicineDAO extends DAO<Medicine>{
         if(result.first()) {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     public Medicine select(String code) throws SQLException {
@@ -30,6 +32,10 @@ public class MedicineDAO extends DAO<Medicine>{
         while(result.next()) {
             med.setName(result.getString("med_name"));
             med.setSerialNumber(result.getString("med_num"));
+            med.setExperienceQuantity(result.getString("med_expquan"));
+            med.setBrand(result.getString("med_bra"));
+            med.setFirmNumber(result.getString("med_firnum"));
+            med.setIngredients(result.getString("med_con"));
         }
         return med;
     }

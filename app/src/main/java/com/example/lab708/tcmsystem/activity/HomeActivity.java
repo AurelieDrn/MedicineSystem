@@ -18,6 +18,7 @@ public class HomeActivity extends AppCompatActivity {
         //final String account = getIntent().getExtras().getString("account");
         Button shelves = (Button) findViewById(R.id.shelves_btn);
         Button checkPickup = (Button) findViewById(R.id.check_pickup_btn);
+        Button newRequirement = (Button) findViewById(R.id.new_requirement);
 
         shelves.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,6 +44,14 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        // Toast.makeText(HomeActivity.this, account, Toast.LENGTH_SHORT).show();
+        newRequirement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scanActivity = new Intent();
+                scanActivity.setClass(HomeActivity.this, ScanActivity.class);
+                scanActivity.putExtra("toFunction", "NewRequirementActivity");
+                startActivity(scanActivity);
+            }
+        });
     }
 }

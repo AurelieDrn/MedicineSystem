@@ -1,11 +1,8 @@
 package com.example.lab708.tcmsystem.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,9 +11,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.classe.Staff;
+import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.StaffDAO;
 
 import java.sql.SQLException;
@@ -118,29 +116,11 @@ public class LoginActivity extends AppCompatActivity {
                 return true;
             }
         } catch (SQLException e) {
-            showErrorDialog();
+            CustomDialog.showSimpleErrorMessage(this, "Error", "Error connecting to database");
             e.printStackTrace();
         }
         return false;
     }
-
-    private void showErrorDialog() {
-        AlertDialog.Builder builder;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            builder = new AlertDialog.Builder(LoginActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-        } else {
-            builder = new AlertDialog.Builder(LoginActivity.this);
-        }
-        builder.setTitle("Error")
-                .setMessage("Error connecting to database")
-                .setPositiveButton(R.string.back_home, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
-
 }
 
 

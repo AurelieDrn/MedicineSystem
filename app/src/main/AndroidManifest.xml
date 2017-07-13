@@ -51,7 +51,8 @@
         <activity
             android:name=".activity.CheckPickupDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ExecutePickupActivity"></activity>
+        <activity android:name=".activity.ExecutePickupActivity" />
+        <activity android:name=".activity.NewRequirementActivity"></activity>
     </application>
 
 </manifest>

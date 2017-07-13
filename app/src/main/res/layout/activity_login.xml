@@ -42,15 +42,7 @@
             android:textSize="30sp"
             android:text="@string/log_in"
             />
-        <Button
-            android:id="@+id/new_pickup_btn"
-            android:layout_below="@id/log_in"
-            android:layout_width="500dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
-            android:textSize="30sp"
-            android:text="@string/new_pickup_requierement"
-            />
+
     </RelativeLayout>
 
 </RelativeLayout>

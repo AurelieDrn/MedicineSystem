@@ -11,9 +11,13 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.CameraPreview;
+import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.NewExtraPickup;
 import com.example.lab708.tcmsystem.NewRequire;
 import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.classe.Medicine;
+import com.example.lab708.tcmsystem.dao.DAOFactory;
+import com.example.lab708.tcmsystem.dao.MedicineDAO;
 
 import net.sourceforge.zbar.Config;
 import net.sourceforge.zbar.Image;
@@ -22,6 +26,7 @@ import net.sourceforge.zbar.Symbol;
 import net.sourceforge.zbar.SymbolSet;
 
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ScanActivity extends AppCompatActivity {
@@ -156,7 +161,8 @@ public class ScanActivity extends AppCompatActivity {
                         Toast toast = Toast.makeText(ScanActivity.this, "請重新掃描!", Toast.LENGTH_SHORT);
                         toast.show();
 
-                    } else {
+                    }
+                    else {
                         // Intent to ExecuteShelvesActivity or NewExtraPickup or NewRequire
                         Intent intent = new Intent();
 
@@ -166,9 +172,14 @@ public class ScanActivity extends AppCompatActivity {
 
                         if(nextFunction.equals("ExecuteShelvesActivity")) {
                             intent.setClass(ScanActivity.this, ExecuteShelvesActivity.class);
-                        }else if(nextFunction.equals("NewExtraPickup")){
+                        }
+                        else if(nextFunction.equals("NewRequirementActivity")) {
+                            intent.setClass(ScanActivity.this, NewRequirementActivity.class);
+                        }
+                        else if(nextFunction.equals("NewExtraPickup")){
                             intent.setClass(ScanActivity.this, NewExtraPickup.class);
-                        }else if(nextFunction.equals("NewRequire")){
+                        }
+                        else if(nextFunction.equals("NewRequire")){
                             intent.setClass(ScanActivity.this, NewRequire.class);
                             bcode.putSerializable("arrayListNewReq", newReqMedNum);//arraylist
                         }
@@ -241,6 +252,22 @@ public class ScanActivity extends AppCompatActivity {
         Intent intent = new Intent(ScanActivity.this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    private boolean checkCodeInDatabase(String code) {
+        MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
+        boolean check = true;
+        try {
+            if(medicineDAO.find(code)) {
+                check = true;
+            }
+            else {
+                check = false;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return check;
     }
 
 }
