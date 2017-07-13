@@ -12,9 +12,9 @@
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <android:uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <android:uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -51,8 +51,10 @@
         <activity
             android:name=".activity.CheckPickupDetailsActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.ExecutePickupActivity" />
-        <activity android:name=".activity.NewRequirementActivity"></activity>
+        <activity android:name=".activity.ExecutePickupActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.NewRequirementActivity"
+                  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

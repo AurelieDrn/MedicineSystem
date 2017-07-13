@@ -69,4 +69,13 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/text" />
+
+    <Button
+        android:id="@+id/new_requirement_submit"
+        android:text="Submit"
+        android:layout_below="@id/new_requirement_add"
+        android:layout_width="@dimen/btn_width"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/text" />
 </RelativeLayout>

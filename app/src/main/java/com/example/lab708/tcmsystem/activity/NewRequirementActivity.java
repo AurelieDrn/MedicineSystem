@@ -58,6 +58,7 @@ public class NewRequirementActivity extends AppCompatActivity {
             newRequirementList = new ArrayList<>();
         }
 
+
         MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
         try {
             if(medicineDAO.find(this.code)) {
@@ -67,9 +68,11 @@ public class NewRequirementActivity extends AppCompatActivity {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+                // Add the new requirement to the list
                 newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
+                // Add all the new requirements
                 addRows();
-
+                // Go back to scan to add a new requirement
                 add_btn = (Button) findViewById(R.id.new_requirement_add);
                 add_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -131,21 +134,20 @@ public class NewRequirementActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // Spinner
+            // Initialize spinner
             List<String> spinnerArray =  new ArrayList<String>();
-            int exp = Integer.valueOf(expQuantity);
-
             for(int i = 5; i <= 20; i+=5) {
                 spinnerArray.add(i+"");
             }
-
+            // Set adapter
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerArray);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             medicineQuantity_tv.setAdapter(adapter);
-
+            // Set default selected item
             int spinnerPosition = adapter.getPosition(String.valueOf(nr.getQuantity()));
             medicineQuantity_tv.setSelection(spinnerPosition);
 
+            // Delete
             delete_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -160,7 +162,6 @@ public class NewRequirementActivity extends AppCompatActivity {
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     String q = medicineQuantity_tv.getSelectedItem().toString();
                     nr.setQuantity(Integer.valueOf(q));
-                    Log.d("Q", q);
                 }
 
                 @Override
