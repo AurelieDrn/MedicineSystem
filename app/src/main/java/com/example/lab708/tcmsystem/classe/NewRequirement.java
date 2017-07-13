@@ -1,10 +1,12 @@
 package com.example.lab708.tcmsystem.classe;
 
+import java.io.Serializable;
+
 /**
  * Created by Aurelie on 13/07/2017.
  */
 
-public class NewRequirement {
+public class NewRequirement implements Serializable {
 
     private String medicineNumber;
     private String medicineName;
