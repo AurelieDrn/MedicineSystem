@@ -1,5 +1,7 @@
 package com.example.lab708.tcmsystem.dao;
 
+import android.util.Log;
+
 import com.example.lab708.tcmsystem.classe.NewRequirement;
 import com.example.lab708.tcmsystem.classe.Requirement;
 import com.example.lab708.tcmsystem.classe.Medicine;
@@ -71,7 +73,19 @@ public class RequirementDAO extends DAO<Requirement>{
         return requirementList;
     }
 
-    public void createNewRequirements(ArrayList<NewRequirement> requirements) {
+    public void createNewRequirements(List<NewRequirement> requirements, int status) throws SQLException {
+        this.connect.createStatement().executeQuery("INSERT INTO `Pickup`(`pic_sta`, `pic_pro`) VALUES ("+status+",0)");
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pic_num` FROM `Pickup` ORDER BY `pic_num` DESC;");
+        int pickupNumber = -1;
+        if(result.next()) {
+            pickupNumber = result.getInt(1);
+        }
 
+        for(NewRequirement nr : requirements) {
+            String medNum = nr.getMedicineNumber();
+            int quantity = nr.getQuantity();
+
+            this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`pickup_mednum`, `pic_num`, `pickup_quantity`) VALUES ('"+medNum+"',"+pickupNumber+","+quantity+")");
+        }
     }
 }

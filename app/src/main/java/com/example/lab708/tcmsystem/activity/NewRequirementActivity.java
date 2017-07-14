@@ -22,6 +22,7 @@ import com.example.lab708.tcmsystem.classe.Medicine;
 import com.example.lab708.tcmsystem.classe.NewRequirement;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
+import com.example.lab708.tcmsystem.dao.RequirementDAO;
 
 import org.w3c.dom.Text;
 
@@ -35,9 +36,6 @@ public class NewRequirementActivity extends AppCompatActivity {
     Bundle bundle;
     String code;
 
-    TextView medicineNumber_tv;
-    TextView medicineName_tv;
-    Spinner medicineQuantity_tv;
     Button delete_btn;
     Button add_btn;
     Button submit_btn;
@@ -95,6 +93,8 @@ public class NewRequirementActivity extends AppCompatActivity {
                 submit_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+
                         AlertDialog.Builder builder;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -106,17 +106,32 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 .setMessage("Is it an emergency requirement?")
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // continue with delete
+                                        try {
+                                            requirementDAO.createNewRequirements(newRequirementList, 1);
+                                            showSuccessDialog();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                            Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
+                                            intent.putExtra("toFunction", "NewRequirementActivity");
+                                            CustomDialog.showErrorMessage(NewRequirementActivity.this, "Unexpected error", "Please try again", intent);
+                                        }
                                     }
                                 })
                                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        // do nothing
+                                        try {
+                                            requirementDAO.createNewRequirements(newRequirementList, 0);
+                                            showSuccessDialog();
+                                        } catch (SQLException e) {
+                                            e.printStackTrace();
+                                            Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
+                                            intent.putExtra("toFunction", "NewRequirementActivity");
+                                            CustomDialog.showErrorMessage(NewRequirementActivity.this, "Unexpected error", "Please try again", intent);
+                                        }
                                     }
                                 })
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
-
                     }
                 });
             }
@@ -151,22 +166,6 @@ public class NewRequirementActivity extends AppCompatActivity {
 
             medicineNumber_tv.setText(nr.getMedicineNumber());
             medicineName_tv.setText(nr.getMedicineName());
-
-            String expQuantity = "";
-            MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
-            try {
-                if (medicineDAO.find(this.code)) {
-                    Medicine medicine = new Medicine();
-                    try {
-                        medicine = medicineDAO.select(code);
-                         expQuantity = medicine.getExperienceQuantity();
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 
             // Initialize spinner
             List<String> spinnerArray =  new ArrayList<String>();
@@ -204,6 +203,15 @@ public class NewRequirementActivity extends AppCompatActivity {
                 }
             });
         }
+    }
 
+    private void showSuccessDialog() {
+        // Success
+        Intent intent1 = new Intent(NewRequirementActivity.this, HomeActivity.class);
+        Intent intent2 = new Intent(NewRequirementActivity.this, ScanActivity.class);
+        intent2.putExtra("toFunction", "NewRequirementActivity");
+        int button1 = R.string.back_home;
+        int button2 = R.string.keep_scanning;
+        CustomDialog.showSuccessDialogTwoOptions(NewRequirementActivity.this, "Success!", "Your requirement was successfully sent", intent1, intent2, button1, button2);
     }
 }
