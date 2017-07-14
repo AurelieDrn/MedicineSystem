@@ -210,4 +210,32 @@ public class NewRequirementActivity extends AppCompatActivity {
         Intent intent = new Intent(NewRequirementActivity.this, HomeActivity.class);
         CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "Database error", intent, R.string.back_home);
     }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(NewRequirementActivity.this);
+        }
+        builder.setCancelable(false);
+        builder.setTitle("Warning!")
+                .setMessage("Are you sure you want to leave this page? If you press yes, all the information will be lost")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(NewRequirementActivity.this, HomeActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+
+    }
 }
