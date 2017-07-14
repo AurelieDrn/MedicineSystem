@@ -3,10 +3,9 @@ package com.example.lab708.tcmsystem.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,8 +23,6 @@ import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
 
-import org.w3c.dom.Text;
-
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -40,7 +37,6 @@ public class NewRequirementActivity extends AppCompatActivity {
     Button add_btn;
     Button submit_btn;
 
-    TableRow row;
     TableLayout table;
 
     int index;
@@ -111,9 +107,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                                             showSuccessDialog();
                                         } catch (SQLException e) {
                                             e.printStackTrace();
-                                            Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
-                                            intent.putExtra("toFunction", "NewRequirementActivity");
-                                            CustomDialog.showErrorMessage(NewRequirementActivity.this, "Unexpected error", "Please try again", intent);
+                                            showErrorDialog();
                                         }
                                     }
                                 })
@@ -124,9 +118,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                                             showSuccessDialog();
                                         } catch (SQLException e) {
                                             e.printStackTrace();
-                                            Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
-                                            intent.putExtra("toFunction", "NewRequirementActivity");
-                                            CustomDialog.showErrorMessage(NewRequirementActivity.this, "Unexpected error", "Please try again", intent);
+                                            showErrorDialog();
                                         }
                                     }
                                 })
@@ -142,7 +134,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                 Bundle myBundle = new Bundle();
                 myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
                 intent.putExtras(myBundle);
-                CustomDialog.showErrorMessage(NewRequirementActivity.this, "上架作業", "查無此藥品，請至資料庫新增! " + code + " not in database", intent);
+                CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "查無此藥品，請至資料庫新增! " + code + " not in database", intent, R.string.back);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -206,12 +198,16 @@ public class NewRequirementActivity extends AppCompatActivity {
     }
 
     private void showSuccessDialog() {
-        // Success
         Intent intent1 = new Intent(NewRequirementActivity.this, HomeActivity.class);
         Intent intent2 = new Intent(NewRequirementActivity.this, ScanActivity.class);
         intent2.putExtra("toFunction", "NewRequirementActivity");
         int button1 = R.string.back_home;
         int button2 = R.string.keep_scanning;
         CustomDialog.showSuccessDialogTwoOptions(NewRequirementActivity.this, "Success!", "Your requirement was successfully sent", intent1, intent2, button1, button2);
+    }
+
+    private void showErrorDialog() {
+        Intent intent = new Intent(NewRequirementActivity.this, HomeActivity.class);
+        CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "Database error", intent, R.string.back_home);
     }
 }

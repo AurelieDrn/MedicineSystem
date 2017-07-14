@@ -22,4 +22,5 @@
     <string name="keep_scanning">Keep scanning</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="back">Go back</string>
 </resources>

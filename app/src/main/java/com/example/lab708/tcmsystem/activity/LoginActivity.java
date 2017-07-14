@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
 
         logIn.setEnabled(false);
 
-
         // log in listener
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                 return true;
             }
         } catch (SQLException e) {
-            CustomDialog.showSimpleErrorMessage(this, "Error", "Error connecting to database");
+            CustomDialog.showSimpleErrorDialog(this, "Error", "Database error");
             e.printStackTrace();
         }
         return false;
