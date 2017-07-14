@@ -11,11 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.CameraPreview;
-import com.example.lab708.tcmsystem.CustomDialog;
-import com.example.lab708.tcmsystem.NewExtraPickup;
 import com.example.lab708.tcmsystem.NewRequire;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.Medicine;
 import com.example.lab708.tcmsystem.classe.NewRequirement;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
@@ -177,13 +174,6 @@ public class ScanActivity extends AppCompatActivity {
                         else if(nextFunction.equals("NewRequirementActivity")) {
                             intent.setClass(ScanActivity.this, NewRequirementActivity.class);
                             bcode.putSerializable("newRequirementList", newReqMedNum);
-                        }
-                        else if(nextFunction.equals("NewExtraPickup")){
-                            intent.setClass(ScanActivity.this, NewExtraPickup.class);
-                        }
-                        else if(nextFunction.equals("NewRequire")){
-                            intent.setClass(ScanActivity.this, NewRequire.class);
-                            bcode.putSerializable("arrayListNewReq", newReqMedNum);//arraylist
                         }
                         intent.putExtras(bcode);
                         startActivity(intent);

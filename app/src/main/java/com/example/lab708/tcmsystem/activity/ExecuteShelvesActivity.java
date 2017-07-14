@@ -17,33 +17,31 @@ import android.widget.Toast;
 import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.MyNumberPicker;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.classe.Medicine;
-import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.classe.Pile;
+import com.example.lab708.tcmsystem.dao.DAOFactory;
+import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ExecuteShelvesActivity extends AppCompatActivity{
 
-    private TextView med_num,med_name;
-    private EditText editquantity;
-    private NumberPicker editlocationone, editlocationtwo, editlocationthree;
-    private Button newnew, endend;
-    private DatePicker editdate;
+    private TextView serialNumber_tv, medName_tv;
+    private EditText quantity_et;
+    private NumberPicker shelf_np, layer_np, pile_np;
+    private Button submit_btn, add_btn;
+    private DatePicker expDate_dp;
     private TableLayout table;
 
     private String code;
     private String staffacc;
-    private String worktime;
 
     private int index;
 
-    private List<MyNumberPicker> myNumberPickerList;
+    private List<MyNumberPicker> numberPickerList;
     private List<EditText> editTextList;
 
     @Override
@@ -56,48 +54,44 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             StrictMode.setThreadPolicy(policy);
         }
 
-        this.table = (TableLayout) findViewById(R.id.table);
+        this.table = (TableLayout) findViewById(R.id.execute_shelves_tl);
 
         // Index of the row I want to insert after
         this.index = table.indexOfChild(findViewById(R.id.lastRow));
         this.index++;
 
-        myNumberPickerList = new ArrayList<>();
+        numberPickerList = new ArrayList<>();
         editTextList = new ArrayList<>();
 
-        med_num = (TextView) findViewById(R.id.v_MDnumber) ;
-        med_name = (TextView) findViewById(R.id.v_MDname) ;
-        editdate = (DatePicker) findViewById(R.id.v_MDdate);
-        editquantity = (EditText) findViewById(R.id.quantity) ;
-        editlocationone = (NumberPicker) findViewById(R.id.locationone);
-        editlocationtwo = (NumberPicker) findViewById(R.id.locationtwo) ;
-        editlocationthree = (NumberPicker) findViewById(R.id.locationthree) ;
-        newnew = (Button) findViewById(R.id.newbutton) ;
-        endend = (Button) findViewById(R.id.endbutton) ;
+        serialNumber_tv = (TextView) findViewById(R.id.execute_shelves_med_number) ;
+        medName_tv = (TextView) findViewById(R.id.execute_shelve_med_name) ;
+        expDate_dp = (DatePicker) findViewById(R.id.execute_shelves_date);
+        quantity_et = (EditText) findViewById(R.id.execute_shelves_quantity) ;
+        shelf_np = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
+        layer_np = (NumberPicker) findViewById(R.id.execute_shelves_layer) ;
+        pile_np = (NumberPicker) findViewById(R.id.execute_shelves_pile) ;
+        submit_btn = (Button) findViewById(R.id.execute_shelves_submit) ;
+        add_btn = (Button) findViewById(R.id.execute_shelves_add) ;
 
-        //get Bundle Code_Num&staffac
+        // Get scanned code
         Bundle bcode = this.getIntent().getExtras();
         code = bcode.getString("Code_Num");
 
-        //Bundle bstaffacc = this.getIntent().getExtras();
-        //staffacc = bstaffacc.getString("staffacc");
+        /*
+        Bundle bstaffacc = this.getIntent().getExtras();
+        staffacc = bstaffacc.getString("staffacc");
+        */
+        shelf_np.setMinValue(1);
+        shelf_np.setMaxValue(10);
+        layer_np.setMinValue(1);
+        layer_np.setMaxValue(10);
+        pile_np.setMinValue(1);
+        pile_np.setMaxValue(10);
 
-        //System.out.println("staffacc  "+staffacc);
-
-        editlocationone.setMinValue(1);
-        editlocationone.setMaxValue(10);
-        editlocationtwo.setMinValue(1);
-        editlocationtwo.setMaxValue(10);
-        editlocationthree.setMinValue(1);
-        editlocationthree.setMaxValue(10);
-
-        SimpleDateFormat sDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        worktime = sDateFormat.format(new java.util.Date());
-
-        showInformation();
+       showInformation();
 
         // Submit
-        newnew.setOnClickListener(new View.OnClickListener() {
+        submit_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(missingFields()) {
@@ -108,27 +102,26 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                     Toast.makeText(ExecuteShelvesActivity.this, "All the locations have to be different", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    int year = editdate.getYear();
-                    int month = editdate.getMonth()+1;
-                    int day = editdate.getDayOfMonth();
-                    String wdate = year + "-" + month + "-" + day;
+                    int year = expDate_dp.getYear();
+                    int month = expDate_dp.getMonth()+1;
+                    int day = expDate_dp.getDayOfMonth();
+                    String date = year + "-" + month + "-" + day;
 
-                    String quantity = String.valueOf(editquantity.getText());
-                    int intquantity = Integer.valueOf(quantity);
+                    int quantity = Integer.valueOf(String.valueOf(quantity_et.getText()));
 
-                    String locationone = String.valueOf(editlocationone.getValue());
-                    String locationtwo = String.valueOf(editlocationtwo.getValue());
-                    String locationthree = String.valueOf(editlocationthree.getValue());
-                    String location = locationone+locationtwo+locationthree;
+                    String locationShelf = String.valueOf(shelf_np.getValue());
+                    String locationLayer = String.valueOf(layer_np.getValue());
+                    String locationPile = String.valueOf(pile_np.getValue());
+                    String location = locationShelf+locationLayer+locationPile;
 
-                    insertInDatabase(location, intquantity, wdate);
+                    insertInDatabase(location, quantity, date);
                 }
 
             }
         });
 
         // Add more location
-        endend.setOnClickListener(new View.OnClickListener() {
+        add_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addNewLocation();
@@ -142,8 +135,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         try {
             if(medicineDAO.find(this.code)) {
                 Medicine m = medicineDAO.select(this.code);
-                med_num.setText(m.getSerialNumber());
-                med_name.setText(m.getName());
+                serialNumber_tv.setText(m.getSerialNumber());
+                medName_tv.setText(m.getName());
             }
             else {
                 // Alert dialog error database
@@ -183,7 +176,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
         // Add them to the list
         final MyNumberPicker myNumberPicker = new MyNumberPicker(location1, location2, location3);
-        myNumberPickerList.add(myNumberPicker);
+        numberPickerList.add(myNumberPicker);
         editTextList.add(additionalQuant);
 
         // Delete the row
@@ -193,7 +186,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             public void onClick(View v) {
                 table.removeView(row);
                 editTextList.remove(additionalQuant);
-                myNumberPickerList.remove(myNumberPicker);
+                numberPickerList.remove(myNumberPicker);
                 index--;
             }
         });
@@ -201,7 +194,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
     // Check if the user did not fill in all the fields
     private boolean missingFields() {
-        if(editquantity.getText().toString().matches("")) {
+        if(quantity_et.getText().toString().matches("")) {
             return true;
         }
         else if(missingAdditionalQuantities()) {
@@ -226,8 +219,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     private boolean wrongLocations() {
         List<String> locations = new ArrayList<>();
 
-        for(int i = 0; i < myNumberPickerList.size(); i++) {
-            MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
+        for(int i = 0; i < numberPickerList.size(); i++) {
+            MyNumberPicker myNumberPicker_tmp = numberPickerList.get(i);
             String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
             String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
             String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());
@@ -236,9 +229,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         }
 
         // Get the first number pickers values
-        NumberPicker nbPicker1 = (NumberPicker) findViewById(R.id.locationone);
-        NumberPicker nbPicker2 = (NumberPicker) findViewById(R.id.locationtwo);
-        NumberPicker nbPicker3 = (NumberPicker) findViewById(R.id.locationthree);
+        NumberPicker nbPicker1 = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
+        NumberPicker nbPicker2 = (NumberPicker) findViewById(R.id.execute_shelves_layer);
+        NumberPicker nbPicker3 = (NumberPicker) findViewById(R.id.execute_shelves_pile);
         String location01 = String.valueOf(nbPicker1.getValue());
         String location02 = String.valueOf(nbPicker2.getValue());
         String location03 = String.valueOf(nbPicker3.getValue());
@@ -267,7 +260,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
         // Execute requests for additional locations
         for(int i = 0; i < editTextList.size(); i++) {
-            MyNumberPicker myNumberPicker_tmp = myNumberPickerList.get(i);
+            MyNumberPicker myNumberPicker_tmp = numberPickerList.get(i);
             String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
             String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
             String location3_tmp = String.valueOf(myNumberPicker_tmp.getLocation3().getValue());

@@ -42,7 +42,6 @@
         <activity
             android:name=".CheckPickup"
             android:screenOrientation="portrait" />
-        <activity android:name=".NewExtraPickup" />
         <activity android:name=".NewRequire" />
         <activity android:name=".NewRequireList" />
         <activity

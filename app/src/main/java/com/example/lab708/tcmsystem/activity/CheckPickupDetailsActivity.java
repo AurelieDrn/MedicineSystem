@@ -19,9 +19,8 @@ public class CheckPickupDetailsActivity extends AppCompatActivity {
 
         Bundle data = getIntent().getExtras();
         ArrayList<RequirementDetail> reqDetailList = (ArrayList) data.getParcelableArrayList("reqDetailList");
-        //Log.d("REQ", reqDetailList.toString());
-        // Create the adapter to convert the array to views
 
+        // Create the adapter to convert the array to views
         RequirementDetailsAdapter adapter = new RequirementDetailsAdapter(this, reqDetailList);
         // Attach the adapter to a ListView
         ListView listView = (ListView) findViewById(R.id.check_pickup_details_lv);
