@@ -284,7 +284,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     // Alert dialog error inserting in database
     private void showErrorDialog() {
         Intent intent = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
-        CustomDialog.showSuccessMessage(ExecuteShelvesActivity.this, "上架作業", "Error inserting in database", intent);
+        CustomDialog.showErrorDialogOneOption(ExecuteShelvesActivity.this, "Error!", "Error inserting in database", intent, R.string.back_home);
     }
 
     // Alert dialog success back to home or keep scanning
@@ -292,7 +292,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         Intent intent1 = new Intent(ExecuteShelvesActivity.this, HomeActivity.class);
         Intent intent2 = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
         intent2.putExtra("toFunction", "ExecuteShelvesActivity");
-        CustomDialog.executeShelvesSuccessDialog(ExecuteShelvesActivity.this, "上架作業", "上架成功!", intent1, intent2);
+        CustomDialog.showSuccessDialogTwoOptions(ExecuteShelvesActivity.this, "Success!", "上架成功!", intent2, intent1, R.string.keep_scanning, R.string.back_home);
     }
 
     @Override
