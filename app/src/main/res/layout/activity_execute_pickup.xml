@@ -10,97 +10,11 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.lab708.tcmsystem.activity.ExecutePickupActivity">
 
-    <TextView
-        android:id="@+id/title_execute_pickup"
-        android:layout_centerHorizontal="true"
+    <Button
+        android:id="@+id/execute_pu_go"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/textview_big_1_size"
-        android:layout_marginTop="@dimen/margin_title"
-        android:text="Medicine to pick up"
-        />
-
-    <TableLayout
-        android:layout_below="@id/title_execute_pickup"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:stretchColumns="*"
-        android:layout_centerHorizontal="true">
-
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"
-                android:text="Serial number"/>
-            <TextView
-                android:id="@+id/exe_pu_serial_number"
-                android:textAlignment="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"
-                android:text="Medicine name"/>
-            <TextView
-                android:id="@+id/exe_pu_med_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"
-                android:text="Medicine location"/>
-            <TextView
-                android:id="@+id/exe_pu_med_location"
-                android:textAlignment="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"
-                android:text="Quantity in stock"/>
-            <TextView
-                android:id="@+id/exe_pu_quantity_stock"
-                android:textAlignment="center"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"/>
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:layout_width="0dp"
-                android:textAlignment="center"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/textview_middle_size"
-                android:text="Quantity to pick up"/>
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content">
-                <EditText
-                    android:id="@+id/exe_pu_quant_pick"
-                    android:layout_height="wrap_content"
-                    android:layout_width="match_parent"
-                    android:inputType="numberDecimal"
-                    android:ems="10" />
-            </RelativeLayout>
-
-        </TableRow>
-    </TableLayout>
-
+        android:text="Go pick up medicines"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

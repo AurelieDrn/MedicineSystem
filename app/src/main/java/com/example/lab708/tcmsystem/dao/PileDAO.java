@@ -4,6 +4,7 @@ package com.example.lab708.tcmsystem.dao;
  * Created by Aurelie on 06/07/2017.
  */
 
+import com.example.lab708.tcmsystem.classe.Pickup;
 import com.example.lab708.tcmsystem.classe.QuantityLocation;
 import com.example.lab708.tcmsystem.classe.Pile;
 
@@ -54,11 +55,15 @@ public class PileDAO extends DAO<Pile> {
     }
 
     public int getTotalQuantity(String medNumber) throws SQLException {
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT COUNT(`pil_quan`) FROM `Pile` WHERE `pile_mednum` = "+medNumber);
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT SUM(`pil_quan`) FROM `Pile` WHERE `pile_mednum` = "+medNumber);
         if(result.next()) {
             return result.getInt(1);
         }
         return -1;
     }
 
+    public void executePickUp(Pickup p, int quantity) throws SQLException {
+        this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pil_quan` = `pil_quan`-"+quantity+" WHERE `pile_mednum` = '"+p.getSerialNumber()+"' AND `pil_loc` = '"+p.getLocation()+"'");
+        this.connect.createStatement().executeQuery("DELETE FROM `Pile` WHERE `pil_quan` <= 0");
+    }
 }

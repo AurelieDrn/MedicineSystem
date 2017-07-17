@@ -128,6 +128,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement>
                 Intent executePickupActivity = new Intent();
                 executePickupActivity.setClass(v.getContext(), ExecutePickupActivity.class);
                 executePickupActivity.putParcelableArrayListExtra("pickupList", (ArrayList<? extends Parcelable>) pickupList);
+                executePickupActivity.putExtra("id", req.getNumber());
                 v.getContext().startActivity(executePickupActivity);
 
             }
