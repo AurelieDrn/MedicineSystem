@@ -153,24 +153,12 @@ public class NewRequirementActivity extends AppCompatActivity {
 
             final TextView medicineName_tv = (TextView) row.findViewById(R.id.row_layout_name);
             final TextView medicineNumber_tv = (TextView) row.findViewById(R.id.row_layout_number);
-            final Spinner medicineQuantity_tv = (Spinner) row.findViewById(R.id.row_layout_quantity);
+            final TextView medicineQuantity_tv = (TextView) row.findViewById(R.id.row_layout_quantity);
             delete_btn = (Button) row.findViewById(R.id.row_layout_button);
 
             medicineNumber_tv.setText(nr.getMedicineNumber());
             medicineName_tv.setText(nr.getMedicineName());
-
-            // Initialize spinner
-            List<String> spinnerArray =  new ArrayList<String>();
-            for(int i = 5; i <= 20; i+=5) {
-                spinnerArray.add(i+"");
-            }
-            // Set adapter
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, spinnerArray);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            medicineQuantity_tv.setAdapter(adapter);
-            // Set default selected item
-            int spinnerPosition = adapter.getPosition(String.valueOf(nr.getQuantity()));
-            medicineQuantity_tv.setSelection(spinnerPosition);
+            medicineQuantity_tv.setText(nr.getQuantity()+"");
 
             // Delete
             delete_btn.setOnClickListener(new View.OnClickListener() {
@@ -181,19 +169,6 @@ public class NewRequirementActivity extends AppCompatActivity {
                 }
             });
 
-            // Update newRequirementList when quantity changes
-            medicineQuantity_tv.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    String q = medicineQuantity_tv.getSelectedItem().toString();
-                    nr.setQuantity(Integer.valueOf(q));
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-
-                }
-            });
         }
     }
 
