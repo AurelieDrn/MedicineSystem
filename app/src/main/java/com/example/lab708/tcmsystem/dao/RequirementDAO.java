@@ -100,6 +100,7 @@ public class RequirementDAO extends DAO<Requirement>{
 
     public void deleteRequirement(int id) throws SQLException {
         this.connect.createStatement().executeQuery("DELETE FROM `Pickup` WHERE `pic_num` = "+id);
+        Log.d("id", String.valueOf(id));
         this.connect.createStatement().executeQuery("DELETE FROM `PickupMed` WHERE `pic_num` = "+id);
     }
 }

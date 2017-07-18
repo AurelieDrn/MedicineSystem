@@ -78,11 +78,12 @@ public class ExecutePickupActivity extends AppCompatActivity {
     private void updateRxMsg(String rxmsg){
         Log.d("QUANT", rxmsg);
 
-        if(pickupList.isEmpty() == false) {
+        if(!pickupList.isEmpty()) {
             PileDAO pileDAO = DAOFactory.getPileDAO();
             try {
                 pileDAO.executePickUp(pickupList.get(0), Integer.valueOf(rxmsg));
                 pickupList.remove(0);
+
                 if(pickupList.isEmpty()) {
                     RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
                     try {

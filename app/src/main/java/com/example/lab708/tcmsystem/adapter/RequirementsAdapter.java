@@ -3,6 +3,7 @@ package com.example.lab708.tcmsystem.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,8 +30,10 @@ import java.util.List;
  * Created by Aurelie on 07/07/2017.
  */
 
-public class RequirementsAdapter extends ArrayAdapter<Requirement>
-{
+public class RequirementsAdapter extends ArrayAdapter<Requirement> {
+
+    private int requirementId;
+
     public RequirementsAdapter(Context context, ArrayList<Requirement> requirements) {
         super(context, 0, requirements);
     }
@@ -39,6 +42,8 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement>
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
         Requirement requirement = getItem(position);
+        requirementId = Integer.valueOf(requirement.getNumber());
+
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_check_pickup, parent, false);
@@ -128,7 +133,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement>
                 Intent executePickupActivity = new Intent();
                 executePickupActivity.setClass(v.getContext(), ExecutePickupActivity.class);
                 executePickupActivity.putParcelableArrayListExtra("pickupList", (ArrayList<? extends Parcelable>) pickupList);
-                executePickupActivity.putExtra("id", req.getNumber());
+                executePickupActivity.putExtra("id", requirementId);
                 v.getContext().startActivity(executePickupActivity);
 
             }
