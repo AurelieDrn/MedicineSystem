@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -67,6 +68,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                 }
                 // Add the new requirement to the list
                 newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
+                Log.d("new require", newRequirementList.toString());
                 // Add all the new requirements
                 addRows();
 

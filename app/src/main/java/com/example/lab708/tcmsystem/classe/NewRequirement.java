@@ -47,4 +47,13 @@ public class NewRequirement implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public String toString() {
+        return "NewRequirement{" +
+                "medicineName='" + medicineName + '\'' +
+                ", medicineNumber='" + medicineNumber + '\'' +
+                ", quantity=" + quantity +
+                '}';
+    }
 }

@@ -85,15 +85,15 @@ public class RequirementDAO extends DAO<Requirement>{
             String medNum = nr.getMedicineNumber();
             int quantity = nr.getQuantity();
 
-            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT * FROM `PickupMed` WHERE `pic_num` = "+pickupNumber);
+            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT * FROM `PickupMed` WHERE `pickup_mednum` = "+pickupNumber);
             if(result2.next()) {
-                String pickup_mednum = result2.getString("pickup_mednum");
+                String pickup_mednum = result2.getString("pickupickup_mednump_mednum");
                 int pickup_quantity = result2.getInt("pickup_quantity");
                 int q = quantity + pickup_quantity;
                 this.connect.createStatement().executeQuery("UPDATE `PickupMed` SET `pickup_quantity`="+q+" WHERE `pickup_mednum` = "+pickup_mednum+" AND `pic_num` = "+pickupNumber);
             }
             else {
-                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`pickup_mednum`, `pic_num`, `pickup_quantity`) VALUES ('"+medNum+"',"+pickupNumber+","+quantity+")");
+                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`pickup_mednum`, `pic_num`, `pickup_quantity`) VALUES ("+medNum+","+pickupNumber+","+quantity+")");
             }
         }
     }

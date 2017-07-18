@@ -1,5 +1,6 @@
 package com.example.lab708.tcmsystem.activity;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -76,8 +77,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
     }
 
     private void updateRxMsg(String rxmsg){
-        Log.d("QUANT", rxmsg);
-
         if(!pickupList.isEmpty()) {
             PileDAO pileDAO = DAOFactory.getPileDAO();
             try {
@@ -92,6 +91,10 @@ public class ExecutePickupActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     clientThread.txMsg("END");
+
+                    Intent intent = new Intent(ExecutePickupActivity.this, CheckPickupActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
                 else {
                     sendRequirement();
@@ -143,5 +146,12 @@ public class ExecutePickupActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(ExecutePickupActivity.this, CheckPickupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 }
