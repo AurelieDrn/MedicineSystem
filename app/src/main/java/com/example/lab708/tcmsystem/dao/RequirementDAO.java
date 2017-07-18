@@ -100,7 +100,25 @@ public class RequirementDAO extends DAO<Requirement>{
 
     public void deleteRequirement(int id) throws SQLException {
         this.connect.createStatement().executeQuery("DELETE FROM `Pickup` WHERE `pic_num` = "+id);
-        Log.d("id", String.valueOf(id));
         this.connect.createStatement().executeQuery("DELETE FROM `PickupMed` WHERE `pic_num` = "+id);
+    }
+
+    // check if the pickup requirement cannot be fulfilled
+    public boolean medOutOfStock(int requirementId) throws SQLException {
+        boolean outOfStock = false;
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickup_mednum`, `pickup_quantity` FROM `PickupMed` WHERE `pic_num` = "+requirementId);
+        while(result.next()) {
+            String medNum = result.getString("pickup_mednum");
+            int quantity = result.getInt("pickup_quantity");
+            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT `pil_quan` FROM `Pile` WHERE `pile_mednum` = "+medNum);
+            int quantityInDatabase = 0;
+            while(result2.next()) {
+                quantityInDatabase = result2.getInt("pil_quan");
+            }
+            if(quantityInDatabase < quantity) {
+                outOfStock = true;
+            }
+        }
+        return outOfStock;
     }
 }

@@ -21,6 +21,7 @@ import com.example.lab708.tcmsystem.classe.RequirementDetail;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.classe.Medicine;
 import com.example.lab708.tcmsystem.dao.PileDAO;
+import com.example.lab708.tcmsystem.dao.RequirementDAO;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -53,6 +54,10 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
         TextView tvSta = (TextView) convertView.findViewById(R.id.check_pic_sta);
         TextView tvName = (TextView) convertView.findViewById(R.id.check_pic_medname);
 
+        // Button more details
+        Button btnMDetails = (Button) convertView.findViewById(R.id.more_details_btn);
+        Button btnExecutePickup = (Button) convertView.findViewById(R.id.buttonExecute);
+
         // Populate the data into the template view using the data object
         tvNum.setText(requirement.getNumber());
         if(requirement.getEmergency() == 1) {
@@ -68,8 +73,21 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
         }
         tvName.setText(medNames);
 
-        // Button more details
-        Button btnMDetails = (Button) convertView.findViewById(R.id.more_details_btn);
+        // Disable button execute pickup when there are not enough quantity in database
+        RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+        try {
+            if(requirementDAO.medOutOfStock(requirementId)) {
+                btnExecutePickup.setEnabled(false);
+                btnExecutePickup.setText("Out of stock");
+            }
+            else {
+                btnExecutePickup.setEnabled(true);
+                btnExecutePickup.setText("+");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         // Cache row position inside the button using `setTag`
         btnMDetails.setTag(position);
         btnMDetails.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +117,6 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
        });
 
         // Button execute pickup
-        Button btnExecutePickup = (Button) convertView.findViewById(R.id.buttonExecute);
         btnExecutePickup.setTag(position);
         btnExecutePickup.setOnClickListener(new View.OnClickListener() {
             @Override
