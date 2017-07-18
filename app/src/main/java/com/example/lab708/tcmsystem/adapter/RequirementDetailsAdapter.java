@@ -48,8 +48,14 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
             locations += ql.getLocation()+"\n";
         }
 
-        tvQuant.setText(quantities);
-        tvLocation.setText(locations);
+        if(quantities.isEmpty()) {
+            tvQuant.setText("Out of stock");
+            tvLocation.setText("Out of stock");
+        }
+        else {
+            tvQuant.setText(quantities);
+            tvLocation.setText(locations);
+        }
 
         return convertView;
     }
