@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.ClientThread;
 import com.example.lab708.tcmsystem.classe.Pickup;
@@ -27,7 +28,8 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
     private ClientHandler clientHandler;
     private ClientThread clientThread;
-    private Button goPickUp;
+    private Button goPickUp, reset;
+    private TextView state;
 
     private ArrayList<Pickup> pickupList;
     private int id; // requirement id
@@ -38,6 +40,8 @@ public class ExecutePickupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_execute_pickup);
 
         goPickUp = (Button) findViewById(R.id.execute_pu_go);
+        reset = (Button) findViewById(R.id.reset);
+        state = (TextView) findViewById(R.id.state);
 
         Bundle data = getIntent().getExtras();
         pickupList = (ArrayList) data.getParcelableArrayList("pickupList");
@@ -53,27 +57,39 @@ public class ExecutePickupActivity extends AppCompatActivity {
         clientThread.start();
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
+        reset.setOnClickListener(buttonDisConnectOnClickListener);
     }
 
-    View.OnClickListener buttonSendOnClickListener = new View.OnClickListener() {
+    View.OnClickListener buttonDisConnectOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Log.d("client", clientThread.toString());
             if(clientThread != null){
-                sendRequirement();
+                clientThread.setRunning(false);
+
             }
         }
     };
 
+    View.OnClickListener buttonSendOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            sendRequirement();
+        }
+    };
+
     private void sendRequirement() {
-        clientThread.txMsg(pickupList.get(0).getSerialNumber());
-        clientThread.txMsg(pickupList.get(0).getMedicineName());
-        clientThread.txMsg(pickupList.get(0).getLocation());
-        clientThread.txMsg(pickupList.get(0).getQuantityStock()+"");
-        clientThread.txMsg(pickupList.get(0).getQuantityToPick()+"");
+        if(clientThread != null) {
+            clientThread.txMsg(pickupList.get(0).getSerialNumber());
+            clientThread.txMsg(pickupList.get(0).getMedicineName());
+            clientThread.txMsg(pickupList.get(0).getLocation());
+            clientThread.txMsg(pickupList.get(0).getQuantityStock() + "");
+            clientThread.txMsg(pickupList.get(0).getQuantityToPick() + "");
+        }
     }
 
     private void updateState(String state){
-
+        this.state.setText(state);
     }
 
     private void updateRxMsg(String rxmsg){
@@ -92,9 +108,14 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     }
                     clientThread.txMsg("END");
 
+                    /*if(clientThread != null){
+                        clientThread.setRunning(false);
+                    }*/
+
                     Intent intent = new Intent(ExecutePickupActivity.this, CheckPickupActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
+                    finish();
                 }
                 else {
                     sendRequirement();
@@ -108,7 +129,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
     private void clientEnd(){
         clientThread = null;
-
         // buttonConnect.setEnabled(true);
         //buttonDisconnect.setEnabled(false);
         clientThread = new ClientThread(IP, PORT, clientHandler);
@@ -148,10 +168,4 @@ public class ExecutePickupActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(ExecutePickupActivity.this, CheckPickupActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(intent);
-    }
 }

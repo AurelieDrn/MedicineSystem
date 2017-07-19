@@ -10,6 +10,16 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.lab708.tcmsystem.activity.ExecutePickupActivity">
 
+    <TextView
+        android:id="@+id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/reset"
+        android:layout_below="@id/state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="reset"/>
     <Button
         android:id="@+id/execute_pu_go"
         android:layout_width="wrap_content"

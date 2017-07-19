@@ -1,6 +1,7 @@
 package com.example.lab708.tcmsystem;
 
 import android.os.Message;
+import android.util.Log;
 
 import com.example.lab708.tcmsystem.activity.ExecutePickupActivity;
 
@@ -20,12 +21,17 @@ public class ClientThread extends Thread {
 
     String dstAddress;
     int dstPort;
-    private boolean running;
+    private volatile boolean running;
     ExecutePickupActivity.ClientHandler handler;
 
     Socket socket;
     PrintWriter printWriter;
     BufferedReader bufferedReader;
+
+    private boolean tryToReconnect = true;
+    private Thread heartbeatThread = null;
+    private long heartbeatDelayMillis = 5000;
+
 
     public ClientThread(String addr, int port, ExecutePickupActivity.ClientHandler handler) {
         super();
