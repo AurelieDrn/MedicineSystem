@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.ClientThread;
@@ -40,7 +41,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
         setContentView(R.layout.activity_execute_pickup);
 
         goPickUp = (Button) findViewById(R.id.execute_pu_go);
-        reset = (Button) findViewById(R.id.reset);
+        // reset = (Button) findViewById(R.id.reset);
         state = (TextView) findViewById(R.id.state);
 
         Bundle data = getIntent().getExtras();
@@ -48,7 +49,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
         id = getIntent().getExtras().getInt("id");
 
         Collections.sort(pickupList);
-        Log.d("pickupList", pickupList.toString());
 
         clientHandler = new ClientHandler(this);
 
@@ -57,7 +57,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
         clientThread.start();
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
-        reset.setOnClickListener(buttonDisConnectOnClickListener);
+        //reset.setOnClickListener(buttonDisConnectOnClickListener);
     }
 
     View.OnClickListener buttonDisConnectOnClickListener = new View.OnClickListener() {
@@ -74,6 +74,19 @@ public class ExecutePickupActivity extends AppCompatActivity {
     View.OnClickListener buttonSendOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            TextView stateTxt = (TextView) findViewById(R.id.state);
+            RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_execute_pickup);
+            Button button = (Button) layout.findViewById(R.id.execute_pu_go);
+            /*
+            if(stateTxt.getText().toString().equals("connected")) {
+                layout.removeView(button);
+                TextView textView =  (TextView) findViewById(R.id.execute_pu_txt);
+                textView.setVisibility(View.VISIBLE);
+            }
+            else {
+                button.setEnabled(false);
+                button.setText(R.string.server_not_started);
+            }*/
             sendRequirement();
         }
     };

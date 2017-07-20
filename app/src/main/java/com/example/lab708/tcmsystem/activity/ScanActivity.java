@@ -242,7 +242,7 @@ public class ScanActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(ScanActivity.this, HomeActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 

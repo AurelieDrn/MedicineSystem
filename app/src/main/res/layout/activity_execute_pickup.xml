@@ -13,18 +13,36 @@
     <TextView
         android:id="@+id/state"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textview_big_0_size"
+        android:layout_centerHorizontal="true"/>
+
+    <!--
     <Button
         android:id="@+id/reset"
+        android:visibility="invisible"
         android:layout_below="@id/state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="reset"/>
+        android:text="reset"/>-->
+
     <Button
         android:id="@+id/execute_pu_go"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/btn_width_big"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/textview_big_1_size"
         android:text="Go pick up medicines"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/execute_pu_txt"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/go_pick_up"
+        android:textSize="@dimen/textview_big_1_size"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+
 </RelativeLayout>

@@ -73,4 +73,14 @@
         >
     </ListView>
 
+    <TextView
+        android:id="@+id/activity_check_pickup_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_requirement"
+        android:textSize="@dimen/textview_big_1_size"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"/>
+
 </RelativeLayout>

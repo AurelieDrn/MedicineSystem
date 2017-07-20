@@ -78,7 +78,11 @@ public class ClientThread extends Thread {
                 bufferedReader = new BufferedReader(inputStreamReader);
 
                 while(running){
-
+                    /*while(this.socket.getInputStream().read() == -1) {
+                        sendState("connecting...");
+                        socket = new Socket(dstAddress, dstPort);
+                    }
+                    sendState("connected");*/
                     //bufferedReader block the code
                     String line = bufferedReader.readLine();
                     if(line != null){
@@ -117,4 +121,5 @@ public class ClientThread extends Thread {
 
         handler.sendEmptyMessage(ExecutePickupActivity.ClientHandler.UPDATE_END);
     }
+
 }

@@ -23,4 +23,7 @@
     <string name="no">No</string>
     <string name="yes">Yes</string>
     <string name="back">Go back</string>
+    <string name="no_requirement">There is no requirement</string>
+    <string name="go_pick_up">Go pick up the medicines</string>
+    <string name="server_not_started">Server is not started</string>
 </resources>

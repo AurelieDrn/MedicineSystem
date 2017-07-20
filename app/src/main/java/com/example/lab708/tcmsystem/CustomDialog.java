@@ -24,7 +24,7 @@ public class CustomDialog {
                 .setMessage(message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
                     }
                 })
@@ -62,14 +62,14 @@ public class CustomDialog {
                 .setMessage(message)
                 .setPositiveButton(button1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent1);
                     }
                 })
                 .setNegativeButton(button2, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent2);
                     }
                 })
@@ -89,7 +89,7 @@ public class CustomDialog {
                 .setMessage(message)
                 .setPositiveButton(button1, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
                     }
                 })

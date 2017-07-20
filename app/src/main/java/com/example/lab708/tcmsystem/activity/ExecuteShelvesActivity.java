@@ -299,7 +299,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     public void onBackPressed() {
         Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
         intent.putExtra("toFunction", "ExecuteShelvesActivity");
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 }
