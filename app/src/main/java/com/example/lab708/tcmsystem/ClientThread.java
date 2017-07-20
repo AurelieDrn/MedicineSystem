@@ -66,6 +66,7 @@ public class ClientThread extends Thread {
         while (scanning) {
             try {
                 socket = new Socket(dstAddress, dstPort);
+
                 scanning = false;
                 sendState("connected");
 
@@ -83,6 +84,7 @@ public class ClientThread extends Thread {
                         socket = new Socket(dstAddress, dstPort);
                     }
                     sendState("connected");*/
+
                     //bufferedReader block the code
                     String line = bufferedReader.readLine();
                     if(line != null){
@@ -122,4 +124,10 @@ public class ClientThread extends Thread {
         handler.sendEmptyMessage(ExecutePickupActivity.ClientHandler.UPDATE_END);
     }
 
+    public void reconnect() throws IOException {
+        while(this.socket.getInputStream().read() == -1) {
+            sendState("connecting...");
+            socket = new Socket(dstAddress, dstPort);
+        }
+    }
 }
