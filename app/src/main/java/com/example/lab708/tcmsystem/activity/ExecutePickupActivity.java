@@ -183,7 +183,12 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     //sendRequirement2();
                     setClientThreadIndex();
                     //clientThread.txMsg("CLEAR");
-                    this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
+                    //this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
+                    for(ClientThread c : clientThreads) {
+
+                            c.txMsg("RESTART");
+
+                    }
                     send(this.clientThreads.get(clientThreadIndex));
 
                     for(ClientThread c : clientThreads) {
