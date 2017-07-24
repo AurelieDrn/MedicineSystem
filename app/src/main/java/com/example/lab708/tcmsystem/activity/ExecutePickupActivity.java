@@ -1,10 +1,10 @@
 package com.example.lab708.tcmsystem.activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -12,34 +12,40 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.ClientThread;
-import com.example.lab708.tcmsystem.classe.Pickup;
 import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.classe.Pickup;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static com.example.lab708.tcmsystem.AppConstants.IP;
+import static com.example.lab708.tcmsystem.AppConstants.IP2;
 import static com.example.lab708.tcmsystem.AppConstants.PORT;
 
 public class ExecutePickupActivity extends AppCompatActivity {
 
     private ClientHandler clientHandler;
     private ClientThread clientThread;
+    private ClientThread clientThread2;
     private Button goPickUp, reset;
     private TextView state;
+    private List<ClientThread> clientThreads;
 
     private ArrayList<Pickup> pickupList;
     private int id; // requirement id
+    private int clientThreadIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_pickup);
+
+        clientThreads = new ArrayList<>();
 
         goPickUp = (Button) findViewById(R.id.execute_pu_go);
         // reset = (Button) findViewById(R.id.reset);
@@ -48,14 +54,27 @@ public class ExecutePickupActivity extends AppCompatActivity {
         Bundle data = getIntent().getExtras();
         pickupList = (ArrayList) data.getParcelableArrayList("pickupList");
         id = getIntent().getExtras().getInt("id");
-
         Collections.sort(pickupList);
+
+        setClientThreadIndex();
 
         clientHandler = new ClientHandler(this);
 
+
         // connect
         clientThread = new ClientThread(IP, PORT, clientHandler);
-        clientThread.start();
+        //clientThread.start();
+
+        clientThread2 = new ClientThread(IP2, PORT, clientHandler);
+        //clientThread2.start();
+
+        clientThreads.add(clientThread);
+        clientThreads.add(clientThread2);
+
+        for(ClientThread c : clientThreads) {
+            c.start();
+        }
+
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
         //reset.setOnClickListener(buttonDisConnectOnClickListener);
@@ -88,9 +107,17 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 button.setEnabled(false);
                 button.setText(R.string.server_not_started);
             }*/
-            sendRequirement();
+            //sendRequirement();
+            send(clientThreads.get(clientThreadIndex));
         }
     };
+
+    private void setClientThreadIndex() {
+        String location = pickupList.get(0).getLocation();
+        char firstNumber = location.charAt(0);
+        this.clientThreadIndex = Integer.parseInt(String.valueOf(firstNumber))-1;
+        Log.d("INDEX", String.valueOf(clientThreadIndex));
+    }
 
     private void sendRequirement() {
         if(clientThread != null) {
@@ -99,6 +126,26 @@ public class ExecutePickupActivity extends AppCompatActivity {
             clientThread.txMsg(pickupList.get(0).getLocation());
             clientThread.txMsg(pickupList.get(0).getQuantityStock() + "");
             clientThread.txMsg(pickupList.get(0).getQuantityToPick() + "");
+        }
+    }
+
+    private void sendRequirement2() {
+        if(clientThread2 != null) {
+            clientThread2.txMsg(pickupList.get(0).getSerialNumber());
+            clientThread2.txMsg(pickupList.get(0).getMedicineName());
+            clientThread2.txMsg(pickupList.get(0).getLocation());
+            clientThread2.txMsg(pickupList.get(0).getQuantityStock() + "");
+            clientThread2.txMsg(pickupList.get(0).getQuantityToPick() + "");
+        }
+    }
+
+    private void send(ClientThread c) {
+        if(c != null) {
+            c.txMsg(pickupList.get(0).getSerialNumber());
+            c.txMsg(pickupList.get(0).getMedicineName());
+            c.txMsg(pickupList.get(0).getLocation());
+            c.txMsg(pickupList.get(0).getQuantityStock() + "");
+            c.txMsg(pickupList.get(0).getQuantityToPick() + "");
         }
     }
 
@@ -120,7 +167,8 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    clientThread.txMsg("END");
+                    //clientThread.txMsg("END");
+                    this.clientThreads.get(this.clientThreadIndex).txMsg("END");
 
                     /*if(clientThread != null){
                         clientThread.setRunning(false);
@@ -132,7 +180,17 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     finish();
                 }
                 else {
-                    sendRequirement();
+                    //sendRequirement2();
+                    setClientThreadIndex();
+                    //clientThread.txMsg("CLEAR");
+                    this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
+                    send(this.clientThreads.get(clientThreadIndex));
+
+                    for(ClientThread c : clientThreads) {
+                        if(!c.equals(this.clientThreads.get(clientThreadIndex))) {
+                            c.txMsg("CLEAR");
+                        }
+                    }
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -142,11 +200,11 @@ public class ExecutePickupActivity extends AppCompatActivity {
     }
 
     private void clientEnd(){
-        clientThread = null;
+        //clientThread = null;
         // buttonConnect.setEnabled(true);
         //buttonDisconnect.setEnabled(false);
-        clientThread = new ClientThread(IP, PORT, clientHandler);
-        clientThread.start();
+        //clientThread = new ClientThread(IP, PORT, clientHandler);
+        //clientThread.start();
 
         //buttonSend.setEnabled(false);
 
@@ -178,7 +236,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 default:
                     super.handleMessage(msg);
             }
-
         }
     }
 

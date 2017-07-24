@@ -45,4 +45,14 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"/>
 
+    <Button
+        android:id="@+id/execute_pu_next"
+        android:layout_below="@id/execute_pu_go"
+        android:layout_width="@dimen/btn_width_big"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textview_big_1_size"
+        android:text="Next"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

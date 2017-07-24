@@ -93,7 +93,7 @@ public class RequirementDAO extends DAO<Requirement>{
                 this.connect.createStatement().executeQuery("UPDATE `PickupMed` SET `pickup_quantity`="+q+" WHERE `pickup_mednum` = "+pickup_mednum+" AND `pic_num` = "+pickupNumber);
             }
             else {
-                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`pickup_mednum`, `pic_num`, `pickup_quantity`) VALUES ("+medNum+","+pickupNumber+","+quantity+")");
+                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`pickup_mednum`, `pic_num`, `pickup_quantity`) VALUES ('"+medNum+"',"+pickupNumber+","+quantity+")");
             }
         }
     }
