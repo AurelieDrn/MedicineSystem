@@ -1,6 +1,4 @@
-package com.example.lab708.tcmsystem.classe;
-
-import com.example.lab708.tcmsystem.classe.Medicine;
+package com.example.lab708.tcmsystem.model;
 
 import java.util.ArrayList;
 import java.util.List;

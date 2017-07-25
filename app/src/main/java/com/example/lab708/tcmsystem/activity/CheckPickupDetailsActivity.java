@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.RequirementDetail;
+import com.example.lab708.tcmsystem.model.RequirementDetail;
 import com.example.lab708.tcmsystem.adapter.RequirementDetailsAdapter;
 
 import java.util.ArrayList;

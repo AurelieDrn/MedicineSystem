@@ -3,7 +3,6 @@ package com.example.lab708.tcmsystem.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.lab708.tcmsystem.classe.Pickup;
+import com.example.lab708.tcmsystem.model.Pickup;
 import com.example.lab708.tcmsystem.activity.CheckPickupDetailsActivity;
 import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.activity.ExecutePickupActivity;
-import com.example.lab708.tcmsystem.classe.QuantityLocation;
-import com.example.lab708.tcmsystem.classe.Requirement;
-import com.example.lab708.tcmsystem.classe.RequirementDetail;
+import com.example.lab708.tcmsystem.model.QuantityLocation;
+import com.example.lab708.tcmsystem.model.Requirement;
+import com.example.lab708.tcmsystem.model.RequirementDetail;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
-import com.example.lab708.tcmsystem.classe.Medicine;
+import com.example.lab708.tcmsystem.model.Medicine;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
 

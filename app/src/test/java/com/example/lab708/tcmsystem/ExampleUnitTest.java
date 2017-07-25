@@ -1,6 +1,6 @@
 package com.example.lab708.tcmsystem;
 
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;

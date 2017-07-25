@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile files('libs/mariadb-java-client-1.5.3.jar')
     compile files('libs/zbar.jar')
+    testCompile 'org.testng:testng:6.9.6'
 }

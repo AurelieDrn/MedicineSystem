@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.classe;
+package com.example.lab708.tcmsystem.model;
 
 /**
  * Created by Aurelie on 06/07/2017.

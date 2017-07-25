@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
-import com.example.lab708.tcmsystem.classe.Requirement;
+import com.example.lab708.tcmsystem.model.Requirement;
 
 import java.util.ArrayList;
 

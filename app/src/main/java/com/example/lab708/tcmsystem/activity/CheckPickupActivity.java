@@ -10,7 +10,7 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.Requirement;
+import com.example.lab708.tcmsystem.model.Requirement;
 import com.example.lab708.tcmsystem.adapter.RequirementsAdapter;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;

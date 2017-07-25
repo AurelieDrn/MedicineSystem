@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem.classe;
+package com.example.lab708.tcmsystem.model;
 
 import java.io.Serializable;
 

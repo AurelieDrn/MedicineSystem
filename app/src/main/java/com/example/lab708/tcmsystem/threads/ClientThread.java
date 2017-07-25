@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem;
+package com.example.lab708.tcmsystem.threads;
 
 import android.os.Message;
 import android.util.Log;

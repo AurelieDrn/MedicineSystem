@@ -4,9 +4,9 @@ package com.example.lab708.tcmsystem.dao;
  * Created by Aurelie on 06/07/2017.
  */
 
-import com.example.lab708.tcmsystem.classe.Pickup;
-import com.example.lab708.tcmsystem.classe.QuantityLocation;
-import com.example.lab708.tcmsystem.classe.Pile;
+import com.example.lab708.tcmsystem.model.Pickup;
+import com.example.lab708.tcmsystem.model.QuantityLocation;
+import com.example.lab708.tcmsystem.model.Pile;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

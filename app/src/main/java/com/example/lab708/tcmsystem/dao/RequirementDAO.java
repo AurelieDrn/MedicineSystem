@@ -1,10 +1,8 @@
 package com.example.lab708.tcmsystem.dao;
 
-import android.util.Log;
-
-import com.example.lab708.tcmsystem.classe.NewRequirement;
-import com.example.lab708.tcmsystem.classe.Requirement;
-import com.example.lab708.tcmsystem.classe.Medicine;
+import com.example.lab708.tcmsystem.model.NewRequirement;
+import com.example.lab708.tcmsystem.model.Requirement;
+import com.example.lab708.tcmsystem.model.Medicine;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

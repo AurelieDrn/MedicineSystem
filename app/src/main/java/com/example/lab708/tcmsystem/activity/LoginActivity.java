@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.Staff;
+import com.example.lab708.tcmsystem.model.Staff;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.StaffDAO;
 

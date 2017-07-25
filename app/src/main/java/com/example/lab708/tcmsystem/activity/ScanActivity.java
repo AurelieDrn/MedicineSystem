@@ -11,9 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.CameraPreview;
-import com.example.lab708.tcmsystem.NewRequire;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.NewRequirement;
+import com.example.lab708.tcmsystem.model.NewRequirement;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
 

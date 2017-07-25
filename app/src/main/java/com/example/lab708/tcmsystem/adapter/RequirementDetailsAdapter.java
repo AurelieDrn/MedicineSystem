@@ -2,7 +2,6 @@ package com.example.lab708.tcmsystem.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.QuantityLocation;
-import com.example.lab708.tcmsystem.classe.RequirementDetail;
+import com.example.lab708.tcmsystem.model.QuantityLocation;
+import com.example.lab708.tcmsystem.model.RequirementDetail;
 
 import java.util.ArrayList;
 

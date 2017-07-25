@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.lab708.tcmsystem.ClientThread;
+import com.example.lab708.tcmsystem.threads.ClientThread;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.classe.Pickup;
+import com.example.lab708.tcmsystem.model.Pickup;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
@@ -168,11 +168,17 @@ public class ExecutePickupActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     //clientThread.txMsg("END");
+                    for(ClientThread c : clientThreads) {
+                        if(!c.equals(this.clientThreads.get(this.clientThreadIndex))) {
+                            c.txMsg("RESTART");
+                        }
+                    }
                     this.clientThreads.get(this.clientThreadIndex).txMsg("END");
 
                     /*if(clientThread != null){
                         clientThread.setRunning(false);
                     }*/
+                    //this.clientThreads = new ArrayList<>();
 
                     Intent intent = new Intent(ExecutePickupActivity.this, CheckPickupActivity.class);
                     //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -185,9 +191,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     //clientThread.txMsg("CLEAR");
                     //this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
                     for(ClientThread c : clientThreads) {
-
-                            c.txMsg("RESTART");
-
+                        c.txMsg("RESTART");
                     }
                     send(this.clientThreads.get(clientThreadIndex));
 
@@ -196,6 +200,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
                             c.txMsg("CLEAR");
                         }
                     }
+
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
