@@ -96,7 +96,7 @@ public class ClientThread extends Thread {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             } finally {
                 if(bufferedReader != null){
                     try {
@@ -112,6 +112,7 @@ public class ClientThread extends Thread {
 
                 if(socket != null){
                     try {
+                        Log.d("SOCKET", "socket close");
                         socket.close();
                     } catch (IOException e) {
                         e.printStackTrace();

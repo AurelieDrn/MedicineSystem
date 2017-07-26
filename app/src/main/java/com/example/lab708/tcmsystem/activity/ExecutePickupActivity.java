@@ -1,5 +1,6 @@
 package com.example.lab708.tcmsystem.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +18,8 @@ import com.example.lab708.tcmsystem.model.Pickup;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
+import com.example.lab708.tcmsystem.threads.LEDClientThread;
+import com.example.lab708.tcmsystem.threads.MyTask;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -32,7 +35,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
     private ClientHandler clientHandler;
     private ClientThread clientThread;
     private ClientThread clientThread2;
-    private Button goPickUp, reset;
+    private Button goPickUp, reset, next;
     private TextView state;
     private List<ClientThread> clientThreads;
 
@@ -48,8 +51,10 @@ public class ExecutePickupActivity extends AppCompatActivity {
         clientThreads = new ArrayList<>();
 
         goPickUp = (Button) findViewById(R.id.execute_pu_go);
+        next = (Button) findViewById(R.id.execute_pu_next);
         // reset = (Button) findViewById(R.id.reset);
         state = (TextView) findViewById(R.id.state);
+
 
         Bundle data = getIntent().getExtras();
         pickupList = (ArrayList) data.getParcelableArrayList("pickupList");
@@ -78,7 +83,16 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
         //reset.setOnClickListener(buttonDisConnectOnClickListener);
+        next.setOnClickListener(led);
     }
+
+    View.OnClickListener led = new View.OnClickListener() {
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
 
     View.OnClickListener buttonDisConnectOnClickListener = new View.OnClickListener() {
         @Override
@@ -249,4 +263,13 @@ public class ExecutePickupActivity extends AppCompatActivity {
         }
     }
 
+    // TRY
+    /*
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        for(ClientThread c : clientThreads) {
+            c.interrupt();
+        }
+    }*/
 }

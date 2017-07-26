@@ -1,5 +1,6 @@
 package com.example.lab708.tcmsystem.activity;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -20,6 +21,8 @@ import com.example.lab708.tcmsystem.model.NewRequirement;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
+import com.example.lab708.tcmsystem.threads.LEDClientThread;
+import com.example.lab708.tcmsystem.threads.MyTask;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -101,6 +104,9 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 .setMessage("Is it an emergency requirement?")
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
+                                        ProgressDialog progress = new ProgressDialog(NewRequirementActivity.this);
+                                        progress.setMessage("Loading...");
+                                        new MyTask(progress).execute();
                                         try {
                                             requirementDAO.createNewRequirements(newRequirementList, 1);
                                             showSuccessDialog();
@@ -125,6 +131,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 .show();
                     }
                 });
+
             }
             else {
                 // Alert dialog error database
