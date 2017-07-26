@@ -1,5 +1,7 @@
 package com.example.lab708.tcmsystem.dao;
 
+import android.util.Log;
+
 import com.example.lab708.tcmsystem.model.NewRequirement;
 import com.example.lab708.tcmsystem.model.Requirement;
 import com.example.lab708.tcmsystem.model.Medicine;
@@ -107,11 +109,13 @@ public class RequirementDAO extends DAO<Requirement>{
         ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickup_mednum`, `pickup_quantity` FROM `PickupMed` WHERE `pic_num` = "+requirementId);
         while(result.next()) {
             String medNum = result.getString("pickup_mednum");
+
             int quantity = result.getInt("pickup_quantity");
+
             ResultSet result2 = this.connect.createStatement().executeQuery("SELECT `pil_quan` FROM `Pile` WHERE `pile_mednum` = "+medNum);
             int quantityInDatabase = 0;
             while(result2.next()) {
-                quantityInDatabase = result2.getInt("pil_quan");
+                quantityInDatabase += result2.getInt("pil_quan");
             }
             if(quantityInDatabase < quantity) {
                 outOfStock = true;

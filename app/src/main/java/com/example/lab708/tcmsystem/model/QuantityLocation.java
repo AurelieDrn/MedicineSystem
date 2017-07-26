@@ -62,7 +62,7 @@ public class QuantityLocation implements Parcelable {
         this.location = in.readString();
     }
 
-    public static final Parcelable.Creator<QuantityLocation> CREATOR = new Parcelable.Creator<QuantityLocation>() {
+    public static final Creator<QuantityLocation> CREATOR = new Creator<QuantityLocation>() {
         @Override
         public QuantityLocation createFromParcel(Parcel source) {
             return new QuantityLocation(source);
@@ -73,5 +73,4 @@ public class QuantityLocation implements Parcelable {
             return new QuantityLocation[size];
         }
     };
-
 }

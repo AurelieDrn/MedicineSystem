@@ -2,6 +2,7 @@ package com.example.lab708.tcmsystem.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,7 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         RequirementDetail requirementDetail = getItem(position);
+        Log.d("REQUI DETAIL", requirementDetail.toString());
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_check_pickup_detail, parent, false);

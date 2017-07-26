@@ -17,13 +17,6 @@ public class RequirementDetail implements Parcelable {
     private int quantityInStock;
     private List<QuantityLocation> quantityLocationList;
 
-    public RequirementDetail(String name, List<QuantityLocation> quantityLocationList, String sn, int qs) {
-        this.name = name;
-        this.quantityLocationList = quantityLocationList;
-        this.serialNumber = sn;
-        this.quantityInStock = qs;
-    }
-
     public RequirementDetail() {
         this.name = "";
         this.quantityLocationList = new ArrayList<>();
@@ -81,6 +74,7 @@ public class RequirementDetail implements Parcelable {
                 '}';
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -89,16 +83,19 @@ public class RequirementDetail implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.name);
-        dest.writeList(this.quantityLocationList);
+        dest.writeString(this.serialNumber);
+        dest.writeInt(this.quantityInStock);
+        dest.writeTypedList(this.quantityLocationList);
     }
 
     protected RequirementDetail(Parcel in) {
         this.name = in.readString();
-        this.quantityLocationList = new ArrayList<QuantityLocation>();
-        in.readList(this.quantityLocationList, QuantityLocation.class.getClassLoader());
+        this.serialNumber = in.readString();
+        this.quantityInStock = in.readInt();
+        this.quantityLocationList = in.createTypedArrayList(QuantityLocation.CREATOR);
     }
 
-    public static final Parcelable.Creator<RequirementDetail> CREATOR = new Parcelable.Creator<RequirementDetail>() {
+    public static final Creator<RequirementDetail> CREATOR = new Creator<RequirementDetail>() {
         @Override
         public RequirementDetail createFromParcel(Parcel source) {
             return new RequirementDetail(source);
@@ -109,5 +106,4 @@ public class RequirementDetail implements Parcelable {
             return new RequirementDetail[size];
         }
     };
-
 }

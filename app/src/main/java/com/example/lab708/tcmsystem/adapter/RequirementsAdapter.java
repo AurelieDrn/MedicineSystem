@@ -3,6 +3,7 @@ package com.example.lab708.tcmsystem.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
             medNames += med.getName()+"\n";
         }
         tvName.setText(medNames);
-
+        Log.d("test", "here");
         // Disable button execute pickup when there are not enough quantity in database
         RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
         try {
@@ -99,14 +100,19 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
 
                 for(Medicine med : req.getMedicines()) {
                     RequirementDetail reqDetail = new RequirementDetail();
-                    reqDetail.setName(med.getName());
+
+
                     PileDAO pileDAO = DAOFactory.getPileDAO();
                     try {
+                        reqDetail.setName(med.getName());
+                        reqDetail.setSerialNumber(med.getSerialNumber());
                         reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(Integer.valueOf(med.getExperienceQuantity()), med.getSerialNumber()));
+                        reqDetail.setQuantityInStock(pileDAO.getTotalQuantity(med.getSerialNumber()));
+                        reqDetailList.add(reqDetail);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    reqDetailList.add(reqDetail);
+
                 }
                 Intent checkPickupDetailsActivity = new Intent();
                 checkPickupDetailsActivity.setClass(view.getContext(), CheckPickupDetailsActivity.class);
