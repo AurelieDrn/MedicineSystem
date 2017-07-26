@@ -96,10 +96,10 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             public void onClick(View v) {
                 if(missingFields()) {
                     // Some fields are empty
-                    Toast.makeText(ExecuteShelvesActivity.this, "欄位不能為空!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ExecuteShelvesActivity.this, R.string.field_empty, Toast.LENGTH_SHORT).show();
                 }
                 else if(wrongLocations()) {
-                    Toast.makeText(ExecuteShelvesActivity.this, "All the locations have to be different", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ExecuteShelvesActivity.this, R.string.all_locations_different, Toast.LENGTH_SHORT).show();
                 }
                 else {
                     int year = expDate_dp.getYear();
@@ -142,7 +142,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 // Alert dialog error database
                 Intent intent = new Intent(ExecuteShelvesActivity.this, ScanActivity.class);
                 intent.putExtra("toFunction", "ExecuteShelvesActivity");
-                CustomDialog.showErrorMessage(ExecuteShelvesActivity.this, "上架作業", "查無此藥品，請至資料庫新增! "+code+" not in database", intent);
+                CustomDialog.showErrorMessage(ExecuteShelvesActivity.this, "Error", "查無此藥品，請至資料庫新增! "+code+" not in database", intent);
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -61,10 +61,10 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
         // Populate the data into the template view using the data object
         tvNum.setText(requirement.getNumber());
         if(requirement.getEmergency() == 1) {
-            tvSta.setText("緊急");
+            tvSta.setText(R.string.emergency);
         }
         else {
-            tvSta.setText("不緊急");
+            tvSta.setText(R.string.no_emergency);
         }
 
         String medNames = new String();
@@ -77,7 +77,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
         try {
             if(requirementDAO.medOutOfStock(requirementId)) {
                 btnExecutePickup.setEnabled(false);
-                btnExecutePickup.setText("Out of stock");
+                btnExecutePickup.setText(R.string.out_of_stock);
             }
             else {
                 btnExecutePickup.setEnabled(true);

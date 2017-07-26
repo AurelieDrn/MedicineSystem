@@ -65,8 +65,8 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
         }
 
         if(quantities.isEmpty()) {
-            tvQuant.setText("Out of stock");
-            tvLocation.setText("Out of stock");
+            tvQuant.setText(R.string.out_of_stock);
+            tvLocation.setText(R.string.out_of_stock);
         }
         else {
             tvQuant.setText(quantities);

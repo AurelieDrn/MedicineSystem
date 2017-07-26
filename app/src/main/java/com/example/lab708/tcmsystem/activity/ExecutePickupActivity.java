@@ -1,6 +1,5 @@
 package com.example.lab708.tcmsystem.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,14 +11,12 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.lab708.tcmsystem.threads.ClientThread;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.model.Pickup;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.PileDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
-import com.example.lab708.tcmsystem.threads.LEDClientThread;
-import com.example.lab708.tcmsystem.threads.MyTask;
+import com.example.lab708.tcmsystem.model.Pickup;
+import com.example.lab708.tcmsystem.threads.ClientThread;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -68,10 +65,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
         // connect
         clientThread = new ClientThread(IP, PORT, clientHandler);
-        //clientThread.start();
-
         clientThread2 = new ClientThread(IP2, PORT, clientHandler);
-        //clientThread2.start();
 
         clientThreads.add(clientThread);
         clientThreads.add(clientThread2);
@@ -79,7 +73,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
         for(ClientThread c : clientThreads) {
             c.start();
         }
-
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
         //reset.setOnClickListener(buttonDisConnectOnClickListener);
@@ -91,7 +84,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
             Log.d("client", clientThread.toString());
             if(clientThread != null){
                 clientThread.setRunning(false);
-
             }
         }
     };

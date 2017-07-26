@@ -68,7 +68,6 @@ public class NewRequirementActivity extends AppCompatActivity {
                 }
                 // Add the new requirement to the list
                 newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
-                Log.d("new require", newRequirementList.toString());
                 // Add all the new requirements
                 addRows();
 
@@ -100,8 +99,8 @@ public class NewRequirementActivity extends AppCompatActivity {
                             builder = new AlertDialog.Builder(NewRequirementActivity.this);
                         }
                         builder.setCancelable(false);
-                        builder.setTitle("Emergency option")
-                                .setMessage("Is it an emergency requirement?")
+                        builder.setTitle(R.string.emergency_option)
+                                .setMessage(R.string.is_it_emergent)
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
                                         ProgressDialog progress = new ProgressDialog(NewRequirementActivity.this);
@@ -184,7 +183,7 @@ public class NewRequirementActivity extends AppCompatActivity {
         intent2.putExtra("toFunction", "NewRequirementActivity");
         int button1 = R.string.back_home;
         int button2 = R.string.keep_scanning;
-        CustomDialog.showSuccessDialogTwoOptions(NewRequirementActivity.this, "Success!", "Your requirement was successfully sent", intent1, intent2, button1, button2);
+        CustomDialog.showSuccessDialogTwoOptions(NewRequirementActivity.this, "Success!", "Your requirement was successfully sent", intent2, intent1, button2, button1);
     }
 
     private void showErrorDialog() {
