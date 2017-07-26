@@ -72,7 +72,6 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
             medNames += med.getName()+"\n";
         }
         tvName.setText(medNames);
-        Log.d("test", "here");
         // Disable button execute pickup when there are not enough quantity in database
         RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
         try {

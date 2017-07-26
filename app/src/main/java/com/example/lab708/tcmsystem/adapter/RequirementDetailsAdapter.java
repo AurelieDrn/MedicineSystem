@@ -10,9 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.R;
+import com.example.lab708.tcmsystem.dao.DAOFactory;
+import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.model.QuantityLocation;
 import com.example.lab708.tcmsystem.model.RequirementDetail;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +32,6 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         RequirementDetail requirementDetail = getItem(position);
-        Log.d("REQUI DETAIL", requirementDetail.toString());
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_check_pickup_detail, parent, false);
@@ -44,8 +46,21 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
         String locations = "";
 
         tvName.setText(requirementDetail.getName());
+        MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
+        int experienceQuantity = 0;
+        try {
+            experienceQuantity = medicineDAO.getExperienceQuantity(requirementDetail.getName());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        int quantityInStock = requirementDetail.getQuantityInStock();
         for(QuantityLocation ql : requirementDetail.getQuantityLocationList()) {
-            quantities += ql.getQuantity()+"\n";
+            if(experienceQuantity > quantityInStock) {
+                quantities += "Not enough in stock("+ql.getQuantity()+"/"+experienceQuantity+")"+"\n";
+            }
+            else {
+                quantities += ql.getQuantity()+"\n";
+            }
             locations += ql.getLocation()+"\n";
         }
 

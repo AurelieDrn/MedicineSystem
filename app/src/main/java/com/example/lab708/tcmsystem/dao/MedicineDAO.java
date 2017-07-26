@@ -40,4 +40,12 @@ public class MedicineDAO extends DAO<Medicine>{
         return med;
     }
 
+    public int getExperienceQuantity(String medName) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `med_expquan` FROM `Medicine` WHERE `med_name` = '"+medName+"'");
+        while(result.next()) {
+            return result.getInt("med_expquan");
+        }
+        return -1;
+    }
+
 }
