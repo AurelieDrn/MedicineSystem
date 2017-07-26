@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/textview_big_1_size"
         android:layout_marginTop="@dimen/margin_title"
-        android:text="New pickup requirement"
+        android:text="@string/new_pickup_requierement"
         />
 
     <TableLayout
@@ -34,28 +34,28 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Medicine number"
+                android:text="@string/med_number"
                 android:textSize="@dimen/textview_big_0_size"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Medicine name"
+                android:text="@string/med_name"
                 android:textSize="@dimen/textview_big_0_size"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Quantity"
+                android:text="@string/quantity"
                 android:textSize="@dimen/textview_big_0_size"
                 />
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="Delete"
+                android:text="@string/delete"
                 android:textSize="@dimen/textview_big_0_size"
                 />
         </TableRow>
@@ -63,7 +63,7 @@
 
     <Button
         android:id="@+id/new_requirement_add"
-        android:text="Add more medicines"
+        android:text="@string/add_more_medicines"
         android:layout_below="@id/new_requirement_tl"
         android:layout_width="@dimen/btn_width"
         android:layout_height="wrap_content"

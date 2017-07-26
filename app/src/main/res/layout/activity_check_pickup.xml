@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/textview_big_1_size"
         android:layout_marginTop="@dimen/margin_title"
-        android:text="Check pickup requirements"
+        android:text="@string/check_pickup_requierements"
         />
 
     <TableLayout
@@ -38,12 +38,12 @@
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 android:textSize="@dimen/textview_big_0_size"
-                android:text="項次"/>
+                android:text="@string/line"/>
 
             <TextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
-                android:text="是否緊急"
+                android:text="@string/emergency_option"
                 android:textSize="@dimen/textview_big_0_size"/>
 
             <TextView
@@ -56,7 +56,7 @@
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 android:textSize="@dimen/textview_big_0_size"
-                android:text="查看細項"/>
+                android:text="@string/view_details"/>
             <TextView
                 android:layout_height="match_parent"
                 android:layout_width="0dp"

@@ -9,7 +9,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
-            android:text="Serial number"/>
+            android:text="@string/serial_number"/>
         <TextView
             android:id="@+id/exe_pu_serial_number"
             android:layout_width="0dp"
@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
-            android:text="Medicine name"/>
+            android:text="@string/med_name"/>
         <TextView
             android:id="@+id/exe_pu_med_name"
             android:layout_width="0dp"
@@ -33,7 +33,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
-            android:text="Medicine location"/>
+            android:text="@string/med_location"/>
         <TextView
             android:id="@+id/exe_pu_med_location"
             android:layout_width="0dp"
@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
-            android:text="Quantity in stock"/>
+            android:text="@string/quantity_in_stock"/>
         <TextView
             android:id="@+id/exe_pu_quantity_stock"
             android:layout_width="0dp"
@@ -57,7 +57,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
-            android:text="Quantity to pick up"/>
+            android:text="@string/quantity_to_pick_up"/>
         <EditText
             android:id="@+id/exe_pu_quant_pick"
             android:layout_height="match_parent"
