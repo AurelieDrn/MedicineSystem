@@ -46,9 +46,9 @@ public class RequirementDAO extends DAO<Requirement>{
 
             List<String> medNumList = new ArrayList<>();
             // Get pickup med numbers
-            ResultSet result3 = this.connect.createStatement().executeQuery("SELECT `pickup_mednum` FROM `PickupMed` WHERE `pic_num` = \'"+pic_num+"\'");
+            ResultSet result3 = this.connect.createStatement().executeQuery("SELECT `med_id` FROM `PickupMed` WHERE `pic_num` = \'"+pic_num+"\'");
             while(result3.next()) {
-                medNumList.add(result3.getString("pickup_mednum"));
+                medNumList.add(result3.getString("med_id"));
             }
 
             // Set medicine numbers
@@ -57,14 +57,14 @@ public class RequirementDAO extends DAO<Requirement>{
             for(String medNum : medNumList) {
                 Medicine medicine = new Medicine();
                 // Get medicine
-                ResultSet result4 = this.connect.createStatement().executeQuery("SELECT * FROM `Medicine` WHERE `med_num` = \'"+medNum+"\'");
+                ResultSet result4 = this.connect.createStatement().executeQuery("SELECT * FROM `Medicine` WHERE `med_id` = \'"+medNum+"\'");
                 while(result4.next()) {
-                    medicine.setSerialNumber(result4.getString("med_num"));
+                    medicine.setSerialNumber(result4.getString("med_id"));
                     medicine.setName(result4.getString("med_name"));
-                    medicine.setIngredients(result4.getString("med_con"));
-                    medicine.setBrand(result4.getString("med_bra"));
-                    medicine.setFirmNumber(result4.getString("med_firnum"));
-                    medicine.setExperienceQuantity(result4.getString("med_expquan"));
+                    medicine.setIngredients(result4.getString("med_ingr"));
+                    medicine.setBrand(result4.getString("med_brand"));
+                    medicine.setFirmNumber(result4.getString("firm_id"));
+                    medicine.setExperienceQuantity(result4.getString("med_quantity"));
                     requirement.addMedicine(medicine);
                 }
             }
@@ -85,15 +85,15 @@ public class RequirementDAO extends DAO<Requirement>{
             String medNum = nr.getMedicineNumber();
             int quantity = nr.getQuantity();
 
-            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT * FROM `PickupMed` WHERE `pickup_mednum` = "+pickupNumber);
+            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT * FROM `PickupMed` WHERE `med_id` = "+pickupNumber);
             if(result2.next()) {
-                String pickup_mednum = result2.getString("pickupickup_mednump_mednum");
+                String pickup_mednum = result2.getString("med_id");
                 int pickup_quantity = result2.getInt("pickup_quantity");
                 int q = quantity + pickup_quantity;
-                this.connect.createStatement().executeQuery("UPDATE `PickupMed` SET `pickup_quantity`="+q+" WHERE `pickup_mednum` = "+pickup_mednum+" AND `pic_num` = "+pickupNumber);
+                this.connect.createStatement().executeQuery("UPDATE `PickupMed` SET `pickup_quantity`="+q+" WHERE `med_id` = "+pickup_mednum+" AND `pic_num` = "+pickupNumber);
             }
             else {
-                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`pickup_mednum`, `pic_num`, `pickup_quantity`) VALUES ('"+medNum+"',"+pickupNumber+","+quantity+")");
+                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`med_id`, `pic_num`, `pickup_quantity`) VALUES ('"+medNum+"',"+pickupNumber+","+quantity+")");
             }
         }
     }
@@ -106,9 +106,9 @@ public class RequirementDAO extends DAO<Requirement>{
     // check if the pickup requirement cannot be fulfilled
     public boolean medOutOfStock(int requirementId) throws SQLException {
         boolean outOfStock = false;
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickup_mednum`, `pickup_quantity` FROM `PickupMed` WHERE `pic_num` = "+requirementId);
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `med_id`, `pickup_quantity` FROM `PickupMed` WHERE `pic_num` = "+requirementId);
         while(result.next()) {
-            String medNum = result.getString("pickup_mednum");
+            String medNum = result.getString("med_id");
 
             int quantity = result.getInt("pickup_quantity");
 

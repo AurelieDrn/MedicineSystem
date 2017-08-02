@@ -2,6 +2,7 @@ package com.example.lab708.tcmsystem.threads;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import static com.example.lab708.tcmsystem.AppConstants.IP_PC;
 import static com.example.lab708.tcmsystem.AppConstants.PORT_PC;
@@ -28,6 +29,8 @@ public class MyTask extends AsyncTask<Void, Void, Void> {
     }
 
     public void onPostExecute(Void unused) {
-        progress.dismiss();
+        if(progress != null) {
+            progress.dismiss();
+        }
     }
 }

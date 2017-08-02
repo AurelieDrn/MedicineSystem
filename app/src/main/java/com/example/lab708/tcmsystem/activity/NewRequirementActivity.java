@@ -44,10 +44,14 @@ public class NewRequirementActivity extends AppCompatActivity {
 
     List<NewRequirement> newRequirementList;
 
+    ProgressDialog progress;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_requirement);
+
+        progress = null;
 
         // Get extras
         bundle = this.getIntent().getExtras();
@@ -103,7 +107,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 .setMessage(R.string.is_it_emergent)
                                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
-                                        ProgressDialog progress = new ProgressDialog(NewRequirementActivity.this);
+                                        progress = new ProgressDialog(NewRequirementActivity.this);
                                         progress.setMessage("Loading...");
                                         new MyTask(progress).execute();
                                         try {
@@ -217,5 +221,12 @@ public class NewRequirementActivity extends AppCompatActivity {
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
 
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        if(progress != null)
+            progress.dismiss();
     }
 }
