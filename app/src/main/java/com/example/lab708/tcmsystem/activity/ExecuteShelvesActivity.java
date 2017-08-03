@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -105,7 +106,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                     int year = expDate_dp.getYear();
                     int month = expDate_dp.getMonth()+1;
                     int day = expDate_dp.getDayOfMonth();
-                    String date = year + "-" + month + "-" + day;
+
+                    String date = checkDigit(year) + "-" + checkDigit(month) + "-" + checkDigit(day);
 
                     int quantity = Integer.valueOf(String.valueOf(quantity_et.getText()));
 
@@ -127,6 +129,10 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 addNewLocation();
             }
         });
+    }
+
+    public String checkDigit(int number) {
+        return number <=9 ? "0" + number : String.valueOf(number);
     }
     // Display the medicine information
     private void showInformation() {

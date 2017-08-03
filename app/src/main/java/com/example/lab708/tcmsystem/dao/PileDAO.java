@@ -4,6 +4,8 @@ package com.example.lab708.tcmsystem.dao;
  * Created by Aurelie on 06/07/2017.
  */
 
+import android.util.Log;
+
 import com.example.lab708.tcmsystem.model.Pickup;
 import com.example.lab708.tcmsystem.model.QuantityLocation;
 import com.example.lab708.tcmsystem.model.Pile;
@@ -20,25 +22,27 @@ public class PileDAO extends DAO<Pile> {
     }
 
     public void create(Pile p) throws SQLException {
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pil_ser`, `pil_quan` FROM `Pile` WHERE `pile_mednum` = \'"+p.getMedicineNumber()+"\' AND `pil_exp` = \'"+p.getDate()+"\' AND `pil_loc`= "+p.getLocation());
+
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_id`, `pile_quantity` FROM `Pile` WHERE `med_id` = "+p.getMedicineNumber()+" AND `pile_expdate` = \'"+p.getDate()+"\' AND `pil_loc`= "+p.getLocation());
+
         if(result.first()) {
-            int id = result.getInt("pil_ser");
-            int quant = result.getInt("pil_quan")+p.getQuantity();
-            this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_mednum` = \'"+p.getMedicineNumber()+"\',`pil_quan` = "+quant+",`pil_loc`= '"+p.getLocation()+"',`pil_exp`='"+p.getDate()+"' WHERE `pil_ser`= "+id);
+            int id = result.getInt("pile_id");
+            int quant = result.getInt("pile_quantity")+p.getQuantity();
+            this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_quantity` = "+quant+" WHERE `pile_id` = "+id);
         }
         else {
-            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,'"+p.getMedicineNumber()+"',"+p.getQuantity()+",'"+p.getLocation()+"','"+p.getDate()+"','"+"staff"+"')");
+            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,' "+p.getMedicineNumber()+"', "+p.getQuantity()+", "+p.getLocation()+" ,`pil_loc`= NULL, `pile_level`= NULL, '"+p.getDate()+"', '"+"staff"+"')");
         }
     }
 
     public ArrayList<QuantityLocation> getQuantLocations(int quantity, String medNumber) throws SQLException {
         ArrayList<QuantityLocation> quantLocationList = new ArrayList<>();
 
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pil_quan`, `pil_loc` FROM `Pile` WHERE `pile_mednum`=\'"+medNumber+"\' ORDER BY `pil_exp` ASC");
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_quantity`, `pil_loc` FROM `Pile` WHERE `med_id`=\'"+medNumber+"\' ORDER BY `pile_expdate` ASC");
 
         int quant = quantity;
         while(result.next() && quant > 0) {
-            int dbQuant = Integer.valueOf(result.getString("pil_quan"));
+            int dbQuant = Integer.valueOf(result.getString("pile_quantity"));
             String dbLoc = result.getString("pil_loc");
 
             // there is enough medicines in one pile
@@ -55,7 +59,7 @@ public class PileDAO extends DAO<Pile> {
     }
 
     public int getTotalQuantity(String medNumber) throws SQLException {
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT SUM(`pil_quan`) FROM `Pile` WHERE `pile_mednum` = "+medNumber);
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT SUM(`pile_quantity`) FROM `Pile` WHERE `med_id` = "+medNumber);
         if(result.next()) {
             return result.getInt(1);
         }
@@ -63,7 +67,7 @@ public class PileDAO extends DAO<Pile> {
     }
 
     public void executePickUp(Pickup p, int quantity) throws SQLException {
-        this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pil_quan` = `pil_quan`-"+quantity+" WHERE `pile_mednum` = '"+p.getSerialNumber()+"' AND `pil_loc` = '"+p.getLocation()+"'");
-        this.connect.createStatement().executeQuery("DELETE FROM `Pile` WHERE `pil_quan` <= 0");
+        this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_quantity` = `pile_quantity`-"+quantity+" WHERE `med_id` = '"+p.getSerialNumber()+"' AND `pil_loc` = '"+p.getLocation()+"'");
+        this.connect.createStatement().executeQuery("DELETE FROM `Pile` WHERE `pile_quantity` <= 0");
     }
 }
