@@ -38,7 +38,7 @@ public class PileDAO extends DAO<Pile> {
     public ArrayList<QuantityLocation> getQuantLocations(int quantity, String medNumber) throws SQLException {
         ArrayList<QuantityLocation> quantLocationList = new ArrayList<>();
 
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_quantity`, `pil_loc` FROM `Pile` WHERE `med_id`=\'"+medNumber+"\' ORDER BY `pile_expdate` ASC");
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_quantity`, `pil_loc` FROM `Pile` WHERE `med_id`="+medNumber+" ORDER BY `pile_expdate` ASC");
 
         int quant = quantity;
         while(result.next() && quant > 0) {

@@ -150,7 +150,8 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                         pickupList.add(new Pickup(ql.getLocation(), rd.getName(), rd.getQuantityInStock(), ql.getQuantity(), rd.getSerialNumber()));
                     }
                 }
-
+                Log.d("reqdetail", reqDetailList.toString());
+                Log.d("pickup", pickupList.toString());
                 Intent executePickupActivity = new Intent();
                 executePickupActivity.setClass(v.getContext(), ExecutePickupActivity.class);
                 executePickupActivity.putParcelableArrayListExtra("pickupList", (ArrayList<? extends Parcelable>) pickupList);

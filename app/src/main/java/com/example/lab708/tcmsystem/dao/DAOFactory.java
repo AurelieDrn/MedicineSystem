@@ -15,7 +15,9 @@ public class DAOFactory {
     static {
         try {
             Class.forName("org.mariadb.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mariadb://120.105.161.89/TCMSystem", "TCMSystem", "TCMSystem");
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            conn = DriverManager.getConnection("jdbc:mariadb://172.21.9.51/TCMSystem", "TCMSystem", "TCMSystem");
+            //conn = DriverManager.getConnection("jdbc:mariadb://192.168.0.173:3306/tcmsystem", "TCMSystem", "TCMSystem");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

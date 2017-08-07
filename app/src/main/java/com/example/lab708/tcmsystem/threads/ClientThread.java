@@ -51,6 +51,11 @@ public class ClientThread extends Thread {
     }
 
     public void txMsg(String msgToSend){
+        /*try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         if(printWriter != null){
             printWriter.println(msgToSend);
         }

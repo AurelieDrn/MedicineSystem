@@ -19,7 +19,7 @@ public class StaffDAO extends DAO<Staff>{
     public boolean check(Staff staff) throws SQLException {
         ResultSet result = null;
 
-        result = this.connect.createStatement().executeQuery("SELECT * FROM Staff WHERE sta_acc = '"+staff.getAccount()+"' AND sta_pas = '"+staff.getPassword()+"'");
+        result = this.connect.createStatement().executeQuery("SELECT * FROM Staff WHERE sta_id = '"+staff.getAccount()+"' AND sta_pas = '"+staff.getPassword()+"'");
         if(result.first()) {
             return true;
         }

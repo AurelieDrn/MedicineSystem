@@ -105,7 +105,13 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 button.setText(R.string.server_not_started);
             }*/
             //sendRequirement();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             send(clientThreads.get(clientThreadIndex));
+            goPickUp.setEnabled(false);
         }
     };
 
