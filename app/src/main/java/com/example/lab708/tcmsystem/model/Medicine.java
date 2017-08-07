@@ -12,14 +12,16 @@ public class Medicine {
     private String brand;
     private String firmNumber;
     private String experienceQuantity;
+    private int shelfNumber;
 
-    public Medicine(String brand, String experienceQuantity, String firmNumber, String ingredients, String name, String serialNumber) {
+    public Medicine(String brand, String experienceQuantity, String firmNumber, String ingredients, String name, String serialNumber, int shelfNumber) {
         this.brand = brand;
         this.experienceQuantity = experienceQuantity;
         this.firmNumber = firmNumber;
         this.ingredients = ingredients;
         this.name = name;
         this.serialNumber = serialNumber;
+        this.shelfNumber = shelfNumber;
     }
 
     public Medicine() {
@@ -79,6 +81,14 @@ public class Medicine {
         this.serialNumber = serialNumber;
     }
 
+    public int getShelfNumber() {
+        return shelfNumber;
+    }
+
+    public void setShelfNumber(int shelfNumber) {
+        this.shelfNumber = shelfNumber;
+    }
+
     @Override
     public String toString() {
         return "Medicine{" +
@@ -88,6 +98,7 @@ public class Medicine {
                 ", ingredients='" + ingredients + '\'' +
                 ", firmNumber='" + firmNumber + '\'' +
                 ", experienceQuantity='" + experienceQuantity + '\'' +
+                ", shelfNumber=" + shelfNumber +
                 '}';
     }
 }

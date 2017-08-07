@@ -30,8 +30,8 @@ import java.util.List;
 
 public class ExecuteShelvesActivity extends AppCompatActivity{
 
-    private TextView serialNumber_tv, medName_tv;
-    private EditText quantity_et;
+    private TextView serialNumber_tv, medName_tv, shelfLocation_tv;
+    private EditText quantity_et, layer_et, pile_et;
     private NumberPicker shelf_np, layer_np, pile_np;
     private Button submit_btn, add_btn;
     private DatePicker expDate_dp;
@@ -66,14 +66,18 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
         serialNumber_tv = (TextView) findViewById(R.id.execute_shelves_med_number) ;
         medName_tv = (TextView) findViewById(R.id.execute_shelve_med_name) ;
+        shelfLocation_tv = (TextView) findViewById(R.id.execute_shelves_shelfloc);
         expDate_dp = (DatePicker) findViewById(R.id.execute_shelves_date);
         quantity_et = (EditText) findViewById(R.id.execute_shelves_quantity) ;
+        layer_et = (EditText) findViewById(R.id.execute_shelves_layerloc);
+        pile_et = (EditText) findViewById(R.id.execute_shelves_pileloc);
         shelf_np = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
         layer_np = (NumberPicker) findViewById(R.id.execute_shelves_layer) ;
         pile_np = (NumberPicker) findViewById(R.id.execute_shelves_pile) ;
         submit_btn = (Button) findViewById(R.id.execute_shelves_submit) ;
         add_btn = (Button) findViewById(R.id.execute_shelves_add) ;
 
+        add_btn.setVisibility(View.INVISIBLE);
         // Get scanned code
         Bundle bcode = this.getIntent().getExtras();
         code = bcode.getString("Code_Num");
@@ -116,7 +120,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                     String locationPile = String.valueOf(pile_np.getValue());
                     String location = locationShelf+locationLayer+locationPile;
 
-                    insertInDatabase(location, quantity, date);
+                    String layer = layer_et.getText().toString();
+                    String pile = pile_et.getText().toString();
+                    insertInDatabase(layer, pile, quantity, date);
                 }
 
             }
@@ -143,6 +149,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 Medicine m = medicineDAO.select(this.code);
                 serialNumber_tv.setText(m.getSerialNumber());
                 medName_tv.setText(m.getName());
+                shelfLocation_tv.setText(m.getShelfNumber()+"");
             }
             else {
                 // Alert dialog error database
@@ -254,8 +261,8 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
     }
 
     // Execute requests to insert in database
-    private void insertInDatabase(String location, int quantity, String date) {
-        Pile p = new Pile(location, code, quantity, date);
+    private void insertInDatabase(String layer, String pile, int quantity, String date) {
+        Pile p = new Pile(layer, pile, code, quantity, date);
         PileDAO pileDAO = DAOFactory.getPileDAO();
         try {
             pileDAO.create(p);
@@ -265,7 +272,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         }
 
         // Execute requests for additional locations
-        for(int i = 0; i < editTextList.size(); i++) {
+        /*for(int i = 0; i < editTextList.size(); i++) {
             MyNumberPicker myNumberPicker_tmp = numberPickerList.get(i);
             String location1_tmp = String.valueOf(myNumberPicker_tmp.getLocation1().getValue());
             String location2_tmp = String.valueOf(myNumberPicker_tmp.getLocation2().getValue());
@@ -281,7 +288,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
                 showErrorDialog();
                 e.printStackTrace();
             }
-        }
+        }*/
 
         // Alert dialog success
         showSuccessDialog();

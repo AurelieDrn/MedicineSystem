@@ -9,12 +9,14 @@ public class Pile {
     private int ser;
     private String medicineNumber;
     private int quantity;
-    private String location;
+    private String layer;
+    private String pile;
     private String date;
     private String staffAccount;
 
-    public Pile(String location, String medicineNumber, int quantity, String date) {
-        this.location = location;
+    public Pile(String layer, String pile, String medicineNumber, int quantity, String date) {
+        this.layer = layer;
+        this.pile = pile;
         this.medicineNumber = medicineNumber;
         this.quantity = quantity;
         this.date = date;
@@ -28,12 +30,12 @@ public class Pile {
         this.date = date;
     }
 
-    public String getLocation() {
-        return location;
+    public String getLayer() {
+        return layer;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setLayer(String layer) {
+        this.layer = layer;
     }
 
     public String getMedicineNumber() {
@@ -42,6 +44,14 @@ public class Pile {
 
     public void setMedicineNumber(String medicineNumber) {
         this.medicineNumber = medicineNumber;
+    }
+
+    public String getPile() {
+        return pile;
+    }
+
+    public void setPile(String pile) {
+        this.pile = pile;
     }
 
     public int getQuantity() {
@@ -66,5 +76,18 @@ public class Pile {
 
     public void setStaffAccount(String staffAccount) {
         this.staffAccount = staffAccount;
+    }
+
+    @Override
+    public String toString() {
+        return "Pile{" +
+                "date='" + date + '\'' +
+                ", ser=" + ser +
+                ", medicineNumber='" + medicineNumber + '\'' +
+                ", quantity=" + quantity +
+                ", layer='" + layer + '\'' +
+                ", pile='" + pile + '\'' +
+                ", staffAccount='" + staffAccount + '\'' +
+                '}';
     }
 }

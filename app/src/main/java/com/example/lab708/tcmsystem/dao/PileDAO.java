@@ -23,7 +23,7 @@ public class PileDAO extends DAO<Pile> {
 
     public void create(Pile p) throws SQLException {
 
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_id`, `pile_quantity` FROM `Pile` WHERE `med_id` = "+p.getMedicineNumber()+" AND `pile_expdate` = \'"+p.getDate()+"\' AND `pil_loc`= "+p.getLocation());
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_id`, `pile_quantity` FROM `Pile` WHERE `med_id` = "+p.getMedicineNumber()+" AND `pile_expdate` = \'"+p.getDate()+"\' AND `pile_layer`= "+p.getLayer()+" AND `pile_level`= "+p.getPile());
 
         if(result.first()) {
             int id = result.getInt("pile_id");
@@ -31,20 +31,29 @@ public class PileDAO extends DAO<Pile> {
             this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_quantity` = "+quant+" WHERE `pile_id` = "+id);
         }
         else {
-            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL,' "+p.getMedicineNumber()+"', "+p.getQuantity()+", "+p.getLocation()+" ,`pil_loc`= NULL, `pile_level`= NULL, '"+p.getDate()+"', '"+"staff"+"')");
+            Log.d("ELSE", p.toString());
+            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL, "+p.getMedicineNumber()+", "+p.getQuantity()+", NULL, "+p.getPile()+", "+p.getLayer()+", '"+p.getDate()+"', '"+"staff"+"')");
         }
     }
 
     public ArrayList<QuantityLocation> getQuantLocations(int quantity, String medNumber) throws SQLException {
         ArrayList<QuantityLocation> quantLocationList = new ArrayList<>();
 
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_quantity`, `pil_loc` FROM `Pile` WHERE `med_id`="+medNumber+" ORDER BY `pile_expdate` ASC");
+        String dbLoc0 = "";
+        ResultSet result0 = this.connect.createStatement().executeQuery("SELECT `med_shelf` FROM `medicine` WHERE `med_id` = "+medNumber);
+        while(result0.next()) {
+            dbLoc0 = result0.getString("med_shelf");
+        }
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pile_quantity`, `pile_layer`, `pile_level` FROM `Pile` WHERE `med_id`="+medNumber+" ORDER BY `pile_expdate` ASC");
 
         int quant = quantity;
         while(result.next() && quant > 0) {
             int dbQuant = Integer.valueOf(result.getString("pile_quantity"));
-            String dbLoc = result.getString("pil_loc");
-
+            //String dbLoc = result.getString("pil_loc");
+            String dbLoc1 = result.getString("pile_layer");
+            String dbLoc2 = result.getString("pile_level");
+            String dbLoc = dbLoc0+"-"+dbLoc1+"-"+dbLoc2;
+            
             // there is enough medicines in one pile
             if(dbQuant >= quant) {
                 quantLocationList.add(new QuantityLocation(dbLoc, quant));

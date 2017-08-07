@@ -119,10 +119,16 @@ public class Pickup implements Parcelable, Comparable {
     @Override
     public int compareTo(Object o) {
         Pickup pickup = (Pickup) o;
-        if(Integer.valueOf(this.location) < Integer.valueOf((pickup.getLocation()))) {
+        String[] parts = this.location.split("-");
+        int myLocation = Integer.valueOf(parts[0]+parts[1]+parts[2]);
+
+        String[] parts2 = pickup.getLocation().split("-");
+        int otherLocation = Integer.valueOf(parts2[0]+parts2[1]+parts2[2]);
+
+        if(myLocation < otherLocation) {
             return -1;
         }
-        else if(Integer.valueOf(this.location) == Integer.valueOf((pickup.getLocation()))) {
+        else if(myLocation == otherLocation) {
             return 0;
         }
         else return 1;

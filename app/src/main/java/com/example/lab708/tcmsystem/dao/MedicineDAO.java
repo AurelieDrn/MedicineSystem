@@ -36,6 +36,7 @@ public class MedicineDAO extends DAO<Medicine>{
             med.setBrand(result.getString("med_brand"));
             med.setFirmNumber(result.getString("firm_id"));
             med.setIngredients(result.getString("med_ingr"));
+            med.setShelfNumber(result.getInt("med_shelf"));
         }
         return med;
     }

@@ -122,6 +122,68 @@
                     android:layout_width="0dp"/>
             </TableRow>
 
+            <TableRow>
+                <!-- Location : shelf -->
+                <TextView
+                    android:text="@string/shelf_location"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/textview_middle_size" />
+                <TextView
+                    android:id="@+id/execute_shelves_shelfloc"
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/textview_middle_size" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_width="0dp"/>
+            </TableRow>
+
+            <TableRow>
+                <!-- Location : layer -->
+                <TextView
+                    android:text="@string/layer_location"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/textview_middle_size" />
+                <EditText
+                    android:id="@+id/execute_shelves_layerloc"
+                    android:layout_height="match_parent"
+                    android:layout_width="60dp"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:maxLength="2"
+                    android:ems="2" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
+            </TableRow>
+
+            <TableRow>
+                <!-- Location : pile -->
+                <TextView
+                    android:text="@string/pile_location"
+                    android:layout_height="match_parent"
+                    android:textAlignment="center"
+                    android:layout_width="0dp"
+                    android:textSize="@dimen/textview_middle_size" />
+                <EditText
+                    android:id="@+id/execute_shelves_pileloc"
+                    android:layout_height="match_parent"
+                    android:layout_width="60dp"
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:maxLength="2"
+                    android:ems="2" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:layout_width="0dp"/>
+            </TableRow>
+
             <TableRow
                 android:layout_gravity="center_vertical"
                 android:id="@+id/lastRow"
