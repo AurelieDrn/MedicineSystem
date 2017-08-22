@@ -25,13 +25,18 @@ import java.util.List;
 
 import static com.example.lab708.tcmsystem.AppConstants.IP;
 import static com.example.lab708.tcmsystem.AppConstants.IP2;
+import static com.example.lab708.tcmsystem.AppConstants.IP3;
 import static com.example.lab708.tcmsystem.AppConstants.PORT;
 
 public class ExecutePickupActivity extends AppCompatActivity {
 
     private ClientHandler clientHandler;
+    private ClientHandler clientHandler2;
+    private ClientHandler clientHandler3;
+
     private ClientThread clientThread;
     private ClientThread clientThread2;
+    private ClientThread clientThread3;
     private Button goPickUp;
     private TextView state;
     private List<ClientThread> clientThreads;
@@ -61,14 +66,17 @@ public class ExecutePickupActivity extends AppCompatActivity {
         setClientThreadIndex();
 
         clientHandler = new ClientHandler(this);
-
+        clientHandler2 = new ClientHandler(this);
+        clientHandler3 = new ClientHandler(this);
 
         // connect
         clientThread = new ClientThread(IP, PORT, clientHandler);
-        clientThread2 = new ClientThread(IP2, PORT, clientHandler);
+        clientThread2 = new ClientThread(IP2, PORT, clientHandler2);
+        clientThread3 = new ClientThread(IP3, PORT, clientHandler3);
 
         clientThreads.add(clientThread);
         clientThreads.add(clientThread2);
+        clientThreads.add(clientThread3);
 
         for(ClientThread c : clientThreads) {
             c.start();
@@ -76,6 +84,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
         //reset.setOnClickListener(buttonDisConnectOnClickListener);
+        Log.d("client threads", clientThreads.toString());
     }
 
     View.OnClickListener buttonDisConnectOnClickListener = new View.OnClickListener() {
@@ -119,6 +128,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
         String location = pickupList.get(0).getLocation();
         char firstNumber = location.charAt(0);
         this.clientThreadIndex = Integer.parseInt(String.valueOf(firstNumber))-1;
+        //this.clientThreadIndex = 0;
         Log.d("INDEX", String.valueOf(clientThreadIndex));
     }
 
@@ -191,11 +201,13 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 else {
                     //sendRequirement2();
                     setClientThreadIndex();
+                    Log.d("else", String.valueOf(this.clientThreadIndex));
                     //clientThread.txMsg("CLEAR");
                     //this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
                     for(ClientThread c : clientThreads) {
                         c.txMsg("RESTART");
                     }
+                    Log.d("clients", clientThreads.toString());
                     send(this.clientThreads.get(clientThreadIndex));
 
                     for(ClientThread c : clientThreads) {

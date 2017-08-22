@@ -32,7 +32,7 @@ public class PileDAO extends DAO<Pile> {
         }
         else {
             Log.d("ELSE", p.toString());
-            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL, "+p.getMedicineNumber()+", "+p.getQuantity()+", NULL, "+p.getPile()+", "+p.getLayer()+", '"+p.getDate()+"', '"+"staff"+"')");
+            this.connect.createStatement().executeQuery("INSERT INTO Pile VALUES (NULL, "+p.getMedicineNumber()+", "+p.getQuantity()+", "+p.getPile()+", "+p.getLayer()+", '"+p.getDate()+"', '"+"staff"+"')");
         }
     }
 
@@ -76,7 +76,32 @@ public class PileDAO extends DAO<Pile> {
     }
 
     public void executePickUp(Pickup p, int quantity) throws SQLException {
-        this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_quantity` = `pile_quantity`-"+quantity+" WHERE `med_id` = '"+p.getSerialNumber()+"' AND `pil_loc` = '"+p.getLocation()+"'");
-        this.connect.createStatement().executeQuery("DELETE FROM `Pile` WHERE `pile_quantity` <= 0");
+        String[] parts = p.getLocation().split("-");
+        String shelf = parts[0];
+        String layer = parts[1];
+        String level = parts[2];
+        int myquantity = quantity;
+
+        while(myquantity != 0) {
+            ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM `pile` WHERE `med_id` = "+p.getSerialNumber()+" AND `pile_level` = "+level+" AND `pile_layer` = "+layer+" ORDER BY `pile_expdate` ASC");
+            int pile_id = 0;
+            int quant = 0;
+            if(result.next()) {
+                pile_id = result.getInt("pile_id");
+                quant = result.getInt("pile_quantity");
+            }
+            if(myquantity >= quant) {
+                this.connect.createStatement().executeQuery("DELETE FROM `pile` WHERE `pile_id` = "+pile_id);
+                myquantity = myquantity - quant;
+            }
+            else {
+                this.connect.createStatement().executeQuery("UPDATE `Pile` SET `pile_quantity` = `pile_quantity`-"+quantity+" WHERE `pile_id` = "+pile_id);
+                myquantity = 0;
+                break;
+            }
+            Log.d("myquantity", String.valueOf(myquantity));
+            //this.connect.createStatement().executeQuery("DELETE FROM `Pile` WHERE `pile_quantity` <= 0");
+        }
+
     }
 }

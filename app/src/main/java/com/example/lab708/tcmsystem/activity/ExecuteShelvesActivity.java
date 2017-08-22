@@ -71,9 +71,9 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         quantity_et = (EditText) findViewById(R.id.execute_shelves_quantity) ;
         layer_et = (EditText) findViewById(R.id.execute_shelves_layerloc);
         pile_et = (EditText) findViewById(R.id.execute_shelves_pileloc);
-        shelf_np = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
-        layer_np = (NumberPicker) findViewById(R.id.execute_shelves_layer) ;
-        pile_np = (NumberPicker) findViewById(R.id.execute_shelves_pile) ;
+        //shelf_np = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
+        //layer_np = (NumberPicker) findViewById(R.id.execute_shelves_layer) ;
+        //pile_np = (NumberPicker) findViewById(R.id.execute_shelves_pile) ;
         submit_btn = (Button) findViewById(R.id.execute_shelves_submit) ;
         add_btn = (Button) findViewById(R.id.execute_shelves_add) ;
 
@@ -86,12 +86,12 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         Bundle bstaffacc = this.getIntent().getExtras();
         staffacc = bstaffacc.getString("staffacc");
         */
-        shelf_np.setMinValue(1);
+/*        shelf_np.setMinValue(1);
         shelf_np.setMaxValue(10);
         layer_np.setMinValue(1);
         layer_np.setMaxValue(10);
         pile_np.setMinValue(1);
-        pile_np.setMaxValue(10);
+        pile_np.setMaxValue(10);*/
 
        showInformation();
 
@@ -115,10 +115,10 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
 
                     int quantity = Integer.valueOf(String.valueOf(quantity_et.getText()));
 
-                    String locationShelf = String.valueOf(shelf_np.getValue());
+                   /* String locationShelf = String.valueOf(shelf_np.getValue());
                     String locationLayer = String.valueOf(layer_np.getValue());
                     String locationPile = String.valueOf(pile_np.getValue());
-                    String location = locationShelf+locationLayer+locationPile;
+                    String location = locationShelf+locationLayer+locationPile;*/
 
                     String layer = layer_et.getText().toString();
                     String pile = pile_et.getText().toString();
@@ -242,7 +242,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         }
 
         // Get the first number pickers values
-        NumberPicker nbPicker1 = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
+        /*NumberPicker nbPicker1 = (NumberPicker) findViewById(R.id.execute_shelves_shelf);
         NumberPicker nbPicker2 = (NumberPicker) findViewById(R.id.execute_shelves_layer);
         NumberPicker nbPicker3 = (NumberPicker) findViewById(R.id.execute_shelves_pile);
         String location01 = String.valueOf(nbPicker1.getValue());
@@ -256,7 +256,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
             if(first.equals(l)) {
                 return true;
             }
-        }
+        }*/
         return false;
     }
 

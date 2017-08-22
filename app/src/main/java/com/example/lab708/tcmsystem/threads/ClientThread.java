@@ -57,6 +57,7 @@ public class ClientThread extends Thread {
             e.printStackTrace();
         }*/
         if(printWriter != null){
+            Log.d("txMsg", msgToSend);
             printWriter.println(msgToSend);
         }
     }
@@ -70,6 +71,7 @@ public class ClientThread extends Thread {
 
         while (scanning) {
             try {
+                Log.d("socket", dstAddress.toString()+"  "+dstPort);
                 socket = new Socket(dstAddress, dstPort);
 
                 scanning = false;
@@ -91,17 +93,16 @@ public class ClientThread extends Thread {
                     sendState("connected");*/
 
                     //bufferedReader block the code
-                    String line = bufferedReader.readLine();
-                    if(line != null){
+                    String line = "";
+                    if ((line = bufferedReader.readLine()) != null) {
                         handler.sendMessage(
                                 Message.obtain(handler,
                                         ExecutePickupActivity.ClientHandler.UPDATE_MSG, line));
                     }
-
                 }
 
             } catch (IOException e) {
-                //e.printStackTrace();
+                e.printStackTrace();
             } finally {
                 if(bufferedReader != null){
                     try {

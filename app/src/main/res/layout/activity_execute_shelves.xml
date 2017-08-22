@@ -163,7 +163,8 @@
                     android:layout_width="0dp"/>
             </TableRow>
 
-            <TableRow>
+            <TableRow
+                android:id="@+id/lastRow">
                 <!-- Location : pile -->
                 <TextView
                     android:text="@string/pile_location"
@@ -184,55 +185,7 @@
                     android:layout_width="0dp"/>
             </TableRow>
 
-            <TableRow
-                android:layout_gravity="center_vertical"
-                android:id="@+id/lastRow"
-                >
-                <!-- Shelf location -->
-                <TextView
-                    android:text="@string/location"
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"
-                    android:textAlignment="center"
-                    android:textSize="@dimen/textview_middle_size" />
 
-                <RelativeLayout
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_width="0dp">
-                    <NumberPicker
-                        android:id="@+id/execute_shelves_shelf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginEnd="15dp"
-                        >
-                    </NumberPicker>
-                    <NumberPicker
-                        android:id="@+id/execute_shelves_layer"
-                        android:layout_toRightOf="@id/execute_shelves_shelf"
-                        android:layout_toEndOf="@id/execute_shelves_shelf"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginEnd="15dp"
-                        >
-                    </NumberPicker>
-                    <NumberPicker
-                        android:id="@+id/execute_shelves_pile"
-                        android:layout_toRightOf="@id/execute_shelves_layer"
-                        android:layout_toEndOf="@id/execute_shelves_layer"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginEnd="15dp"
-                        >
-                    </NumberPicker>
-                </RelativeLayout>
-                <TextView
-                    android:layout_height="match_parent"
-                    android:layout_width="0dp"/>
-            </TableRow>
 
         </TableLayout>
 

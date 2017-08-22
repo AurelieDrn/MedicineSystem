@@ -10,10 +10,12 @@ public final class AppConstants {
     }
 
     // ip RPI
-    public static final String IP = "172.21.13.126";
-    public static final String IP2 = "172.21.1.138";
+    public static final String IP = "172.21.9.76";
+    public static final String IP2 = "172.21.1.175";
+    public static final String IP3 = "172.21.2.34";
 
     public static final String IP_PC = "172.21.9.51";
+
 
     public static final int PORT = 8080;
     public static final int PORT_PC = 9090;

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import static com.example.lab708.tcmsystem.AppConstants.IP_PC;
+
 /**
  * Created by Aurelie on 05/07/2017.
  */
@@ -16,7 +18,8 @@ public class DAOFactory {
         try {
             Class.forName("org.mariadb.jdbc.Driver").newInstance();
             //Class.forName("com.mysql.jdbc.Driver").newInstance();
-            conn = DriverManager.getConnection("jdbc:mariadb://172.21.9.51/TCMSystem", "TCMSystem", "TCMSystem");
+            String databaseAddress = "jdbc:mariadb://"+IP_PC+"/TCMSystem";
+            conn = DriverManager.getConnection(databaseAddress, "TCMSystem", "TCMSystem");
             //conn = DriverManager.getConnection("jdbc:mariadb://192.168.0.173:3306/tcmsystem", "TCMSystem", "TCMSystem");
         } catch (SQLException e) {
             e.printStackTrace();
