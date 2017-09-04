@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.model.Pickup;
@@ -34,9 +35,11 @@ import java.util.List;
 public class RequirementsAdapter extends ArrayAdapter<Requirement> {
 
     private int requirementId;
+    private ArrayList<Requirement> requirementList;
 
     public RequirementsAdapter(Context context, ArrayList<Requirement> requirements) {
         super(context, 0, requirements);
+        this.requirementList = requirements;
     }
 
     @Override
@@ -50,13 +53,15 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.adapter_check_pickup, parent, false);
         }
         // Lookup view for data population
-        TextView tvNum = (TextView) convertView.findViewById(R.id.check_pic_num);
+        final TextView tvNum = (TextView) convertView.findViewById(R.id.check_pic_num);
         TextView tvSta = (TextView) convertView.findViewById(R.id.check_pic_sta);
         TextView tvName = (TextView) convertView.findViewById(R.id.check_pic_medname);
+        final TableRow tableRow = (TableRow)convertView.findViewById(R.id.check_pickup_row);
 
-        // Button more details
+        // Buttons
         Button btnMDetails = (Button) convertView.findViewById(R.id.more_details_btn);
         Button btnExecutePickup = (Button) convertView.findViewById(R.id.buttonExecute);
+        Button btnDelete = (Button) convertView.findViewById(R.id.buttonDelete);
 
         // Populate the data into the template view using the data object
         tvNum.setText(requirement.getNumber());
@@ -158,6 +163,27 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                 executePickupActivity.putExtra("id", requirementId);
                 v.getContext().startActivity(executePickupActivity);
 
+            }
+        });
+
+        // Button delete requirement
+        btnDelete.setTag(position);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = (Integer) v.getTag();
+                // Access the row position here to get the correct data item
+                List<RequirementDetail> reqDetailList = new ArrayList<RequirementDetail>();
+                Requirement req = getItem(position);
+
+                RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+                try {
+                    requirementDAO.deleteRequirement(Integer.parseInt(req.getNumber()));
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                requirementList.remove(position);
+                RequirementsAdapter.super.notifyDataSetChanged();
             }
         });
 
