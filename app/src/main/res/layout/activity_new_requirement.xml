@@ -61,10 +61,19 @@
         </TableRow>
     </TableLayout>
 
+    <CheckBox
+        android:id="@+id/new_requirement_emergency"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/emergency_option"
+        android:layout_below="@id/new_requirement_tl"
+        android:textSize="@dimen/textview_big_1_size"/>
+
     <Button
         android:id="@+id/new_requirement_add"
         android:text="@string/add_more_medicines"
-        android:layout_below="@id/new_requirement_tl"
+        android:layout_below="@id/new_requirement_emergency"
         android:layout_width="@dimen/btn_width"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"

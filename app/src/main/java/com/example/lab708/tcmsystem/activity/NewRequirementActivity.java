@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -95,8 +96,23 @@ public class NewRequirementActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+                        CheckBox checkBox = (CheckBox) findViewById(R.id.new_requirement_emergency);
+                        int emergency = 0;
 
-                        AlertDialog.Builder builder;
+                        if(checkBox.isChecked()) {
+                            emergency = 1;
+                        }
+                        else {
+                            emergency = 0;
+                        }
+                        try {
+                            requirementDAO.createNewRequirements(newRequirementList, emergency);
+                            showSuccessDialog();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                            showErrorDialog();
+                        }
+                        /*AlertDialog.Builder builder;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
                         } else {
@@ -132,9 +148,9 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 })
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
+                                */
                     }
                 });
-
             }
             else {
                 // Alert dialog error database
