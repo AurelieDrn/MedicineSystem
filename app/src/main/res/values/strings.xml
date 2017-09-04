@@ -3,8 +3,9 @@
 
     <string name="account_name">帳號</string>
     <string name="add_location">上架其他藥品</string>
-    <string name="all_locations_different">All the locations have to be different</string>
     <string name="add_more_medicines">Add more medicines</string>
+    <string name="all_locations_different">All the locations have to be different</string>
+    <string name="already_scanned">Medicine already scanned</string>
 
     <string name="back">Go back</string>
     <string name="back_home">Back to home screen</string>

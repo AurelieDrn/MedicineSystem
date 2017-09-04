@@ -57,61 +57,73 @@ public class NewRequirementActivity extends AppCompatActivity {
         // Get extras
         bundle = this.getIntent().getExtras();
         code = bundle.getString("Code_Num");
+
         newRequirementList = ((ArrayList<NewRequirement>) bundle.getSerializable("newRequirementList"));
         if(newRequirementList == null) {
             newRequirementList = new ArrayList<>();
         }
 
-        MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
-        try {
-            if(medicineDAO.find(this.code)) {
-                Medicine medicine = new Medicine();
-                try {
-                    medicine = medicineDAO.select(code);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-                // Add the new requirement to the list
-                newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
-                // Add all the new requirements
-                addRows();
+        // Medicine already scanned
+        Intent backToScan = new Intent(NewRequirementActivity.this, ScanActivity.class);
+        backToScan.putExtra("toFunction", "NewRequirementActivity");
+        Bundle myBundle1 = new Bundle();
+        myBundle1.putSerializable("newRequirementList", (Serializable) newRequirementList);
+        backToScan.putExtras(myBundle1);
+        if(elementExists(code)) {
+            CustomDialog.showErrorMessage(this, "Error", "Medicine already scanned", backToScan);
+        }
+        else {
+            MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
+            try {
 
-                // Go back to scan to add a new requirement
-                add_btn = (Button) findViewById(R.id.new_requirement_add);
-                add_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
-                        intent.putExtra("toFunction", "NewRequirementActivity");
-                        Bundle myBundle = new Bundle();
-                        myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
-                        intent.putExtras(myBundle);
-                        startActivity(intent);
+                if(medicineDAO.find(this.code)) {
+                    Medicine medicine = new Medicine();
+                    try {
+                        medicine = medicineDAO.select(code);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                });
+                    // Add the new requirement to the list
+                    newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
+                    // Add all the new requirements
+                    addRows();
 
-                // Submit
-                submit_btn = (Button) findViewById(R.id.new_requirement_submit);
-                submit_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
-                        CheckBox checkBox = (CheckBox) findViewById(R.id.new_requirement_emergency);
-                        int emergency = 0;
+                    // Go back to scan to add a new requirement
+                    add_btn = (Button) findViewById(R.id.new_requirement_add);
+                    add_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
+                            intent.putExtra("toFunction", "NewRequirementActivity");
+                            Bundle myBundle = new Bundle();
+                            myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
+                            intent.putExtras(myBundle);
+                            startActivity(intent);
+                        }
+                    });
 
-                        if(checkBox.isChecked()) {
-                            emergency = 1;
-                        }
-                        else {
-                            emergency = 0;
-                        }
-                        try {
-                            requirementDAO.createNewRequirements(newRequirementList, emergency);
-                            showSuccessDialog();
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                            showErrorDialog();
-                        }
+                    // Submit
+                    submit_btn = (Button) findViewById(R.id.new_requirement_submit);
+                    submit_btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+                            CheckBox checkBox = (CheckBox) findViewById(R.id.new_requirement_emergency);
+                            int emergency = 0;
+
+                            if(checkBox.isChecked()) {
+                                emergency = 1;
+                            }
+                            else {
+                                emergency = 0;
+                            }
+                            try {
+                                requirementDAO.createNewRequirements(newRequirementList, emergency);
+                                showSuccessDialog();
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                                showErrorDialog();
+                            }
                         /*AlertDialog.Builder builder;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -149,21 +161,23 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                                 */
-                    }
-                });
+                        }
+                    });
+                }
+                else {
+                    // Alert dialog error database
+                    Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
+                    intent.putExtra("toFunction", "NewRequirementActivity");
+                    Bundle myBundle = new Bundle();
+                    myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
+                    intent.putExtras(myBundle);
+                    CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "查無此藥品，請至資料庫新增! " + code + " not in database", intent, R.string.back);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-            else {
-                // Alert dialog error database
-                Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
-                intent.putExtra("toFunction", "NewRequirementActivity");
-                Bundle myBundle = new Bundle();
-                myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
-                intent.putExtras(myBundle);
-                CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "查無此藥品，請至資料庫新增! " + code + " not in database", intent, R.string.back);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
+
     }
 
     private void addRows() {
@@ -244,5 +258,17 @@ public class NewRequirementActivity extends AppCompatActivity {
         super.onPause();
         if(progress != null)
             progress.dismiss();
+    }
+
+    private boolean elementExists(String serialNumber) {
+        boolean b = false;
+
+        for(NewRequirement nr : newRequirementList) {
+            if(nr.getMedicineNumber().equals(serialNumber)) {
+                b = true;
+                break;
+            }
+        }
+        return b;
     }
 }
