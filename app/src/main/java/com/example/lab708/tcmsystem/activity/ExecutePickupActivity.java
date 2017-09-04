@@ -114,11 +114,13 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 button.setText(R.string.server_not_started);
             }*/
             //sendRequirement();
+            button.setEnabled(false);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            button.setEnabled(true);
             send(clientThreads.get(clientThreadIndex));
             goPickUp.setEnabled(false);
         }
@@ -205,7 +207,9 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     //clientThread.txMsg("CLEAR");
                     //this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
                     for(ClientThread c : clientThreads) {
-                        c.txMsg("RESTART");
+                        if(c.equals(this.clientThreads.get(clientThreadIndex))) {
+                            c.txMsg("RESTART");
+                        }
                     }
                     Log.d("clients", clientThreads.toString());
                     send(this.clientThreads.get(clientThreadIndex));

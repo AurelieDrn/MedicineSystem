@@ -52,13 +52,21 @@ public class ClientThread extends Thread {
 
     public void txMsg(String msgToSend){
         /*try {
-            Thread.sleep(1500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }*/
         if(printWriter != null){
             Log.d("txMsg", msgToSend);
-            printWriter.println(msgToSend);
+            if(msgToSend.equals("flush")) {
+                printWriter.flush();
+            }
+            else {
+                printWriter.println(msgToSend);
+            }
+        }
+        else {
+            Log.d("ClientThread", "printWriter is null");
         }
     }
 
@@ -106,6 +114,7 @@ public class ClientThread extends Thread {
             } finally {
                 if(bufferedReader != null){
                     try {
+                        Log.d("ClientThread", "buffered reader closed");
                         bufferedReader.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -113,12 +122,13 @@ public class ClientThread extends Thread {
                 }
 
                 if(printWriter != null){
+                    Log.d("ClientThread", "print writer closed");
                     printWriter.close();
                 }
 
                 if(socket != null){
                     try {
-                        Log.d("SOCKET", "socket close");
+                        Log.d("ClientThread", "socket close");
                         socket.close();
                     } catch (IOException e) {
                         e.printStackTrace();
