@@ -3,4 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="pink">#FF4081</color>
+    <color name="indigo">#264348</color>
+    <color name="indigo_lighter_2">#355d64</color>
+    <color name="green">#16640D</color>
+    <color name="dodger">#19B5FE</color>
+    <color name="iris">#763568</color>
+    <color name="rapeseed">#A17917</color>
 </resources>

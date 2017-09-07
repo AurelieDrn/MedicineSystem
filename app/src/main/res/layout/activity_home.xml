@@ -22,6 +22,7 @@
             android:layout_height="wrap_content"
             android:textSize="30sp"
             android:text="@string/execute_shelves_operations"
+            android:theme="@style/MyButton"
             />
 
         <Button
@@ -31,7 +32,8 @@
             android:layout_width="500dp"
             android:layout_height="wrap_content"
             android:textSize="30sp"
-            android:text="@string/check_pickup_requierements"/>
+            android:text="@string/check_pickup_requierements"
+            android:theme="@style/MyButton"/>
 
         <Button
             android:id="@+id/new_requirement"
@@ -41,6 +43,7 @@
             android:layout_marginTop="50dp"
             android:textSize="30sp"
             android:text="@string/new_pickup_requierement"
+            android:theme="@style/MyButton"
             />
     </RelativeLayout>
 
