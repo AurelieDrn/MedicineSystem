@@ -11,8 +11,10 @@
 
     <style name="MyButton" parent="Theme.AppCompat.Light">
         <item name="colorControlHighlight">@color/iris</item>
-        <item name="colorButtonNormal">@color/dodger</item>
+        <item name="colorButtonNormal">@color/indigo_lighter_2</item>
+        <item name="android:textColor">@color/white</item>
     </style>
+
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@color/rapeseed</item>
     </style>

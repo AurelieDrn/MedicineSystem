@@ -18,6 +18,7 @@
         android:textSize="@dimen/textview_big_1_size"
         android:layout_marginTop="@dimen/margin_title"
         android:text="@string/code_scanner"
+        android:textColor="@color/black"
         />
 
     <FrameLayout

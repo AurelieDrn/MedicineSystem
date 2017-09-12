@@ -23,7 +23,8 @@
             android:layout_marginTop="@dimen/margin_title"
             android:layout_marginBottom="20dp"
             android:gravity="center_horizontal"
-            android:text="@string/med_info" />
+            android:text="@string/med_info"
+            android:textColor="@color/black"/>
 
         <TableLayout
             android:id="@+id/execute_shelves_tl"
@@ -205,7 +206,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_gravity="center"
-                android:textSize="@dimen/text" />
+                android:textSize="@dimen/text"
+                android:theme="@style/MyButton"/>
 
     </LinearLayout>
 

@@ -19,6 +19,7 @@
         android:textSize="@dimen/textview_big_1_size"
         android:layout_marginTop="@dimen/margin_title"
         android:text="@string/check_pickup_requierements"
+        android:textColor="@color/black"
         />
 
     <TableLayout

@@ -32,7 +32,8 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
             android:layout_gravity="center_vertical"
-            android:text="\?" />
+            android:text="\?"
+            android:theme="@style/MyButton"/>
 
         <Button
             android:id="@+id/buttonExecute"
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
             android:layout_gravity="center_vertical"
-            android:text="+" />
+            android:text="+"
+            android:theme="@style/MyButton"/>
 
         <Button
             android:id="@+id/buttonDelete"
@@ -48,6 +50,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/textview_middle_size"
             android:layout_gravity="center_vertical"
-            android:text="x" />
+            android:text="x"
+            android:theme="@style/MyButton"/>
     </TableRow>
 </TableLayout>

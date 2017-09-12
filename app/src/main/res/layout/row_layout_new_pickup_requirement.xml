@@ -30,5 +30,6 @@
         android:textAlignment="center"
         android:textSize="@dimen/textview_middle_size"
         android:text="x"
+        android:theme="@style/MyButton"
         />
 </TableRow>

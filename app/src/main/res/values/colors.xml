@@ -10,4 +10,6 @@
     <color name="dodger">#19B5FE</color>
     <color name="iris">#763568</color>
     <color name="rapeseed">#A17917</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

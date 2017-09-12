@@ -33,7 +33,8 @@
         android:textSize="@dimen/textview_big_1_size"
         android:text="Go pick up medicines"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:theme="@style/MyButton"/>
 
     <TextView
         android:id="@+id/execute_pu_txt"
