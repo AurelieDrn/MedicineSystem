@@ -78,7 +78,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
         }
         tvName.setText(medNames);
         // Disable button execute pickup when there are not enough quantity in database
-        RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+        final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
         try {
             if(requirementDAO.medOutOfStock(requirementId)) {
                 btnExecutePickup.setEnabled(false);
@@ -107,11 +107,17 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
 
 
                     PileDAO pileDAO = DAOFactory.getPileDAO();
+                    RequirementDAO requirementDAO1 = DAOFactory.getRequirementDAO();
+
                     try {
+                        int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()));
                         reqDetail.setName(med.getName());
                         reqDetail.setSerialNumber(med.getSerialNumber());
-                        reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(Integer.valueOf(med.getExperienceQuantity()), med.getSerialNumber()));
+                        reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(quantity, med.getSerialNumber()));
                         reqDetail.setQuantityInStock(pileDAO.getTotalQuantity(med.getSerialNumber()));
+
+                        reqDetail.setQuantityLocationList(combineQuantities(reqDetail.getQuantityLocationList()));
+
                         reqDetailList.add(reqDetail);
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -134,15 +140,20 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                 // Access the row position here to get the correct data item
                 List<RequirementDetail> reqDetailList = new ArrayList<RequirementDetail>();
                 Requirement req = getItem(position);
+                RequirementDAO requirementDAO1 = DAOFactory.getRequirementDAO();
 
                 for(Medicine med : req.getMedicines()) {
+
                     RequirementDetail reqDetail = new RequirementDetail();
                     reqDetail.setName(med.getName());
                     reqDetail.setSerialNumber(med.getSerialNumber());
                     PileDAO pileDAO = DAOFactory.getPileDAO();
                     try {
-                        reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(Integer.valueOf(med.getExperienceQuantity()), med.getSerialNumber()));
+                        int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()));
+                        reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(quantity, med.getSerialNumber()));
                         reqDetail.setQuantityInStock(pileDAO.getTotalQuantity(med.getSerialNumber()));
+                        // combine the quantities
+                        reqDetail.setQuantityLocationList(combineQuantities(reqDetail.getQuantityLocationList()));
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -155,8 +166,6 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                         pickupList.add(new Pickup(ql.getLocation(), rd.getName(), rd.getQuantityInStock(), ql.getQuantity(), rd.getSerialNumber()));
                     }
                 }
-                Log.d("reqdetail", reqDetailList.toString());
-                Log.d("pickup", pickupList.toString());
                 Intent executePickupActivity = new Intent();
                 executePickupActivity.setClass(v.getContext(), ExecutePickupActivity.class);
                 executePickupActivity.putParcelableArrayListExtra("pickupList", (ArrayList<? extends Parcelable>) pickupList);
@@ -189,5 +198,33 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
 
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    // combine the quantities if the location is the same
+    private List<QuantityLocation> combineQuantities(List<QuantityLocation> quantityLocations) {
+        List<QuantityLocation> quantLocTemp = new ArrayList<>();
+
+        for(QuantityLocation ql : quantityLocations) {
+            if(quantLocTemp.isEmpty()) {
+                quantLocTemp.add(ql);
+            }
+            else {
+                // search for same location
+                for(QuantityLocation ql2 : quantLocTemp) {
+                    // if same location, combine the quantities
+                    if(ql.getLocation().equals(ql2.getLocation())) {
+                        ql2.setQuantity(ql2.getQuantity()+ql.getQuantity());
+                        break;
+                    }
+                    else {
+                        quantLocTemp.add(ql);
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        return quantLocTemp;
     }
 }

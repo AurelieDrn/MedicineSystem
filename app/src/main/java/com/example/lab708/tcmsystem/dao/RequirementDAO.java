@@ -93,7 +93,7 @@ public class RequirementDAO extends DAO<Requirement>{
                 //this.connect.createStatement().executeQuery("UPDATE `PickupMed` SET `pickup_quantity`="+q+" WHERE `med_id` = "+pickup_mednum+" AND `pick_id` = "+pickupNumber);
             }
             else {
-                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`med_id`, `pick_id`) VALUES ('"+medNum+"',"+pickupNumber+")");
+                this.connect.createStatement().executeQuery("INSERT INTO `PickupMed`(`med_id`, `pick_id`, `pickmed_quantity`) VALUES ('"+medNum+"',"+pickupNumber+", "+quantity+")");
             }
         }
     }
@@ -115,16 +115,28 @@ public class RequirementDAO extends DAO<Requirement>{
             ResultSet result1 = this.connect.createStatement().executeQuery("SELECT `med_quantity` FROM `Medicine` WHERE `med_id` = "+medNum);
             while(result1.next()) {
                 quantity = result1.getInt("med_quantity");
+                //Log.d("RequirementDAO", String.valueOf(quantity));
             }
             ResultSet result2 = this.connect.createStatement().executeQuery("SELECT `pile_quantity` FROM `Pile` WHERE `med_id` = "+medNum);
             int quantityInDatabase = 0;
             while(result2.next()) {
                 quantityInDatabase += result2.getInt("pile_quantity");
+                //Log.d("quant in db", String.valueOf(quantityInDatabase));
             }
             if(quantityInDatabase < quantity) {
+                //Log.d("out of stock", String.valueOf(quantityInDatabase<quantity));
                 outOfStock = true;
             }
         }
         return outOfStock;
+    }
+
+    public int getQuantity(int requirementId) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickmed_quantity` FROM `pickupmed` WHERE `pick_id` = "+requirementId);
+        int res = 0;
+        while(result.next()) {
+            res = result.getInt("pickmed_quantity");
+        }
+        return res;
     }
 }

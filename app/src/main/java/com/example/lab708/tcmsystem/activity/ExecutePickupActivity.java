@@ -63,6 +63,7 @@ public class ExecutePickupActivity extends AppCompatActivity {
         id = getIntent().getExtras().getInt("id");
         Collections.sort(pickupList);
 
+        Log.d("pickuplist", pickupList.toString());
         setClientThreadIndex();
 
         clientHandler = new ClientHandler(this);
@@ -84,13 +85,11 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
         //reset.setOnClickListener(buttonDisConnectOnClickListener);
-        Log.d("client threads", clientThreads.toString());
     }
 
     View.OnClickListener buttonDisConnectOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.d("client", clientThread.toString());
             if(clientThread != null){
                 clientThread.setRunning(false);
             }
@@ -132,7 +131,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
         char firstNumber = location.charAt(0);
         this.clientThreadIndex = Integer.parseInt(String.valueOf(firstNumber))-1;
         //this.clientThreadIndex = 0;
-        Log.d("INDEX", String.valueOf(clientThreadIndex));
     }
 
     private void sendRequirement() {
@@ -204,7 +202,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 else {
                     //sendRequirement2();
                     setClientThreadIndex();
-                    Log.d("else", String.valueOf(this.clientThreadIndex));
                     //clientThread.txMsg("CLEAR");
                     //this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
                     for(ClientThread c : clientThreads) {
@@ -212,7 +209,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
                             c.txMsg("RESTART");
                         }
                     }
-                    Log.d("clients", clientThreads.toString());
                     send(this.clientThreads.get(clientThreadIndex));
 
                     for(ClientThread c : clientThreads) {

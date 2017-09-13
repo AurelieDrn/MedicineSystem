@@ -7,10 +7,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -44,6 +47,7 @@ public class NewRequirementActivity extends AppCompatActivity {
     int index;
 
     List<NewRequirement> newRequirementList;
+
 
     ProgressDialog progress;
 
@@ -186,19 +190,24 @@ public class NewRequirementActivity extends AppCompatActivity {
         this.index = table.indexOfChild(findViewById(R.id.new_requirement_row));
         this.index++;
 
-        for(final NewRequirement nr : newRequirementList) {
+        for(int i = 0; i<newRequirementList.size(); i++) {
+            final NewRequirement nr = newRequirementList.get(i);
+
             final TableRow row = (TableRow) View.inflate(NewRequirementActivity.this, R.layout.row_layout_new_pickup_requirement, null);
             table.addView(row, index);
             this.index++;
 
             final TextView medicineName_tv = (TextView) row.findViewById(R.id.row_layout_name);
             final TextView medicineNumber_tv = (TextView) row.findViewById(R.id.row_layout_number);
-            final TextView medicineQuantity_tv = (TextView) row.findViewById(R.id.row_layout_quantity);
+            //final TextView medicineQuantity_tv = (TextView) row.findViewById(R.id.row_layout_quantity);
+            final EditText medicineQuantity_et = (EditText) row.findViewById(R.id.row_layout_quantity);
+
             delete_btn = (Button) row.findViewById(R.id.row_layout_button);
 
             medicineNumber_tv.setText(nr.getMedicineNumber());
             medicineName_tv.setText(nr.getMedicineName());
-            medicineQuantity_tv.setText(nr.getQuantity()+"");
+            //medicineQuantity_tv.setText(nr.getQuantity()+"");
+            medicineQuantity_et.setText(nr.getQuantity()+"");
 
             // Delete
             delete_btn.setOnClickListener(new View.OnClickListener() {
@@ -209,6 +218,27 @@ public class NewRequirementActivity extends AppCompatActivity {
                 }
             });
 
+            final int finalI = i;
+            medicineQuantity_et.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    if(!s.toString().equals("")) {
+                        newRequirementList.get(finalI).setQuantity(Integer.valueOf(s.toString()));
+                        //nr.setQuantity(Integer.valueOf(s.toString()));
+                        //Log.d("NewRequirementActivity", newRequirementList.toString());
+                    }
+                }
+            });
         }
     }
 

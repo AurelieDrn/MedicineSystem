@@ -16,12 +16,20 @@
         android:textAlignment="center"
         android:textSize="@dimen/textview_middle_size"
         />
-    <TextView
+    <!--<TextView
         android:id="@+id/row_layout_quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="@dimen/textview_middle_size"
+        />
+        -->
+    <EditText
+        android:id="@+id/row_layout_quantity"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:inputType="numberSigned"
         />
     <Button
         android:id="@+id/row_layout_button"

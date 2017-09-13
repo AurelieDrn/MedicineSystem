@@ -73,4 +73,11 @@ public class QuantityLocation implements Parcelable {
             return new QuantityLocation[size];
         }
     };
+
+    @Override
+    public int hashCode() {
+        int result = quantity;
+        result = 31 * result + location.hashCode();
+        return result;
+    }
 }
