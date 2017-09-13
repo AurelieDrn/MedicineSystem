@@ -70,7 +70,9 @@ public class NewRequirementActivity extends AppCompatActivity {
         myBundle1.putSerializable("newRequirementList", (Serializable) newRequirementList);
         backToScan.putExtras(myBundle1);
         if(elementExists(code)) {
-            CustomDialog.showErrorMessage(this, "Error", "Medicine already scanned", backToScan);
+            //CustomDialog.showErrorMessage(this, "Error", "Medicine already scanned", backToScan);
+            addRows();
+            CustomDialog.showSimpleErrorDialog(this, "Error", "Medicine already scanned");
         }
         else {
             MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
@@ -88,42 +90,56 @@ public class NewRequirementActivity extends AppCompatActivity {
                     // Add all the new requirements
                     addRows();
 
-                    // Go back to scan to add a new requirement
-                    add_btn = (Button) findViewById(R.id.new_requirement_add);
-                    add_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
-                            intent.putExtra("toFunction", "NewRequirementActivity");
-                            Bundle myBundle = new Bundle();
-                            myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
-                            intent.putExtras(myBundle);
-                            startActivity(intent);
-                        }
-                    });
+                }
+                else {
+                    // Alert dialog error database
+                    Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
+                    intent.putExtra("toFunction", "NewRequirementActivity");
+                    Bundle myBundle = new Bundle();
+                    myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
+                    intent.putExtras(myBundle);
+                    CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "查無此藥品，請至資料庫新增! " + code + " not in database", intent, R.string.back);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        // Go back to scan to add a new requirement
+        add_btn = (Button) findViewById(R.id.new_requirement_add);
+        add_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
+                intent.putExtra("toFunction", "NewRequirementActivity");
+                Bundle myBundle = new Bundle();
+                myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
+                intent.putExtras(myBundle);
+                startActivity(intent);
+            }
+        });
 
-                    // Submit
-                    submit_btn = (Button) findViewById(R.id.new_requirement_submit);
-                    submit_btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
-                            CheckBox checkBox = (CheckBox) findViewById(R.id.new_requirement_emergency);
-                            int emergency = 0;
+        // Submit
+        submit_btn = (Button) findViewById(R.id.new_requirement_submit);
+        submit_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+                CheckBox checkBox = (CheckBox) findViewById(R.id.new_requirement_emergency);
+                int emergency = 0;
 
-                            if(checkBox.isChecked()) {
-                                emergency = 1;
-                            }
-                            else {
-                                emergency = 0;
-                            }
-                            try {
-                                requirementDAO.createNewRequirements(newRequirementList, emergency);
-                                showSuccessDialog();
-                            } catch (SQLException e) {
-                                e.printStackTrace();
-                                showErrorDialog();
-                            }
+                if(checkBox.isChecked()) {
+                    emergency = 1;
+                }
+                else {
+                    emergency = 0;
+                }
+                try {
+                    requirementDAO.createNewRequirements(newRequirementList, emergency);
+                    showSuccessDialog();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                    showErrorDialog();
+                }
                         /*AlertDialog.Builder builder;
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                             builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
@@ -161,23 +177,8 @@ public class NewRequirementActivity extends AppCompatActivity {
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .show();
                                 */
-                        }
-                    });
-                }
-                else {
-                    // Alert dialog error database
-                    Intent intent = new Intent(NewRequirementActivity.this, ScanActivity.class);
-                    intent.putExtra("toFunction", "NewRequirementActivity");
-                    Bundle myBundle = new Bundle();
-                    myBundle.putSerializable("newRequirementList", (Serializable) newRequirementList);
-                    intent.putExtras(myBundle);
-                    CustomDialog.showErrorDialogOneOption(NewRequirementActivity.this, "Error!", "查無此藥品，請至資料庫新增! " + code + " not in database", intent, R.string.back);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
-        }
-
+        });
     }
 
     private void addRows() {
