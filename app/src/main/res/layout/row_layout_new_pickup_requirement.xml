@@ -24,13 +24,21 @@
         android:textSize="@dimen/textview_middle_size"
         />
         -->
-    <EditText
+    <!--<EditText
         android:id="@+id/row_layout_quantity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:inputType="numberSigned"
         />
+        -->
+    <Spinner
+        android:id="@+id/row_layout_quantity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/quantity_arrays"
+        android:prompt="@string/quantity_prompt" />
+
     <Button
         android:id="@+id/row_layout_button"
         android:layout_width="0dp"

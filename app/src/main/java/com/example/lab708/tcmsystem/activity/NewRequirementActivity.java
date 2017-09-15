@@ -7,26 +7,23 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.CustomDialog;
 import com.example.lab708.tcmsystem.R;
-import com.example.lab708.tcmsystem.model.Medicine;
-import com.example.lab708.tcmsystem.model.NewRequirement;
 import com.example.lab708.tcmsystem.dao.DAOFactory;
 import com.example.lab708.tcmsystem.dao.MedicineDAO;
 import com.example.lab708.tcmsystem.dao.RequirementDAO;
-import com.example.lab708.tcmsystem.threads.LEDClientThread;
-import com.example.lab708.tcmsystem.threads.MyTask;
+import com.example.lab708.tcmsystem.model.Medicine;
+import com.example.lab708.tcmsystem.model.NewRequirement;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -47,8 +44,6 @@ public class NewRequirementActivity extends AppCompatActivity {
     int index;
 
     List<NewRequirement> newRequirementList;
-
-
     ProgressDialog progress;
 
     @Override
@@ -67,21 +62,24 @@ public class NewRequirementActivity extends AppCompatActivity {
             newRequirementList = new ArrayList<>();
         }
 
-        // Medicine already scanned
+        /*
+        Intent to go back to scan activity.
+        We just prepare the intent first.
+        */
         Intent backToScan = new Intent(NewRequirementActivity.this, ScanActivity.class);
         backToScan.putExtra("toFunction", "NewRequirementActivity");
         Bundle myBundle1 = new Bundle();
         myBundle1.putSerializable("newRequirementList", (Serializable) newRequirementList);
         backToScan.putExtras(myBundle1);
+
+        // The medicine has already been scanned.
         if(elementExists(code)) {
-            //CustomDialog.showErrorMessage(this, "Error", "Medicine already scanned", backToScan);
             addRows();
             CustomDialog.showSimpleErrorDialog(this, "Error", "Medicine already scanned");
         }
         else {
             MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
             try {
-
                 if(medicineDAO.find(this.code)) {
                     Medicine medicine = new Medicine();
                     try {
@@ -91,9 +89,8 @@ public class NewRequirementActivity extends AppCompatActivity {
                     }
                     // Add the new requirement to the list
                     newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
-                    // Add all the new requirements
+
                     addRows();
-                    Log.d("new require list", newRequirementList.toString());
                 }
                 else {
                     // Alert dialog error database
@@ -145,47 +142,13 @@ public class NewRequirementActivity extends AppCompatActivity {
                     e.printStackTrace();
                     showErrorDialog();
                 }
-                        /*AlertDialog.Builder builder;
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            builder = new AlertDialog.Builder(NewRequirementActivity.this, android.R.style.Theme_Material_Dialog_Alert);
-                        } else {
-                            builder = new AlertDialog.Builder(NewRequirementActivity.this);
-                        }
-                        builder.setCancelable(false);
-                        builder.setTitle(R.string.emergency_option)
-                                .setMessage(R.string.is_it_emergent)
-                                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        progress = new ProgressDialog(NewRequirementActivity.this);
-                                        progress.setMessage("Loading...");
-                                        new MyTask(progress).execute();
-                                        try {
-                                            requirementDAO.createNewRequirements(newRequirementList, 1);
-                                            showSuccessDialog();
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
-                                            showErrorDialog();
-                                        }
-                                    }
-                                })
-                                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        try {
-                                            requirementDAO.createNewRequirements(newRequirementList, 0);
-                                            showSuccessDialog();
-                                        } catch (SQLException e) {
-                                            e.printStackTrace();
-                                            showErrorDialog();
-                                        }
-                                    }
-                                })
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .show();
-                                */
             }
         });
     }
 
+    /**
+     * Add the rows of scanned medicines on the page.
+     */
     private void addRows() {
         table = (TableLayout) findViewById(R.id.new_requirement_tl);
         this.index = table.indexOfChild(findViewById(R.id.new_requirement_row));
@@ -200,17 +163,20 @@ public class NewRequirementActivity extends AppCompatActivity {
 
             final TextView medicineName_tv = (TextView) row.findViewById(R.id.row_layout_name);
             final TextView medicineNumber_tv = (TextView) row.findViewById(R.id.row_layout_number);
-            //final TextView medicineQuantity_tv = (TextView) row.findViewById(R.id.row_layout_quantity);
-            final EditText medicineQuantity_et = (EditText) row.findViewById(R.id.row_layout_quantity);
+            final Spinner medicineQuantity_et = (Spinner) row.findViewById(R.id.row_layout_quantity);
 
             delete_btn = (Button) row.findViewById(R.id.row_layout_button);
 
             medicineNumber_tv.setText(nr.getMedicineNumber());
             medicineName_tv.setText(nr.getMedicineName());
-            //medicineQuantity_tv.setText(nr.getQuantity()+"");
-            medicineQuantity_et.setText(nr.getQuantity()+"");
 
-            // Delete
+            // Set default quantity
+            String quantity_string = String.valueOf(nr.getQuantity());
+            // Substract 49 because -1 for index starting at 0 and -48 to convert char to int
+            int quantity_index = Integer.valueOf(quantity_string.charAt(0))-49;
+            medicineQuantity_et.setSelection(quantity_index);
+
+            // Delete a scanned medicine
             delete_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -219,29 +185,21 @@ public class NewRequirementActivity extends AppCompatActivity {
                 }
             });
 
+            // Get the quantity changes from spinner
             final int finalI = i;
-            Log.d("i", String.valueOf(finalI));
-            medicineQuantity_et.addTextChangedListener(new TextWatcher() {
+            medicineQuantity_et.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    if(s.toString().equals("") == false) {
-                        newRequirementList.get(finalI).setQuantity(Integer.valueOf(s.toString()));
-                        //nr.setQuantity(Integer.valueOf(s.toString()));
-                        Log.d("NewRequirementActivity", newRequirementList.toString());
-                    }
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    String s = parent.getItemAtPosition(position).toString();
                     if(s.toString().equals("") == false) {
                         newRequirementList.get(finalI).setQuantity(Integer.valueOf(s.toString()));
                         //nr.setQuantity(Integer.valueOf(s.toString()));
                     }
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
                 }
             });
         }
@@ -275,7 +233,6 @@ public class NewRequirementActivity extends AppCompatActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent(NewRequirementActivity.this, HomeActivity.class);
-                        //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
                 })
