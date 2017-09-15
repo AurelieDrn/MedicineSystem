@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.lab708.tcmsystem.R;
@@ -22,7 +20,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 
 import static com.example.lab708.tcmsystem.AppConstants.IP;
 import static com.example.lab708.tcmsystem.AppConstants.IP2;
@@ -53,107 +50,53 @@ public class ExecutePickupActivity extends AppCompatActivity {
 
         clientThreads = new ArrayList<>();
 
+        // Button to execute the requirement
         goPickUp = (Button) findViewById(R.id.execute_pu_go);
-        // next = (Button) findViewById(R.id.execute_pu_next);
-        // reset = (Button) findViewById(R.id.reset);
+        // Text view to show if the app is connected to the RPI
         state = (TextView) findViewById(R.id.state);
 
-
+        // Get the data
         Bundle data = getIntent().getExtras();
         pickupList = (ArrayList) data.getParcelableArrayList("pickupList");
-        id = getIntent().getExtras().getInt("id");
+        id = getIntent().getExtras().getInt("id");  // requirement id
+
+        /*
+        Sort the pickup list
+        In the Pickup class, we have implemented the compareTo method.
+        So the pickups are sorted according to the locations.
+        */
         Collections.sort(pickupList);
 
-        Log.d("pickuplist", pickupList.toString());
-        setClientThreadIndex();
-
-        clientHandler = new ClientHandler(this);
-        clientHandler2 = new ClientHandler(this);
-        clientHandler3 = new ClientHandler(this);
-
-        // connect
-        clientThread = new ClientThread(IP, PORT, clientHandler);
-        clientThread2 = new ClientThread(IP2, PORT, clientHandler2);
-        clientThread3 = new ClientThread(IP3, PORT, clientHandler3);
-
-        clientThreads.add(clientThread);
-        clientThreads.add(clientThread2);
-        clientThreads.add(clientThread3);
-
-        for(ClientThread c : clientThreads) {
-            c.start();
-        }
+        initializeThreads();
 
         goPickUp.setOnClickListener(buttonSendOnClickListener);
-        //reset.setOnClickListener(buttonDisConnectOnClickListener);
     }
-
-    View.OnClickListener buttonDisConnectOnClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(clientThread != null){
-                clientThread.setRunning(false);
-            }
-        }
-    };
 
     View.OnClickListener buttonSendOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            TextView stateTxt = (TextView) findViewById(R.id.state);
-            RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_execute_pickup);
-            Button button = (Button) layout.findViewById(R.id.execute_pu_go);
-            /*
-            if(stateTxt.getText().toString().equals("connected")) {
-                layout.removeView(button);
-                TextView textView =  (TextView) findViewById(R.id.execute_pu_txt);
-                textView.setVisibility(View.VISIBLE);
-            }
-            else {
-                button.setEnabled(false);
-                button.setText(R.string.server_not_started);
-            }*/
-            //sendRequirement();
-            //button.setEnabled(false);
-            /*
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-            //button.setEnabled(true);
+            // RelativeLayout layout = (RelativeLayout) findViewById(R.id.activity_execute_pickup);
+
             send(clientThreads.get(clientThreadIndex));
-            goPickUp.setEnabled(false);
         }
     };
 
+    /**
+     * Set the index of the thread in the thread list.
+     * It reads the first pickup in the pickup list and get the first number of the location.
+     * The location is written following this format : n-n-n where n is a number.
+     * The whole location is a String value.
+     */
     private void setClientThreadIndex() {
         String location = pickupList.get(0).getLocation();
         char firstNumber = location.charAt(0);
         this.clientThreadIndex = Integer.parseInt(String.valueOf(firstNumber))-1;
-        //this.clientThreadIndex = 0;
     }
 
-    private void sendRequirement() {
-        if(clientThread != null) {
-            clientThread.txMsg(pickupList.get(0).getSerialNumber());
-            clientThread.txMsg(pickupList.get(0).getMedicineName());
-            clientThread.txMsg(pickupList.get(0).getLocation());
-            clientThread.txMsg(pickupList.get(0).getQuantityStock() + "");
-            clientThread.txMsg(pickupList.get(0).getQuantityToPick() + "");
-        }
-    }
-
-    private void sendRequirement2() {
-        if(clientThread2 != null) {
-            clientThread2.txMsg(pickupList.get(0).getSerialNumber());
-            clientThread2.txMsg(pickupList.get(0).getMedicineName());
-            clientThread2.txMsg(pickupList.get(0).getLocation());
-            clientThread2.txMsg(pickupList.get(0).getQuantityStock() + "");
-            clientThread2.txMsg(pickupList.get(0).getQuantityToPick() + "");
-        }
-    }
-
+    /**
+     * Send message to a client thread
+     * @param c
+     */
     private void send(ClientThread c) {
         if(c != null) {
             c.txMsg(pickupList.get(0).getSerialNumber());
@@ -168,13 +111,26 @@ public class ExecutePickupActivity extends AppCompatActivity {
         this.state.setText(state);
     }
 
-    private void updateRxMsg(String rxmsg){
+    /**
+     * Receives a message from the RPI and moves on to the next medicine to pick up or end the function.
+     * @param rxmsg The message it receives from a RPI.
+     */
+    private void updateRxMsg(String rxmsg) {
+        // There are more medicines to pick up to complete the requirement.
         if(!pickupList.isEmpty()) {
             PileDAO pileDAO = DAOFactory.getPileDAO();
             try {
+                /*
+                Execute the pickup.
+                rxmsg is the quantity the pharmacist decided to pick up.
+                 */
                 pileDAO.executePickUp(pickupList.get(0), Integer.valueOf(rxmsg));
                 pickupList.remove(0);
 
+                /*
+                Check of the pickup list is empty again (maybe it was the last one).
+                If it is empty, we finished completing the requirement.
+                */
                 if(pickupList.isEmpty()) {
                     RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
                     try {
@@ -182,7 +138,8 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    //clientThread.txMsg("END");
+
+                    // Something strange, check the Java program on the RPI to understand.
                     for(ClientThread c : clientThreads) {
                         if(!c.equals(this.clientThreads.get(this.clientThreadIndex))) {
                             c.txMsg("RESTART");
@@ -190,26 +147,19 @@ public class ExecutePickupActivity extends AppCompatActivity {
                     }
                     this.clientThreads.get(this.clientThreadIndex).txMsg("END");
 
-                    /*if(clientThread != null){
-                        clientThread.setRunning(false);
-                    }*/
-                    //this.clientThreads = new ArrayList<>();
-
                     Intent intent = new Intent(ExecutePickupActivity.this, CheckPickupActivity.class);
-                    //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
                 }
                 else {
-                    //sendRequirement2();
                     setClientThreadIndex();
-                    //clientThread.txMsg("CLEAR");
-                    //this.clientThreads.get(clientThreadIndex).txMsg("RESTART");
+
                     for(ClientThread c : clientThreads) {
                         if(c.equals(this.clientThreads.get(clientThreadIndex))) {
                             c.txMsg("RESTART");
                         }
                     }
+
                     send(this.clientThreads.get(clientThreadIndex));
 
                     for(ClientThread c : clientThreads) {
@@ -217,7 +167,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
                             c.txMsg("CLEAR");
                         }
                     }
-
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -226,16 +175,40 @@ public class ExecutePickupActivity extends AppCompatActivity {
         }
     }
 
-    private void clientEnd(){
-        //clientThread = null;
-        // buttonConnect.setEnabled(true);
-        //buttonDisconnect.setEnabled(false);
-        //clientThread = new ClientThread(IP, PORT, clientHandler);
-        //clientThread.start();
+    /**
+     * Initialize all the threads to communicate with the RPI.
+     * You may try to use only one clientHandler.
+     * We need one client thread per RPI.
+     */
+    private void initializeThreads() {
+        // Set the client thread index to know which thread we need to send a message
+        setClientThreadIndex();
 
-        //buttonSend.setEnabled(false);
+        // Initialization of the client handlers
+        clientHandler = new ClientHandler(this);
+        clientHandler2 = new ClientHandler(this);
+        clientHandler3 = new ClientHandler(this);
 
+        // Initialization of the client threads
+        clientThread = new ClientThread(IP, PORT, clientHandler);
+        clientThread2 = new ClientThread(IP2, PORT, clientHandler2);
+        clientThread3 = new ClientThread(IP3, PORT, clientHandler3);
+
+        // Add the client threads to the client thread list
+        clientThreads.add(clientThread);
+        clientThreads.add(clientThread2);
+        clientThreads.add(clientThread3);
+
+        // Start all the threads
+        for(ClientThread c : clientThreads) {
+            c.start();
+        }
     }
+
+    // From there I did not change anything. It is the code from Internet.
+
+
+    private void clientEnd(){}
 
     public static class ClientHandler extends Handler {
         public static final int UPDATE_STATE = 0;
@@ -266,13 +239,4 @@ public class ExecutePickupActivity extends AppCompatActivity {
         }
     }
 
-    // TRY
-    /*
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        for(ClientThread c : clientThreads) {
-            c.interrupt();
-        }
-    }*/
 }
