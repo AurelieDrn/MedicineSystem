@@ -20,8 +20,6 @@ import com.example.lab708.tcmsystem.model.Medicine;
 import com.example.lab708.tcmsystem.model.Pile;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class ExecuteShelvesActivity extends AppCompatActivity{
 
@@ -36,7 +34,7 @@ public class ExecuteShelvesActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_execute_shelves);
 
-        // I don't know why but this solved some problems.
+        // to fix ClassLoader referenced unknown path
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
