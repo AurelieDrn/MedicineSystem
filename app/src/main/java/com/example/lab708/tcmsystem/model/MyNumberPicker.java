@@ -1,4 +1,4 @@
-package com.example.lab708.tcmsystem;
+package com.example.lab708.tcmsystem.model;
 
 import android.widget.NumberPicker;
 

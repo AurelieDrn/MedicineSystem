@@ -110,7 +110,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                     RequirementDAO requirementDAO1 = DAOFactory.getRequirementDAO();
 
                     try {
-                        int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()));
+                        int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()), med.getSerialNumber());
                         reqDetail.setName(med.getName());
                         reqDetail.setSerialNumber(med.getSerialNumber());
                         reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(quantity, med.getSerialNumber()));
@@ -149,11 +149,12 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                     reqDetail.setSerialNumber(med.getSerialNumber());
                     PileDAO pileDAO = DAOFactory.getPileDAO();
                     try {
-                        int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()));
+                        int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()), med.getSerialNumber());
                         reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(quantity, med.getSerialNumber()));
                         reqDetail.setQuantityInStock(pileDAO.getTotalQuantity(med.getSerialNumber()));
                         // combine the quantities
                         reqDetail.setQuantityLocationList(combineQuantities(reqDetail.getQuantityLocationList()));
+                        Log.d("RequirementsAdapter", reqDetail.toString());
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }

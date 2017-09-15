@@ -84,7 +84,7 @@ public class RequirementDAO extends DAO<Requirement>{
         for(NewRequirement nr : requirements) {
             String medNum = nr.getMedicineNumber();
             int quantity = nr.getQuantity();
-
+            Log.d("RequirementDAO quantity", String.valueOf(quantity));
             ResultSet result2 = this.connect.createStatement().executeQuery("SELECT * FROM `PickupMed` WHERE `pick_id` = "+pickupNumber+" AND `med_id` = "+medNum);
             if(result2.next()) {
                 //String pickup_mednum = result2.getString("med_id");
@@ -131,12 +131,13 @@ public class RequirementDAO extends DAO<Requirement>{
         return outOfStock;
     }
 
-    public int getQuantity(int requirementId) throws SQLException {
-        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickmed_quantity` FROM `pickupmed` WHERE `pick_id` = "+requirementId);
+    public int getQuantity(int requirementId, String medId) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickmed_quantity` FROM `pickupmed` WHERE `pick_id` = "+requirementId+" AND `med_id` = "+medId);
         int res = 0;
         while(result.next()) {
             res = result.getInt("pickmed_quantity");
         }
+        Log.d("res", String.valueOf(res));
         return res;
     }
 }

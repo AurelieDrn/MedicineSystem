@@ -9,20 +9,24 @@ public final class AppConstants {
     private AppConstants() {
     }
 
-    // ip RPI
-    /*public static final String IP = "10.200.205.108";
-    public static final String IP2 = "10.200.205.110";
-    public static final String IP3 = "172.21.2.34";
+    // IP of RPI
+    /*
+    public static final String IP = "10.200.205.60";
+    public static final String IP2 = "10.200.205.67";
+    public static final String IP3 = "10.200.205.68";
     */
 
     public static final String IP = "192.168.0.6";
-    public static final String IP2 = "192.168.0.5";
-    public static final String IP3 = "192.168.0.14";
+    public static final String IP2 = "192.168.0.14";
+    public static final String IP3 = "192.168.0.5";
 
-    // public static final String IP_PC = "10.200.205.71";
+    // IP of the computer
+    // public static final String IP_PC = "10.207.157.54";
     public static final String IP_PC = "192.168.0.4";
 
+    // PORT number to connect to the RPI
     public static final int PORT = 8080;
-    public static final int PORT2 = 8181;
+
+    // port number of the computer for the emergency function
     public static final int PORT_PC = 9090;
 }

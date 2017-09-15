@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lab708.tcmsystem.CustomDialog;
-import com.example.lab708.tcmsystem.MyNumberPicker;
+import com.example.lab708.tcmsystem.model.MyNumberPicker;
 import com.example.lab708.tcmsystem.R;
 import com.example.lab708.tcmsystem.model.Medicine;
 import com.example.lab708.tcmsystem.model.Pile;

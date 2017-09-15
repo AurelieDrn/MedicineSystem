@@ -93,7 +93,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                     newRequirementList.add(new NewRequirement(medicine.getName(), medicine.getSerialNumber(), Integer.valueOf(medicine.getExperienceQuantity())));
                     // Add all the new requirements
                     addRows();
-
+                    Log.d("new require list", newRequirementList.toString());
                 }
                 else {
                     // Alert dialog error database
@@ -138,6 +138,7 @@ public class NewRequirementActivity extends AppCompatActivity {
                     emergency = 0;
                 }
                 try {
+                    Log.d("submit requirement list", newRequirementList.toString());
                     requirementDAO.createNewRequirements(newRequirementList, emergency);
                     showSuccessDialog();
                 } catch (SQLException e) {
@@ -219,10 +220,15 @@ public class NewRequirementActivity extends AppCompatActivity {
             });
 
             final int finalI = i;
+            Log.d("i", String.valueOf(finalI));
             medicineQuantity_et.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                    if(s.toString().equals("") == false) {
+                        newRequirementList.get(finalI).setQuantity(Integer.valueOf(s.toString()));
+                        //nr.setQuantity(Integer.valueOf(s.toString()));
+                        Log.d("NewRequirementActivity", newRequirementList.toString());
+                    }
                 }
 
                 @Override
@@ -232,10 +238,9 @@ public class NewRequirementActivity extends AppCompatActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if(!s.toString().equals("")) {
+                    if(s.toString().equals("") == false) {
                         newRequirementList.get(finalI).setQuantity(Integer.valueOf(s.toString()));
                         //nr.setQuantity(Integer.valueOf(s.toString()));
-                        //Log.d("NewRequirementActivity", newRequirementList.toString());
                     }
                 }
             });

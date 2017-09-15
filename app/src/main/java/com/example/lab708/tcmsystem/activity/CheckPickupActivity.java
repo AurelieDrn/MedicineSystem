@@ -3,6 +3,7 @@ package com.example.lab708.tcmsystem.activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -50,6 +51,7 @@ public class CheckPickupActivity extends AppCompatActivity {
         else {
             // Create the adapter to convert the array to views
             RequirementsAdapter adapter = new RequirementsAdapter(this, requirementList);
+            Log.d("Check pickup require list", requirementList.toString());
             // Attach the adapter to a ListView
             ListView listView = (ListView) findViewById(R.id.check_pickup_lv);
             listView.setAdapter(adapter);

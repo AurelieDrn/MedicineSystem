@@ -41,6 +41,14 @@ public class Medicine {
         this.brand = brand;
     }
 
+    public int getShelfNumber() {
+        return shelfNumber;
+    }
+
+    public void setShelfNumber(int shelfNumber) {
+        this.shelfNumber = shelfNumber;
+    }
+
     public String getExperienceQuantity() {
         return experienceQuantity;
     }
@@ -79,14 +87,6 @@ public class Medicine {
 
     public void setSerialNumber(String serialNumber) {
         this.serialNumber = serialNumber;
-    }
-
-    public int getShelfNumber() {
-        return shelfNumber;
-    }
-
-    public void setShelfNumber(int shelfNumber) {
-        this.shelfNumber = shelfNumber;
     }
 
     @Override
