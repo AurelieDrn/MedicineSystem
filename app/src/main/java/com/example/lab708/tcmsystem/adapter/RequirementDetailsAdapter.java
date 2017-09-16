@@ -47,16 +47,12 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
 
         tvName.setText(requirementDetail.getName());
         MedicineDAO medicineDAO = DAOFactory.getMedicineDAO();
-        int experienceQuantity = 0;
-        try {
-            experienceQuantity = medicineDAO.getExperienceQuantity(requirementDetail.getName());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         int quantityInStock = requirementDetail.getQuantityInStock();
+        Log.d("req detail ", requirementDetail.toString());
         for(QuantityLocation ql : requirementDetail.getQuantityLocationList()) {
-            if(experienceQuantity > quantityInStock) {
-                quantities += "Not enough in stock("+ql.getQuantity()+"/"+experienceQuantity+")"+"\n";
+            if(requirementDetail.getQuantityToPick() > quantityInStock) {
+                quantities += "Not enough in stock("+ql.getQuantity()+"/"+requirementDetail.getQuantityToPick()+")"+"\n";
             }
             else {
                 quantities += ql.getQuantity()+"\n";
@@ -65,8 +61,8 @@ public class RequirementDetailsAdapter extends ArrayAdapter<RequirementDetail> {
         }
 
         if(quantities.isEmpty()) {
-            tvQuant.setText(R.string.out_of_stock);
-            tvLocation.setText(R.string.out_of_stock);
+            tvQuant.setText("Not enough in stock(0/"+requirementDetail.getQuantityToPick()+")");
+            tvLocation.setText("-");
         }
         else {
             tvQuant.setText(quantities);

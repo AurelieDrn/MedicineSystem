@@ -98,34 +98,34 @@ public class RequirementDAO extends DAO<Requirement>{
         }
     }
 
-    public void deleteRequirement(int id) throws SQLException {
+    public void forceDeleteRequirement(int id) throws SQLException {
         this.connect.createStatement().executeQuery("DELETE FROM `Pickup` WHERE `pick_id` = "+id);
         this.connect.createStatement().executeQuery("DELETE FROM `PickupMed` WHERE `pick_id` = "+id);
     }
 
+    public void deleteRequirement(int id) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM `pickupmed` WHERE `pick_id` = "+id);
+        boolean b = true;
+        while(result.next()) {
+            b = false;
+        }
+        if(b) {
+            this.connect.createStatement().executeQuery("DELETE FROM `Pickup` WHERE `pick_id` = "+id);
+        }
+        // this.connect.createStatement().executeQuery("DELETE FROM `PickupMed` WHERE `pick_id` = "+id);
+    }
+
     // check if the pickup requirement cannot be fulfilled
     public boolean medOutOfStock(int requirementId) throws SQLException {
-        boolean outOfStock = false;
-        int quantity = 0;
+        boolean outOfStock = true;
+        String medNum = "";
         ResultSet result = this.connect.createStatement().executeQuery("SELECT `med_id` FROM `PickupMed` WHERE `pick_id` = "+requirementId);
         while(result.next()) {
-            String medNum = result.getString("med_id");
-
-            //int quantity = result.getInt("pickup_quantity");
-            ResultSet result1 = this.connect.createStatement().executeQuery("SELECT `med_quantity` FROM `Medicine` WHERE `med_id` = "+medNum);
-            while(result1.next()) {
-                quantity = result1.getInt("med_quantity");
-                //Log.d("RequirementDAO", String.valueOf(quantity));
-            }
-            ResultSet result2 = this.connect.createStatement().executeQuery("SELECT `pile_quantity` FROM `Pile` WHERE `med_id` = "+medNum);
-            int quantityInDatabase = 0;
-            while(result2.next()) {
-                quantityInDatabase += result2.getInt("pile_quantity");
-                //Log.d("quant in db", String.valueOf(quantityInDatabase));
-            }
-            if(quantityInDatabase < quantity) {
-                //Log.d("out of stock", String.valueOf(quantityInDatabase<quantity));
-                outOfStock = true;
+            medNum = result.getString("med_id");
+            PileDAO pileDAO = DAOFactory.getPileDAO();
+            outOfStock = pileDAO.medicineOutOfStock(medNum);
+            if(outOfStock == false) {
+                break;
             }
         }
         return outOfStock;
@@ -137,7 +137,39 @@ public class RequirementDAO extends DAO<Requirement>{
         while(result.next()) {
             res = result.getInt("pickmed_quantity");
         }
-        Log.d("res", String.valueOf(res));
         return res;
+    }
+
+    public void updateRequirement(int requirementId, String medId, int quantityPicked) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `pickmed_quantity` FROM `pickupmed` WHERE `med_id` = "+medId+" AND `pick_id` = "+requirementId);
+        int medQuantityToPick = 0;
+        while(result.next()) {
+            medQuantityToPick = result.getInt("pickmed_quantity");
+        }
+        if(quantityPicked < medQuantityToPick) {
+            this.connect.createStatement().executeQuery("UPDATE `pickupmed` SET `pickmed_quantity` = `pickmed_quantity` - "+quantityPicked+" WHERE `med_id` = "+medId+" AND `pick_id` = "+requirementId);
+        }
+        else if(quantityPicked == medQuantityToPick) {
+            this.connect.createStatement().executeQuery("DELETE FROM `pickupmed` WHERE `pick_id` = "+requirementId+" AND `med_id` = "+medId);
+        }
+    }
+
+    /**
+     *
+     * Get the remaining medicines that the pharmacist can pick
+     * @param requirementId the id of the requirement
+     * @return the maximum number of medicines that can be picker to complete the requirement
+     * @throws SQLException
+     */
+    public int getRemainingMedicines(int requirementId) throws SQLException {
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT `med_id` FROM `pickupmed` WHERE `pick_id` = "+requirementId);
+        String medId = "";
+        while(result.next()) {
+            medId = result.getString("med_id");
+        }
+        PileDAO pileDAO = DAOFactory.getPileDAO();
+        int quantityInStock = pileDAO.getTotalQuantity(medId);
+
+        return quantityInStock;
     }
 }

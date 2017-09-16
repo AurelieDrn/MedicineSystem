@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -125,6 +126,8 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 rxmsg is the quantity the pharmacist decided to pick up.
                  */
                 pileDAO.executePickUp(pickupList.get(0), Integer.valueOf(rxmsg));
+                RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
+                requirementDAO.updateRequirement(id, pickupList.get(0).getSerialNumber(), Integer.parseInt(rxmsg));
                 pickupList.remove(0);
 
                 /*
@@ -132,7 +135,6 @@ public class ExecutePickupActivity extends AppCompatActivity {
                 If it is empty, we finished completing the requirement.
                 */
                 if(pickupList.isEmpty()) {
-                    RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
                     try {
                         requirementDAO.deleteRequirement(id);
                     } catch (SQLException e) {

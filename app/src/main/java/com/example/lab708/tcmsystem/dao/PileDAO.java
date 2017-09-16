@@ -38,7 +38,6 @@ public class PileDAO extends DAO<Pile> {
 
     public ArrayList<QuantityLocation> getQuantLocations(int quantity, String medNumber) throws SQLException {
         ArrayList<QuantityLocation> quantLocationList = new ArrayList<>();
-        Log.d("PileDAO", "quantity "+quantity);
         String dbLoc0 = "";
         ResultSet result0 = this.connect.createStatement().executeQuery("SELECT `med_shelf` FROM `medicine` WHERE `med_id` = "+medNumber);
         while(result0.next()) {
@@ -101,6 +100,15 @@ public class PileDAO extends DAO<Pile> {
             }
             //this.connect.createStatement().executeQuery("DELETE FROM `Pile` WHERE `pile_quantity` <= 0");
         }
+    }
 
+    public boolean medicineOutOfStock(String medId) throws SQLException {
+        boolean b = true;
+        ResultSet result = this.connect.createStatement().executeQuery("SELECT * FROM `pile` WHERE `med_id` = "+medId);
+
+        while(result.next()) {
+            b = false;
+        }
+        return b;
     }
 }

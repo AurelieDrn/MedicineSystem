@@ -77,6 +77,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
             medNames += med.getName()+"\n";
         }
         tvName.setText(medNames);
+
         // Disable button execute pickup when there are not enough quantity in database
         final RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
         try {
@@ -115,7 +116,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                         reqDetail.setSerialNumber(med.getSerialNumber());
                         reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(quantity, med.getSerialNumber()));
                         reqDetail.setQuantityInStock(pileDAO.getTotalQuantity(med.getSerialNumber()));
-
+                        reqDetail.setQuantityToPick(quantity);
                         reqDetail.setQuantityLocationList(combineQuantities(reqDetail.getQuantityLocationList()));
 
                         reqDetailList.add(reqDetail);
@@ -152,6 +153,8 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
                         int quantity = requirementDAO.getQuantity(Integer.parseInt(req.getNumber()), med.getSerialNumber());
                         reqDetail.setQuantityLocationList(pileDAO.getQuantLocations(quantity, med.getSerialNumber()));
                         reqDetail.setQuantityInStock(pileDAO.getTotalQuantity(med.getSerialNumber()));
+                        reqDetail.setQuantityToPick(quantity);
+                        Log.d("quant to pick in adapter", String.valueOf(quantity));
                         // combine the quantities
                         reqDetail.setQuantityLocationList(combineQuantities(reqDetail.getQuantityLocationList()));
                         Log.d("RequirementsAdapter", reqDetail.toString());
@@ -188,7 +191,7 @@ public class RequirementsAdapter extends ArrayAdapter<Requirement> {
 
                 RequirementDAO requirementDAO = DAOFactory.getRequirementDAO();
                 try {
-                    requirementDAO.deleteRequirement(Integer.parseInt(req.getNumber()));
+                    requirementDAO.forceDeleteRequirement(Integer.parseInt(req.getNumber()));
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

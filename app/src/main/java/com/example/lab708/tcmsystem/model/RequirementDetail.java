@@ -16,12 +16,14 @@ public class RequirementDetail implements Parcelable {
     private String serialNumber;
     private int quantityInStock;
     private List<QuantityLocation> quantityLocationList;
+    private int quantityToPick;
 
     public RequirementDetail() {
         this.name = "";
         this.quantityLocationList = new ArrayList<>();
         this.serialNumber = "";
         this.quantityInStock = 0;
+        this.quantityToPick = 0;
     }
 
     public String getName() {
@@ -64,6 +66,14 @@ public class RequirementDetail implements Parcelable {
         this.serialNumber = serialNumber;
     }
 
+    public int getQuantityToPick() {
+        return quantityToPick;
+    }
+
+    public void setQuantityToPick(int quantityToPick) {
+        this.quantityToPick = quantityToPick;
+    }
+
     @Override
     public String toString() {
         return "RequirementDetail{" +
@@ -71,9 +81,9 @@ public class RequirementDetail implements Parcelable {
                 ", serialNumber='" + serialNumber + '\'' +
                 ", quantityInStock=" + quantityInStock +
                 ", quantityLocationList=" + quantityLocationList +
+                ", quantityToPick=" + quantityToPick +
                 '}';
     }
-
 
     @Override
     public int describeContents() {
@@ -86,6 +96,7 @@ public class RequirementDetail implements Parcelable {
         dest.writeString(this.serialNumber);
         dest.writeInt(this.quantityInStock);
         dest.writeTypedList(this.quantityLocationList);
+        dest.writeInt(this.quantityToPick);
     }
 
     protected RequirementDetail(Parcel in) {
@@ -93,6 +104,7 @@ public class RequirementDetail implements Parcelable {
         this.serialNumber = in.readString();
         this.quantityInStock = in.readInt();
         this.quantityLocationList = in.createTypedArrayList(QuantityLocation.CREATOR);
+        this.quantityToPick = in.readInt();
     }
 
     public static final Creator<RequirementDetail> CREATOR = new Creator<RequirementDetail>() {
